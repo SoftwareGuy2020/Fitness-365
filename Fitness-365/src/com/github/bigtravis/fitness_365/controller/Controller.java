@@ -1,6 +1,7 @@
 package com.github.bigtravis.fitness_365.controller;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 /**
@@ -8,19 +9,27 @@ import javafx.stage.Stage;
  *
  */
 public class Controller extends Application {
+	
+	private static Controller mInstance;
+	
+	
 
-	/* (non-Javadoc)
-	 * @see javafx.application.Application#start(javafx.stage.Stage)
-	 */
-	@Override
-	public void start(Stage arg0) throws Exception {
-		
+	public static Controller getInstance() {
+		if (mInstance == null)
+			mInstance = new Controller();
 
+		return mInstance;
 	}
 
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.show();
+		
+	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	
+	
 }
