@@ -1,30 +1,30 @@
 package com.github.bigtravis.fitness_365.view;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 import com.github.bigtravis.fitness_365.controller.Controller;
-import com.github.bigtravis.fitness_365.model.PasswordEncryption;
-import com.github.bigtravis.fitness_365.model.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * @author Travis
  *
  */
-public class Login extends VBox{
+public class Login extends AnchorPane{
 	private static final String LOGIN_FXML_FILENAME = "Login.fxml";
 
 	private static final String EMPTY_FIELDS_MESSAGE = "All fields must be complete";
@@ -32,31 +32,55 @@ public class Login extends VBox{
 	
 	public Label errorLabel;
 	
-	public TextField userLoginTF;
+	public CheckBox rememberUsernameCB;
 	
-	public PasswordField pwLoginTF;
+	public TextField usernameTF;
+	
+	public PasswordField passwordTF;
 	
 	public Button loginButton;
 	
-	public Hyperlink signUpLink;
+	public Hyperlink forgotPassHL;
+	
+	public Hyperlink signUpHL;
 	
 	private Controller mController;
+	private static String savedUser = "";
 	
 	public Login() {
-		mController = Controller.getInstance();
+		mController = Controller.getInstance();		
 	}
 	
 	
-	public Scene getLoginScene() throws IOException {
-		VBox vb = (VBox) FXMLLoader.load(getClass().getResource(LOGIN_FXML_FILENAME));		 
-		return new Scene(vb);
+	public void initialize() {
+		if (!savedUser.isEmpty()) {
+			rememberUsernameCB.setSelected(true);
+			usernameTF.setText(savedUser);
+		}
 	}
+	
+	public Scene getLoginScene() {
+		try {
+					 
+			Scanner input = new Scanner(new File("resources/init.txt"));
 			
-	
+			if (input.hasNextLine())
+				savedUser = input.nextLine();
+			input.close();
+			
+			AnchorPane ap = (AnchorPane) FXMLLoader.load(getClass().getResource(LOGIN_FXML_FILENAME));
+			return new Scene(ap);
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+		
 	@FXML
 	private void authenticateLogin(ActionEvent event) {
-		String username = userLoginTF.getText();
-		String typedPW = pwLoginTF.getText();
+		String username = usernameTF.getText();
+		String typedPW = passwordTF.getText();
 		
 		if (username.isEmpty() || typedPW.isEmpty()) {
 			errorLabel.setText(EMPTY_FIELDS_MESSAGE);
@@ -65,18 +89,16 @@ public class Login extends VBox{
 			
 			return;
 		}
-		if (mController.authenticateLogin(username, typedPW)) {			
-			if (errorLabel.isVisible())
-				errorLabel.setVisible(false);
-			mController.ChangeScene(e -> {
-				try {
-					return new HomePage().getHomePageScene();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				return null;
-			});
+		if (mController.authenticateLogin(username, typedPW)) {
+			try (PrintWriter output = new PrintWriter(new File("resources/init.txt"))) {				
+				if (rememberUsernameCB.isSelected())
+					output.write(username);
+				else
+					output.write("");
+			} catch (FileNotFoundException e1) {				
+				e1.printStackTrace();
+			}
+			mController.ChangeScene(e -> new HomePage().getHomePageScene(), true);
 		}
 		else {
 			errorLabel.setText(FAILED_LOGIN_MESSAGE);

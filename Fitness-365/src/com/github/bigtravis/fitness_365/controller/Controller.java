@@ -106,20 +106,8 @@ public class Controller extends Application {
 		//Scene scene = login.getLoginScene();
 		mMainStage = primaryStage;
 		
-		mInstance.ChangeScene(e -> {
-			try {
-				return login.getLoginScene();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			return null;
-		});
-		
-		
-		//primaryStage.setScene(scene);		
+		mInstance.ChangeScene(e -> login.getLoginScene(), false);		
 		primaryStage.show();
-		
 	}
 	
 	public static void main(String[] args) {
@@ -172,7 +160,7 @@ public class Controller extends Application {
 	}
 	
 	
-	public void ChangeScene(Function<Void, Scene> f) {		
+	public void ChangeScene(Function<Void, Scene> f, boolean resizable) {		
 		Scene s = f.apply(null);
 		mMainStage.setScene(s);
 	}

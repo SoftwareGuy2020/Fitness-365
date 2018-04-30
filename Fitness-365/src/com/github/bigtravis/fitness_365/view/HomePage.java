@@ -21,21 +21,18 @@ public class HomePage extends VBox{
 		mController = Controller.getInstance();
 	}
 	
-	public Scene getHomePageScene() throws IOException {
-		VBox vb = (VBox) FXMLLoader.load(getClass().getResource(HOMEPAGE_FXML_FILENAME));
+	public Scene getHomePageScene(){
+		VBox vb = null;
+		try {
+			vb = (VBox) FXMLLoader.load(getClass().getResource(HOMEPAGE_FXML_FILENAME));
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
 		return new Scene(vb);
 	}
 	
 	public void signOut() {
 		Login login = new Login();
-		mController.ChangeScene(e -> {
-			try {
-				return login.getLoginScene();
-			} catch (IOException e1) {				
-				e1.printStackTrace();
-			}
-			return null;
-		});
-		
+		mController.ChangeScene(e -> login.getLoginScene(), false);
 	}
 }
