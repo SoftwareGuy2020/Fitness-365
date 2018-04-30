@@ -19,4 +19,13 @@ public enum Sex {
 	public String getDescription() {
 		return this.mDescription;
 	}
+	
+	public static Sex parseInt(int selection) {
+		switch (selection) {		
+		case 1:
+			return Sex.FEMALE;
+		default:
+			return Sex.MALE;
+		}		
+	}
 }

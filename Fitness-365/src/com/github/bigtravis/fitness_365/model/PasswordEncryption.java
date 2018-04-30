@@ -15,14 +15,14 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public final class PasswordEncryption {
 	
-	public final boolean authenticate(String password, byte[] hash, byte[] salt)
+	public static final boolean authenticate(String password, byte[] hash, byte[] salt)
 						throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
 		byte[] encryptedPassword = getEncryptedPassword(password, salt);
 		return Arrays.equals(encryptedPassword, hash);
 	}
 
-	public final byte[] getEncryptedPassword(String password, byte[] salt)
+	public static final byte[] getEncryptedPassword(String password, byte[] salt)
 					throws NoSuchAlgorithmException, InvalidKeySpecException {
 		String algorithm = "PBKDF2WithHmacSHA1";
 		int keyLen = 160; // key is 160bits		
@@ -32,14 +32,11 @@ public final class PasswordEncryption {
 		return factory.generateSecret(ks).getEncoded(); 
 	}
 	
-	public byte[] generateSalt() throws NoSuchAlgorithmException {
+	public static byte[] generateSalt() throws NoSuchAlgorithmException {
 		SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 		byte[] salt = new byte[8];
 		random.nextBytes(salt);
 		
 		return salt;
 	}
-	
-
-
 }
