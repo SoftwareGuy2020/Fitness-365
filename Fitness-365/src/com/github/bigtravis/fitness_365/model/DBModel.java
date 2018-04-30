@@ -1,6 +1,5 @@
 package com.github.bigtravis.fitness_365.model;
 
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -74,7 +73,7 @@ public class DBModel implements AutoCloseable {
 		if (tableIdx == -1) 
 			return null;
 		
-		String selectSQL = "SELECT * FROM " + mTableNames;
+		String selectSQL = "SELECT * FROM " + mTableNames[tableIdx];
 		return mStmt.executeQuery(selectSQL);
 	}
 

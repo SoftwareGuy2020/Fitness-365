@@ -1,9 +1,8 @@
 package com.github.bigtravis.fitness_365.controller;
 
-import java.io.IOException;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -85,25 +84,27 @@ public class Controller extends Application {
 	@Override
 	public void init() throws Exception {
 //		Uncomment the below statements to create a a test user in the database		
-		
-//		byte[] salt = PasswordEncryption.generateSalt();
-//		byte[] password = PasswordEncryption.getEncryptedPassword("password123", salt);
-//		User user = new User(-1, "player1", "Favorite Color?", "Red", "John Smith", 25,
-//				Sex.MALE, new Units[] {Units.POUNDS, Units.INCHES, Units.MILES}, 72,
-//				185.0, 205.0, 185.0, 1.0);
-		
+				
 		mInstance = this;
 		mDB = new DBModel(DB_NAME, TABLE_NAMES, FIELD_NAMES, FIELD_TYPES, FOREIGN_KEYS);
-//		mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
-//				 user, password, salt);
+		
+		// TODO remove this block after debugging
+		if (mDB.getRecordCount(TABLE_NAMES[0]) == 0) {
+			byte[] salt = PasswordEncryption.generateSalt();
+			byte[] password = PasswordEncryption.getEncryptedPassword("password123", salt);
+			User user = new User(-1, "player1", "Favorite Color?", "Red", "John Smith", 25,
+			Sex.MALE, new Units[] {Units.POUNDS, Units.INCHES, Units.MILES}, 72,
+									185.0, 205.0, 185.0, 1.0);
+			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
+					 user, password, salt);
+		}
 		super.init();
 	}
 
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Login login = new Login();
-		//Scene scene = login.getLoginScene();
+		Login login = new Login();		
 		mMainStage = primaryStage;
 		
 		mInstance.ChangeScene(e -> login.getLoginScene(), false);		
@@ -162,7 +163,8 @@ public class Controller extends Application {
 	
 	public void ChangeScene(Function<Void, Scene> f, boolean resizable) {		
 		Scene s = f.apply(null);
-		mMainStage.setScene(s);
+		mMainStage.setScene(s);		
+		mMainStage.setResizable(resizable);
 	}
 	
 }
