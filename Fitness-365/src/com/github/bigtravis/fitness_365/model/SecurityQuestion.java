@@ -8,6 +8,7 @@ public enum SecurityQuestion {
 	, PHONE("What were the last four digits of your childhood telephone number?");
 	
 	private String mQuestion;
+	private static int numOfQuestions = 10;
 	
 	private SecurityQuestion(String s) {
 		this.mQuestion = s;
@@ -18,6 +19,14 @@ public enum SecurityQuestion {
 	 */
 	public String getDescription() {
 		return this.mQuestion;
+	}
+	
+	public static String[] getAllQuestions() {
+		String[] results = new String[numOfQuestions];
+		int i = 0;
+		for (SecurityQuestion q : SecurityQuestion.values()) 
+			results[i++] = q.mQuestion;		
+		return results;
 	}
 	
 	public static SecurityQuestion parseInt(int selection) {

@@ -18,6 +18,8 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -57,8 +59,15 @@ public class Login extends AnchorPane{
 			rememberUsernameCB.setSelected(true);
 			usernameTF.setText(savedUser);
 		}
+		passwordTF.setOnKeyPressed(e -> detectEnterKey(e));
 	}
 	
+	private void detectEnterKey(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER)
+			authenticateLogin();
+	}
+
+
 	public Scene getLoginScene() {
 		try {
 					 
@@ -76,9 +85,18 @@ public class Login extends AnchorPane{
 			return null;
 		}
 	}
+	
+	
+	
+	@FXML
+	private void transitionToSignUpScene() {
+		SignUp signUpScene = new SignUp();
+		mController.ChangeScene(e -> signUpScene.getSignUpScene(), false);
+	}
 		
 	@FXML
-	private void authenticateLogin(ActionEvent event) {
+	private void authenticateLogin() {
+		
 		String username = usernameTF.getText();
 		String typedPW = passwordTF.getText();
 		
@@ -93,8 +111,10 @@ public class Login extends AnchorPane{
 			try (PrintWriter output = new PrintWriter(new File("resources/init.txt"))) {				
 				if (rememberUsernameCB.isSelected())
 					output.write(username);
-				else
+				else {
 					output.write("");
+					savedUser = "";
+				}
 			} catch (FileNotFoundException e1) {				
 				e1.printStackTrace();
 			}

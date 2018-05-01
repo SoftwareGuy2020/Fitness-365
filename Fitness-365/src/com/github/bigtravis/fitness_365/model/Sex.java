@@ -5,7 +5,7 @@ package com.github.bigtravis.fitness_365.model;
  *
  */
 public enum Sex {
-	MALE("Male"), FEMALE("Female");
+	Male("Male"), Female("Female");
 	
 	private String mDescription;
 	
@@ -23,9 +23,9 @@ public enum Sex {
 	public static Sex parseInt(int selection) {
 		switch (selection) {		
 		case 1:
-			return Sex.FEMALE;
+			return Sex.Female;
 		default:
-			return Sex.MALE;
+			return Sex.Male;
 		}		
 	}
 }

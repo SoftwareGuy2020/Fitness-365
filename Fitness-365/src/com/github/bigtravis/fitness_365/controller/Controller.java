@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.function.Function;
 
@@ -29,7 +30,7 @@ public class Controller extends Application {
 	private static final String[] TABLE_NAMES = {"users", "exercises", "workout_diary", "food_diary", "saved_workouts", "meals",
 												"favorite_meals", "sleep_log", "personal_bests", "pictures"};
 	private static final String[][] FIELD_NAMES = {{"_id", "username", "password", "salt", "security_question",
-													"security_answer", "full_name", "age", "sex", "units", "height",
+													"security_answer", "full_name", "birth_date", "sex", "units", "height",
 													"starting_weight", "goal_weight", "current_weight", "weekly_goals"},			
 												{"_id", "name", "muscle_group"},
 												{"_id", "user_id", "exercise_id", "weight", "reps", "date"},
@@ -41,7 +42,7 @@ public class Controller extends Application {
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"}};
 	
-	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "INTEGER", "INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL"},
+	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT", "INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "TEXT", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "INTEGER", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "INTEGER"},
@@ -83,7 +84,7 @@ public class Controller extends Application {
 	
 	@Override
 	public void init() throws Exception {
-//		Uncomment the below statements to create a a test user in the database		
+	
 				
 		mInstance = this;
 		mDB = new DBModel(DB_NAME, TABLE_NAMES, FIELD_NAMES, FIELD_TYPES, FOREIGN_KEYS);
@@ -92,8 +93,8 @@ public class Controller extends Application {
 		if (mDB.getRecordCount(TABLE_NAMES[0]) == 0) {
 			byte[] salt = PasswordEncryption.generateSalt();
 			byte[] password = PasswordEncryption.getEncryptedPassword("password123", salt);
-			User user = new User(-1, "player1", "Favorite Color?", "Red", "John Smith", 25,
-			Sex.MALE, new Units[] {Units.POUNDS, Units.INCHES, Units.MILES}, 72,
+			User user = new User(-1, "player1", "Favorite Color?", "Red", "John Smith", LocalDate.of(1991, 1, 11),
+			Sex.Male, new Units[] {Units.POUNDS, Units.INCHES, Units.MILES}, 72,
 									185.0, 205.0, 185.0, 1.0);
 			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
 					 user, password, salt);
@@ -122,7 +123,7 @@ public class Controller extends Application {
 				ResultSet rs = mDB.getRecord(TABLE_NAMES[0], Integer.toString(userID));
 				if (rs.next()) {
 					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(5), rs.getString(6),
-							rs.getString(7), rs.getInt(8), Sex.parseInt(rs.getInt(9)),
+							rs.getString(7), LocalDate.parse(rs.getString(8)), Sex.parseInt(rs.getInt(9)),
 							Units.parse(rs.getBytes(10)),
 							rs.getInt(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getDouble(15));
 					return user;
@@ -158,6 +159,16 @@ public class Controller extends Application {
 			e.printStackTrace();			
 		}		
 		return false;
+	}
+	
+	public void createNewUser(User user, byte[] password, byte[] salt) {
+		try {
+			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length), user, password, salt);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

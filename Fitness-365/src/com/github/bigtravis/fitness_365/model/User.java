@@ -1,5 +1,7 @@
 package com.github.bigtravis.fitness_365.model;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Arrays;
 
 /**
@@ -16,7 +18,7 @@ public class User {
 	private String mSecurityQ;
 	private String mSecurityA;
 	private String mName;
-	private int mAge;
+	private LocalDate mBirthDate;
 	private Sex mSex;	
 	private Units[] mUnitsOfChoice = {Units.POUNDS, Units.INCHES, Units.MILES};
 	private int mHeight; 
@@ -32,7 +34,7 @@ public class User {
 	 * @param securityQ
 	 * @param securityA
 	 * @param name
-	 * @param age
+	 * @param birthDate
 	 * @param sex
 	 * @param unitsOfChoice
 	 * @param height
@@ -42,16 +44,19 @@ public class User {
 	 * @param weeklyGoal
 	 */
 	public User(int id, String userName, String securityQ, String securityA, String name,
-			int age, Sex sex, Units[] unitsOfChoice, int height, double startingWeight,
+			LocalDate birthDate, Sex sex, Units[] unitsOfChoice, int height, double startingWeight,
 			double goalWeight, double currentWeight, double weeklyGoal) {
 		this.mId = id;
 		this.mUserName = userName;
 		this.mSecurityQ = securityQ;
 		this.mSecurityA = securityA;
 		this.mName = name;
-		this.mAge = age;
+		this.mBirthDate = birthDate;
 		this.mSex = sex;
-		this.mUnitsOfChoice = unitsOfChoice;
+		
+		if (unitsOfChoice != null)
+			this.mUnitsOfChoice = unitsOfChoice;
+		
 		this.mHeight = height;
 		this.mStartingWeight = startingWeight;
 		this.mGoalWeight = goalWeight;
@@ -137,16 +142,24 @@ public class User {
 	 * @return the age
 	 */
 	public int getAge() {
-		return this.mAge;
+		return Period.between(LocalDate.now(), this.mBirthDate).getYears();
+	}
+	
+	/**
+	 * Gets the birth date of User
+	 * @return string representation of birth date in the format of: ISO-8601 format uuuu-MM-dd
+	 */
+	public String getBirthDate() {
+		return this.mBirthDate.toString();
 	}
 
 
 	/**
-	 * Sets the age of User
-	 * @param age the age to set
+	 * Sets the birth date of User
+	 * @param birthDate - the birth date to set
 	 */
-	public void setAge(int age) {
-		this.mAge = age;
+	public void setBirthDate(LocalDate birthDate) {
+		this.mBirthDate = birthDate;
 	}
 
 
@@ -317,7 +330,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + this.mAge;
+		result = prime * result + ((this.mBirthDate == null) ? 0 : this.mBirthDate.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(this.mCurrentWeight);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -351,7 +364,10 @@ public class User {
 		if (!(obj instanceof User))
 			return false;
 		User other = (User) obj;
-		if (this.mAge != other.mAge)
+		if (this.mBirthDate == null) {
+			if (other.mBirthDate != null)
+				return false;
+		} else if (!this.mBirthDate.equals(other.mBirthDate))
 			return false;
 		if (Double.doubleToLongBits(this.mCurrentWeight) != Double.doubleToLongBits(other.mCurrentWeight))
 			return false;
@@ -392,6 +408,4 @@ public class User {
 		return true;
 	}
 
-
-	
 }

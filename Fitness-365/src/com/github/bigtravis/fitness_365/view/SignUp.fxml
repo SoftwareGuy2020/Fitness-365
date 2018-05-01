@@ -14,8 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.bigtravis.fitness_365.view.SignUp">
    <children>
       <GridPane layoutX="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0">
         <columnConstraints>
@@ -31,34 +30,34 @@
             <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="247.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField promptText="username" GridPane.rowIndex="1">
+            <TextField fx:id="usernameTF" promptText="username" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="50.0" right="50.0" />
                </GridPane.margin>
             </TextField>
-            <PasswordField promptText="password" GridPane.rowIndex="2">
+            <PasswordField fx:id="passwordField" promptText="password" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="50.0" right="50.0" />
                </GridPane.margin>
             </PasswordField>
-            <PasswordField promptText="repeat password" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <PasswordField fx:id="confirmPasswordF" promptText="repeat password" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="50.0" right="50.0" />
                </GridPane.margin>
             </PasswordField>
-            <ComboBox prefWidth="200.0" promptText="Choose Security Question" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <TextField promptText="Enter security question answer" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <ComboBox fx:id="securityQuestionCB" prefWidth="200.0" promptText="Choose Security Question" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <TextField fx:id="securityAnswerTF" promptText="Enter security question answer" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="50.0" right="50.0" top="20.0" />
                </GridPane.margin>
             </TextField>
-            <DatePicker prefWidth="200.0" promptText="Date of Birth (mm/dd/yyyy)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <TextField promptText="Enter full name" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <DatePicker fx:id="birthDatePicker" prefWidth="200.0" promptText="Date of Birth (mm/dd/yyyy)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <TextField fx:id="nameTF" promptText="Enter full name" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="50.0" right="50.0" />
                </GridPane.margin>
             </TextField>
-            <ComboBox prefWidth="200.0" promptText="Choose Sex" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ComboBox fx:id="sexCB" prefWidth="200.0" promptText="Choose Sex" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="50.0" right="50.0" />
                </GridPane.margin>
@@ -68,7 +67,7 @@
                   <Font name="ACaslonPro-Bold" size="45.0" />
                </font>
             </Text>
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" text="*Please complete all fields!" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="200.0" text="*Please complete all fields!" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
@@ -76,7 +75,7 @@
                   <Insets />
                </GridPane.margin>
             </Label>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: #3cc433;" text="Sign Up!" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUpUser" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: #3cc433;" text="Sign Up!" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="12.0" />
                </GridPane.margin>

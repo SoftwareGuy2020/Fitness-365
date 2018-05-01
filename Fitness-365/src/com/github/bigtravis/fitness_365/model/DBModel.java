@@ -135,15 +135,15 @@ public class DBModel implements AutoCloseable {
 		pStmt.setString(4, user.getSecurityQ());
 		pStmt.setString(5, user.getSecurityA());
 		pStmt.setString(6, user.getName());
-		pStmt.setInt(7, user.getAge());
-		pStmt.setInt(8, user.getSex() == Sex.MALE ? 0 : 1);
+		pStmt.setString(7, user.getBirthDate());
+		pStmt.setInt(8, user.getSex() == Sex.Male ? 0 : 1);
 		pStmt.setBytes(9, user.convertUnitsToByteArray());
 		pStmt.setInt(10, user.getHeight());
 		pStmt.setDouble(11, user.getStartingWeight());
 		pStmt.setDouble(12, user.getGoalWeight());
 		pStmt.setDouble(13, user.getCurrentWeight());
 		pStmt.setDouble(14, user.getWeeklyGoal());
-		
+		System.out.println(pStmt.toString());
 		id = pStmt.executeUpdate();
 		pStmt.close();
 		return id;
