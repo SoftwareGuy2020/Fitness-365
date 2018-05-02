@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.function.Function;
 
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
 import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
@@ -107,7 +106,7 @@ public class Controller extends Application {
 		Login login = new Login();
 		mMainStage = primaryStage;
 
-		mInstance.changeScene(e -> login.getLoginScene(), false);
+		mInstance.changeScene(login.getView(), false);
 		primaryStage.show();
 	}
 
@@ -171,9 +170,8 @@ public class Controller extends Application {
 	}
 
 
-	public void changeScene(Function<Void, Scene> f, boolean resizable) {
-		Scene s = f.apply(null);
-		mMainStage.setScene(s);
+	public void changeScene(Scene scene, boolean resizable) {
+		mMainStage.setScene(scene);
 		mMainStage.setResizable(resizable);
 	}
 
