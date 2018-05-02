@@ -39,7 +39,7 @@ public class Controller extends Application {
 												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
-												{"_id", "weight", "pic_id"}};
+												{"_id", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"}};
 
 	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT", "INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "TEXT", "TEXT"},
@@ -51,7 +51,7 @@ public class Controller extends Application {
 													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "BLOB"},
-													{"INTEGER PRIMARY KEY", "REAL", "INTEGER"}};
+													{"INTEGER PRIMARY KEY", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"}};
 
 	private static final String[][] FOREIGN_KEYS = {{}, {}, {"FOREIGN KEY(" + FIELD_NAMES[2][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
 															"FOREIGN KEY(" + FIELD_NAMES[2][2] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")"},
@@ -65,7 +65,8 @@ public class Controller extends Application {
 													{"FOREIGN KEY(" + FIELD_NAMES[7][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[8][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[9][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")"}};
+													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",  
+														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"}};
 
 	private static Controller mInstance;
 	private DBModel mDB;
