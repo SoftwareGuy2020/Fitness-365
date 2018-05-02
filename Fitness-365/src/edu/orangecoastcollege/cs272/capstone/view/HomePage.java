@@ -1,9 +1,8 @@
-package com.github.bigtravis.fitness_365.view;
+package edu.orangecoastcollege.cs272.capstone.view;
 
 import java.io.IOException;
 
-import com.github.bigtravis.fitness_365.controller.Controller;
-
+import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -33,6 +32,6 @@ public class HomePage extends VBox{
 	
 	public void signOut() {
 		Login login = new Login();
-		mController.ChangeScene(e -> login.getLoginScene(), false);
+		mController.changeScene(e -> login.getLoginScene(), false);
 	}
 }

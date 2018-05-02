@@ -1,4 +1,4 @@
-package com.github.bigtravis.fitness_365.model;
+package edu.orangecoastcollege.cs272.capstone.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

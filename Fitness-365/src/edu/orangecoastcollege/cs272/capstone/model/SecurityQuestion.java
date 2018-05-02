@@ -1,4 +1,4 @@
-package com.github.bigtravis.fitness_365.model;
+package edu.orangecoastcollege.cs272.capstone.model;
 
 public enum SecurityQuestion {
 	DOG("What was your first dog's name?"), MOTHER("What is your mother's maiden name?"), JOB("In what town or city was your first full time job?")

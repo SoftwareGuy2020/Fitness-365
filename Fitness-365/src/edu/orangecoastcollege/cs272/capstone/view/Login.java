@@ -1,4 +1,4 @@
-package com.github.bigtravis.fitness_365.view;
+package edu.orangecoastcollege.cs272.capstone.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import com.github.bigtravis.fitness_365.controller.Controller;
-
+import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,7 +90,7 @@ public class Login extends AnchorPane{
 	@FXML
 	private void transitionToSignUpScene() {
 		SignUp signUpScene = new SignUp();
-		mController.ChangeScene(e -> signUpScene.getSignUpScene(), false);
+		mController.changeScene(e -> signUpScene.getSignUpScene(), false);
 	}
 		
 	@FXML
@@ -118,7 +117,7 @@ public class Login extends AnchorPane{
 			} catch (FileNotFoundException e1) {				
 				e1.printStackTrace();
 			}
-			mController.ChangeScene(e -> new HomePage().getHomePageScene(), true);
+			mController.changeScene(e -> new HomePage().getHomePageScene(), true);
 		}
 		else {
 			errorLabel.setText(FAILED_LOGIN_MESSAGE);

@@ -1,16 +1,15 @@
-package com.github.bigtravis.fitness_365.view;
+package edu.orangecoastcollege.cs272.capstone.view;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 
-import com.github.bigtravis.fitness_365.controller.Controller;
-import com.github.bigtravis.fitness_365.model.PasswordEncryption;
-import com.github.bigtravis.fitness_365.model.SecurityQuestion;
-import com.github.bigtravis.fitness_365.model.Sex;
-import com.github.bigtravis.fitness_365.model.User;
-
+import edu.orangecoastcollege.cs272.capstone.controller.Controller;
+import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
+import edu.orangecoastcollege.cs272.capstone.model.SecurityQuestion;
+import edu.orangecoastcollege.cs272.capstone.model.Sex;
+import edu.orangecoastcollege.cs272.capstone.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -86,7 +85,7 @@ public class SignUp extends AnchorPane {
 			mController.createNewUser(newUser, hashedPassword, salt);
 			
 			HomePage home = new HomePage();
-			mController.ChangeScene(e -> home.getHomePageScene(), true);
+			mController.changeScene(e -> home.getHomePageScene(), true);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
