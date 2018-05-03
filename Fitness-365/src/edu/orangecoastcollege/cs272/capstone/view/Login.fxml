@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="833.0" style="-fx-background-color: #dcdcdc;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.Login">
+   <children>
+      <TextField fx:id="usernameTF" layoutX="307.0" layoutY="231.0" prefHeight="30.0" prefWidth="187.0" promptText="username" style="-fx-background-color: &quot;#bbbbb&quot;;" AnchorPane.bottomAnchor="336.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="231.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="passwordTF" layoutX="307.0" layoutY="285.0" prefHeight="30.0" promptText="password" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="285.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </PasswordField>
+      <Button fx:id="loginButton" layoutX="417.0" layoutY="346.0" mnemonicParsing="false" onAction="#authenticateLogin" prefHeight="28.0" prefWidth="65.0" style="-fx-background-radius: 15; -fx-background-color: #3cc433;" text="Log in" AnchorPane.bottomAnchor="221.0" AnchorPane.rightAnchor="293.0" AnchorPane.topAnchor="346.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="307.0" layoutY="448.0" prefHeight="23.0" prefWidth="155.0" text="Dont have an account?" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="371.0" AnchorPane.topAnchor="448.0" />
+      <Hyperlink fx:id="signUpHL" layoutX="440.0" layoutY="448.0" onAction="#transitionToSignUpScene" text="Sign up here!" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="281.0" />
+      <Hyperlink fx:id="forgotPassHL" layoutX="347.0" layoutY="414.0" text="Forgot your password?" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="324.0" />
+      <CheckBox fx:id="rememberUsernameCB" layoutX="292.0" layoutY="353.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="148.0" text="Remember Username?" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="292.0" AnchorPane.rightAnchor="393.0" AnchorPane.topAnchor="353.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="307.0" layoutY="196.0" prefHeight="23.0" prefWidth="219.0" text="Must enter a username and password!" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.bottomAnchor="376.0" AnchorPane.leftAnchor="307.0" AnchorPane.topAnchor="196.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="317.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="419.0" AnchorPane.leftAnchor="317.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="26.0">
+         <image>
+            <Image url="@../../../../../../resources/logo.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
