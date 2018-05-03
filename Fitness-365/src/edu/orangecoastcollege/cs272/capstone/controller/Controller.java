@@ -13,6 +13,7 @@ import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
 import edu.orangecoastcollege.cs272.capstone.model.Sex;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
+import edu.orangecoastcollege.cs272.capstone.view.FoodDiary;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -110,7 +111,7 @@ public class Controller extends Application {
 		Login login = new Login();
 		mMainStage = primaryStage;
 
-		mInstance.changeScene(login.getView(), false);
+		mInstance.changeScene(login.getView(), false);		
 		primaryStage.show();
 	}
 
