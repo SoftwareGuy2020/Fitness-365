@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -27,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Travis
  *
  */
-public class SignUp extends AnchorPane implements SceneNavigation{
+public class SignUp extends AnchorPane implements SceneNavigation {
 	private static final String FXML_FILE_NAME = "SignUp.fxml";
 
 	public TextField usernameTF;
@@ -40,6 +41,7 @@ public class SignUp extends AnchorPane implements SceneNavigation{
 	public ComboBox<Sex> sexCB;
 	public Label errorLabel;
 	public Button signUpButton;
+	public Hyperlink signInLink;
 
 	private Controller mController;
 
@@ -90,5 +92,10 @@ public class SignUp extends AnchorPane implements SceneNavigation{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@FXML
+	private void loadSignInScene() {
+		mController.changeScene(new Login().getView(), false);
 	}
 }

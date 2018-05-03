@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
  * @author Travis
  *
  */
-public class HomePage extends VBox implements SceneNavigation{
+public class HomePage extends VBox implements SceneNavigation {
 	private static final String HOMEPAGE_FXML_FILENAME = "HomePage.fxml";
 
 	private Controller mController;
@@ -26,15 +26,14 @@ public class HomePage extends VBox implements SceneNavigation{
 		mController.changeScene(login.getView(), false);
 	}
 
-    @Override
-    public Scene getView()
-    {
-        VBox vb = null;
-        try {
-            vb = (VBox) FXMLLoader.load(getClass().getResource(HOMEPAGE_FXML_FILENAME));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Scene(vb);
-    }
+	@Override
+	public Scene getView() {
+		VBox vb = null;
+		try {
+			vb = (VBox) FXMLLoader.load(getClass().getResource(HOMEPAGE_FXML_FILENAME));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Scene(vb);
+	}
 }

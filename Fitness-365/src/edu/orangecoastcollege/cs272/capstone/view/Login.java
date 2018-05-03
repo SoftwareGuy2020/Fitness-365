@@ -25,7 +25,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Travis
  *
  */
-public class Login extends AnchorPane implements SceneNavigation{
+public class Login extends AnchorPane implements SceneNavigation {
 	private static final String LOGIN_FXML_FILENAME = "Login.fxml";
 
 	private static final String EMPTY_FIELDS_MESSAGE = "All fields must be complete";
@@ -52,7 +52,6 @@ public class Login extends AnchorPane implements SceneNavigation{
 		mController = Controller.getInstance();
 	}
 
-
 	public void initialize() {
 		if (!savedUser.isEmpty()) {
 			rememberUsernameCB.setSelected(true);
@@ -66,10 +65,8 @@ public class Login extends AnchorPane implements SceneNavigation{
 			authenticateLogin();
 	}
 
-
 	public Scene getView() {
 		try {
-
 			Scanner input = new Scanner(new File("resources/init.txt"));
 
 			if (input.hasNextLine())
@@ -84,8 +81,6 @@ public class Login extends AnchorPane implements SceneNavigation{
 			return null;
 		}
 	}
-
-
 
 	@FXML
 	private void transitionToSignUpScene() {
@@ -119,13 +114,10 @@ public class Login extends AnchorPane implements SceneNavigation{
 			}
 			HomePage homePage = new HomePage();
 			mController.changeScene(homePage.getView(), true);
-		}
-		else {
+		} else {
 			errorLabel.setText(FAILED_LOGIN_MESSAGE);
 			if (!errorLabel.isVisible())
 				errorLabel.setVisible(true);
 		}
 	}
-
-
 }
