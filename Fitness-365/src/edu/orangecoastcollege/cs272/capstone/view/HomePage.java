@@ -1,5 +1,6 @@
 package edu.orangecoastcollege.cs272.capstone.view;
 
+
 import java.io.IOException;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
@@ -28,7 +29,7 @@ public class HomePage extends VBox implements SceneNavigation {
 
 	@Override
 	public Scene getView() {
-		/*
+		
 		VBox vb = null;
 		try {
 			vb = (VBox) FXMLLoader.load(getClass().getResource(HOMEPAGE_FXML_FILENAME));
@@ -36,8 +37,6 @@ public class HomePage extends VBox implements SceneNavigation {
 			e.printStackTrace();
 		}
 		return new Scene(vb);
-		*/
 		
-		return new FoodDiary().getScene();
 	}
 }

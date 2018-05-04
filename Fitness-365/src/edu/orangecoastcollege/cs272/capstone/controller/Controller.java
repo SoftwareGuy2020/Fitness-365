@@ -174,6 +174,10 @@ public class Controller extends Application {
 
 	}
 
+	public void updateUserPassword(User user, String password)
+	{
+		// TODO complete implementation to update user password!
+	}
 
 	public void changeScene(Scene scene, boolean resizable) {
 		mMainStage.setScene(scene);

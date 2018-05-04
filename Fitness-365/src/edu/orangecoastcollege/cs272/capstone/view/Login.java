@@ -87,6 +87,10 @@ public class Login extends AnchorPane implements SceneNavigation {
 		SignUp signUpScene = new SignUp();
 		mController.changeScene(signUpScene.getView(), false);
 	}
+	@FXML
+	private void transitionToForgotPasswordScene() {
+		mController.changeScene(new ForgotPassword().getView(), false);
+	}
 
 	@FXML
 	private void authenticateLogin() {

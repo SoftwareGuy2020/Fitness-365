@@ -42,6 +42,8 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 	public Label errorLabel;
 	public Button signUpButton;
 	public Hyperlink signInLink;
+	public Hyperlink forgotPasswordHL;
+	public Label usernameTakenLabel;
 
 	private Controller mController;
 
@@ -67,6 +69,13 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 	@FXML
 	private void signUpUser() {
 		String username = usernameTF.getText();
+		if (mController.getUser(username) != null)
+		{
+			usernameTakenLabel.setVisible(true);
+			forgotPasswordHL.setVisible(true);
+			return;
+		}
+		
 		String typedPW = passwordField.getText();
 		String sq = securityQuestionCB.getValue();
 		String sa = securityAnswerTF.getText();
@@ -97,5 +106,11 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 	@FXML
 	private void loadSignInScene() {
 		mController.changeScene(new Login().getView(), false);
+	}
+	
+	@FXML
+	private void loadForgotPasswordScene()
+	{
+		mController.changeScene(new ForgotPassword().getView(), false);
 	}
 }
