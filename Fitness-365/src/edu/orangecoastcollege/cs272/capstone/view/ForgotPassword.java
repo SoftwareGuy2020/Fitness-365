@@ -83,11 +83,11 @@ public class ForgotPassword extends AnchorPane implements SceneNavigation {
 	@FXML
 	private void resetPassword()
 	{
-		if (passwordTF.getText().equals(confirmPasswordTF.getText()))
+		String password = passwordTF.getText();
+		if (password.equals(confirmPasswordTF.getText()) && !password.isEmpty())
 		{
-			differentPasswordsLabel.setVisible(false);
-			String password = passwordTF.getText();
-			mController.updateUserPassword(mUser, password); // FUNCTION NEEDS TO BE IMPLEMENTED
+			differentPasswordsLabel.setVisible(false);			
+			mController.updateUserPassword(mUser, password);
 			mController.changeScene(new Login().getView(), false);
 		}
 		else

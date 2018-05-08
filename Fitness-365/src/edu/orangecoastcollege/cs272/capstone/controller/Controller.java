@@ -164,19 +164,33 @@ public class Controller extends Application {
 		return false;
 	}
 
-	public void createNewUser(User user, byte[] password, byte[] salt) {
+	public void createNewUser(User user, String password) {
 		try {
-			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length), user, password, salt);
-		} catch (SQLException e) {
+			byte[] salt = PasswordEncryption.generateSalt();
+			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(password, salt);
+			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length), user, hashedPassword, salt);
+		}
+		catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	public void updateUserPassword(User user, String password)
-	{
-		// TODO complete implementation to update user password!
+	public boolean updateUserPassword(User user, String newPassword) {
+		// can't use previous password as new password
+		if (authenticateLogin(user.getUserName(), newPassword))
+			return false;
+		
+		try {
+			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(newPassword, getPasswordAndSalt(user.getId())[1]);
+			return mDB.updateUserPassword0(TABLE_NAMES[0], Integer.toString(user.getId()), hashedPassword);
+		} catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		return false;
 	}
 
 	public void changeScene(Scene scene, boolean resizable) {

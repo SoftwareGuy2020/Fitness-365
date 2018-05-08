@@ -184,8 +184,24 @@ public class DBModel implements AutoCloseable {
 					.append((i < values.length - 1) ? "," : " ");
 
 		updateSQL.append("WHERE ").append(mFieldNames[tableIdx][0]).append("=").append(key);
+		System.out.println(updateSQL.toString());
 		mStmt.executeUpdate(updateSQL.toString());
 
+		return true;
+	}
+	
+	public boolean updateUserPassword0(String table, String key, byte[] newPassword) throws SQLException {
+		if (key.isEmpty() || newPassword == null)
+			return false;
+		
+		StringBuilder updateSQL = new StringBuilder("UPDATE ");
+		updateSQL.append(table).append(" SET ");		
+		updateSQL.append(mFieldNames[0][2]).append("=").append("?");
+		
+		PreparedStatement pStmt = mConnection.prepareStatement(updateSQL.toString());
+		pStmt.setBytes(1, newPassword);
+		pStmt.executeUpdate();
+		
 		return true;
 	}
 
