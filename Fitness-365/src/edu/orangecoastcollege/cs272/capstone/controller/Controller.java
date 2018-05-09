@@ -184,7 +184,7 @@ public class Controller extends Application {
 		
 		try {
 			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(newPassword, getPasswordAndSalt(user.getId())[1]);
-			return mDB.updateUserPassword0(TABLE_NAMES[0], Integer.toString(user.getId()), hashedPassword);
+			return mDB.updateUserPassword(TABLE_NAMES[0], Integer.toString(user.getId()), hashedPassword);
 		} catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
