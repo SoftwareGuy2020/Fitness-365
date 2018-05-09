@@ -33,15 +33,13 @@ public class HomePage extends VBox implements SceneNavigation {
 	}
 
 	@Override
-	public Scene getView() {
-		
+	public Scene getView() {		
 		VBox vb = null;
 		try {
 			vb = (VBox) FXMLLoader.load(getClass().getResource(HOMEPAGE_FXML_FILENAME));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new Scene(vb);
-		
+		return new Scene(vb);		
 	}
 }
