@@ -116,11 +116,12 @@ public class Login extends AnchorPane implements SceneNavigation {
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
-			//HomePage homePage = new HomePage();
-			//mController.changeScene(homePage.getView(), true);
+			HomePage homePage = new HomePage();
+			mController.changeScene(homePage.getView(), true);
 
-			CalcHomePage calcPage = new CalcHomePage();
-            mController.changeScene(calcPage.getView(), true);
+			//CalcHomePage calcPage = new CalcHomePage();
+            //mController.changeScene(calcPage.getView(), true);
+
 		} else {
 			errorLabel.setText(FAILED_LOGIN_MESSAGE);
 			if (!errorLabel.isVisible())
