@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.*;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -15,7 +16,11 @@ import javafx.scene.layout.VBox;
  */
 public class HomePage extends VBox implements SceneNavigation {
 	private static final String HOMEPAGE_FXML_FILENAME = "HomePage.fxml";
-
+	
+	@FXML
+	private FoodDiary foodDiaryController;
+	@FXML
+	private CalcHomePage calculatorsController;
 	private Controller mController;
 
 	public HomePage() {
