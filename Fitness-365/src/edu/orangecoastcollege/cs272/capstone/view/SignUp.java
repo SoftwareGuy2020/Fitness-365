@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -27,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Travis
  *
  */
-public class SignUp extends AnchorPane implements SceneNavigation{
+public class SignUp extends AnchorPane implements SceneNavigation {
 	private static final String FXML_FILE_NAME = "SignUp.fxml";
 
 	public TextField usernameTF;
@@ -40,6 +41,9 @@ public class SignUp extends AnchorPane implements SceneNavigation{
 	public ComboBox<Sex> sexCB;
 	public Label errorLabel;
 	public Button signUpButton;
+	public Hyperlink signInLink;
+	public Hyperlink forgotPasswordHL;
+	public Label usernameTakenLabel;
 
 	private Controller mController;
 
@@ -65,6 +69,12 @@ public class SignUp extends AnchorPane implements SceneNavigation{
 	@FXML
 	private void signUpUser() {
 		String username = usernameTF.getText();
+		if (mController.getUser(username) != null) {
+			usernameTakenLabel.setVisible(true);
+			forgotPasswordHL.setVisible(true);
+			return;
+		}
+
 		String typedPW = passwordField.getText();
 		String sq = securityQuestionCB.getValue();
 		String sa = securityAnswerTF.getText();
@@ -72,23 +82,27 @@ public class SignUp extends AnchorPane implements SceneNavigation{
 		String fullName = nameTF.getText();
 		Sex sex = sexCB.getValue();
 
-		if (username.isEmpty() || !typedPW.equals(confirmPasswordF.getText())
-				|| fullName.isEmpty()) {
+		if (username.isEmpty() || !typedPW.equals(confirmPasswordF.getText()) || fullName.isEmpty()) {
 			errorLabel.setVisible(true);
 			return;
 		}
 
 		User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, 0.0, 0.0, 0.0, 0.0);
-		try {
-			byte[] salt = PasswordEncryption.generateSalt();
-			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(typedPW, salt);
-			mController.createNewUser(newUser, hashedPassword, salt);
+		mController.createNewUser(newUser, typedPW);
 
-			HomePage home = new HomePage();
-			mController.changeScene(home.getView(), true);
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		HomePage home = new HomePage();
+		mController.changeScene(home.getView(), true);
+
+	}
+	
+	@FXML
+	private void loadSignInScene() {
+		mController.changeScene(new Login().getView(), false);
+	}
+	
+	@FXML
+	private void loadForgotPasswordScene()
+	{
+		mController.changeScene(new ForgotPassword().getView(), false);
 	}
 }

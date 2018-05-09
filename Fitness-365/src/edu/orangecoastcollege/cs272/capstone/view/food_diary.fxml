@@ -49,7 +49,7 @@
          <center>
             <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
-                  <TableView accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="129.0" prefWidth="645.0">
+                  <TableView fx:id="breakfastTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="129.0" prefWidth="645.0">
                      <columns>
                         <TableColumn prefWidth="75.0" text="Name" />
                         <TableColumn prefWidth="75.0" text="# Servings" />
@@ -64,7 +64,7 @@
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
                   </TableView>
-                  <TableView accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="638.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="645.0">
+                  <TableView fx:id="snacksTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="638.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="645.0">
                      <columns>
                         <TableColumn prefWidth="75.0" text="Name" />
                         <TableColumn prefWidth="75.0" text="# Servings" />
@@ -79,7 +79,7 @@
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
                   </TableView>
-                  <TableView accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="201.0" prefHeight="161.0" prefWidth="645.0">
+                  <TableView fx:id="lunchTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="201.0" prefHeight="161.0" prefWidth="645.0">
                      <columns>
                         <TableColumn prefWidth="75.0" text="Name" />
                         <TableColumn prefWidth="75.0" text="# Servings" />
@@ -94,7 +94,7 @@
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
                   </TableView>
-                  <TableView accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="406.0" prefHeight="183.0" prefWidth="645.0">
+                  <TableView fx:id="dinnerTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="406.0" prefHeight="183.0" prefWidth="645.0">
                      <columns>
                         <TableColumn prefWidth="75.0" text="Name" />
                         <TableColumn prefWidth="75.0" text="# Servings" />
@@ -154,17 +154,17 @@
                       <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField alignment="CENTER" editable="false" minHeight="-Infinity" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="2800" GridPane.rowIndex="1">
+                        <TextField fx:id="calorieGoalTF" alignment="CENTER" editable="false" focusTraversable="false" minHeight="-Infinity" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="2800" GridPane.rowIndex="1">
                            <effect>
                               <InnerShadow choke="0.37" height="12.1" radius="7.775" />
                            </effect>
                         </TextField>
-                        <TextField alignment="CENTER" editable="false" layoutX="10.0" layoutY="13.0" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="1600" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <TextField fx:id="calorieConsumedTF" alignment="CENTER" editable="false" focusTraversable="false" layoutX="10.0" layoutY="13.0" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="1600" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <effect>
                               <InnerShadow choke="0.37" height="12.1" radius="7.775" />
                            </effect>
                         </TextField>
-                        <TextField alignment="CENTER" editable="false" layoutX="79.0" layoutY="13.0" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="1200" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                        <TextField fx:id="calorieRemainingTF" alignment="CENTER" editable="false" focusTraversable="false" layoutX="79.0" layoutY="13.0" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="1200" GridPane.columnIndex="4" GridPane.rowIndex="1">
                            <effect>
                               <InnerShadow choke="0.37" height="12.1" radius="7.775" />
                            </effect>
@@ -205,7 +205,7 @@
                      </VBox.margin>
                   </Region>
                   <Separator layoutX="10.0" layoutY="249.0" prefWidth="200.0" />
-                  <CalendarPicker prefHeight="205.0" prefWidth="302.0">
+                  <CalendarPicker fx:id="calendar" prefHeight="205.0" prefWidth="302.0">
                      <padding>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </padding>
@@ -229,13 +229,13 @@
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
                   <Region layoutX="10.0" layoutY="58.0" prefHeight="50.0" prefWidth="107.0" />
-                  <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Add Meal">
+                  <Button fx:id="addMealButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Add Meal">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
                   <Region prefHeight="50.0" prefWidth="107.0" />
-                  <Button disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Delete Meal" wrapText="true">
+                  <Button fx:id="deleteMealButton" disable="true" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Delete Meal" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font>
