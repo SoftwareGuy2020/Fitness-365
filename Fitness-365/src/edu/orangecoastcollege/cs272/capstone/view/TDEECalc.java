@@ -1,23 +1,28 @@
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Scanner;
 
+import edu.orangecoastcollege.cs272.capstone.controller.Controller;
+import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.CheckBox;
 
-public class TDEECalc {
+public class TDEECalc implements SceneNavigation{
 	@FXML
 	private CheckBox maleCB;
 	@FXML
@@ -32,6 +37,9 @@ public class TDEECalc {
 	private TextField tdeeTF;
 	@FXML
 	private ComboBox<String> activityCB;
+	private static String savedUser = "";
+	private static final String FXML_FILE_NAME = "tdee_calc.fxml";
+	private Controller mController = Controller.getInstance();
 	
 	private ObservableList<String> activities;
 	
@@ -140,5 +148,24 @@ public class TDEECalc {
     		bmrTF.setText("*Incorrect. Try again.");
     	}
 		
+	}
+	@Override
+	public Scene getView()
+	{
+		try {
+			Scanner input = new Scanner(new File("resources/init.txt"));
+
+			if (input.hasNextLine())
+				savedUser = input.nextLine();
+			input.close();
+
+			AnchorPane ap = (AnchorPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
+			return new Scene(ap);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	
 	}
 }
