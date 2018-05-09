@@ -137,7 +137,7 @@ public class TDEECalc {
 		}
     	else
     	{
-    		bmrTF.setText("*Incorrect. Try again.");
+    		bmrTF.setText("*Incorrect. Please try again.");
     	}
 		
 	}
