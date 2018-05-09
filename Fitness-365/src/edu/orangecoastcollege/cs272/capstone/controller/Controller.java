@@ -16,6 +16,8 @@ import edu.orangecoastcollege.cs272.capstone.model.User;
 import edu.orangecoastcollege.cs272.capstone.view.FoodDiary;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -66,7 +68,7 @@ public class Controller extends Application {
 													{"FOREIGN KEY(" + FIELD_NAMES[7][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[8][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[9][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",  
+													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",
 														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"}};
 
 	private static Controller mInstance;
@@ -111,7 +113,7 @@ public class Controller extends Application {
 		Login login = new Login();
 		mMainStage = primaryStage;
 
-		mInstance.changeScene(login.getView(), false);		
+		mInstance.changeScene(login.getView(), false);
 		primaryStage.show();
 	}
 
@@ -181,14 +183,14 @@ public class Controller extends Application {
 		// can't use previous password as new password
 		if (authenticateLogin(user.getUserName(), newPassword))
 			return false;
-		
+
 		try {
 			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(newPassword, getPasswordAndSalt(user.getId())[1]);
 			return mDB.updateUserPassword(TABLE_NAMES[0], Integer.toString(user.getId()), hashedPassword);
 		} catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 		}
 		return false;
 	}
