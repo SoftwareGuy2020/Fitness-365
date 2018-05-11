@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,7 +23,7 @@
 <?import javafx.scene.text.Text?>
 <?import jfxtras.scene.control.CalendarPicker?>
 
-<VBox prefHeight="800.0" prefWidth="948.0" style="-fx-background-color: gainsboro;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="800.0" prefWidth="948.0" style="-fx-background-color: gainsboro;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodDiary">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
@@ -29,60 +31,188 @@
                <children>
                   <TableView fx:id="breakfastTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="129.0" prefWidth="645.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="# Servings" />
-                        <TableColumn prefWidth="83.0" text="Serving Size" />
-                        <TableColumn prefWidth="67.0" text="Calories" />
-                        <TableColumn prefWidth="51.0" text="Fat" />
-                        <TableColumn prefWidth="122.0" text="Carbohydrates" />
-                        <TableColumn prefWidth="85.0" text="Protein" />
+                        <TableColumn prefWidth="75.0" text="Name">
+                        	<cellValueFactory>
+                        		<PropertyValueFactory property="name" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        
+                        <TableColumn prefWidth="75.0" text="# Servings">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servings" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="83.0" text="Serving Size">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servingSize" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="67.0" text="Calories">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="calories" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="51.0" text="Fat">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="fat" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="122.0" text="Carbohydrates">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="carbs" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="85.0" text="Protein">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="protein" />
+                        	</cellValueFactory>
+                        </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
                      </columns>
+                     <items>
+                     	<FXCollections fx:factory="observableArrayList" />
+                     </items>
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
                   </TableView>
                   <TableView fx:id="snacksTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="638.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="645.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="# Servings" />
-                        <TableColumn prefWidth="83.0" text="Serving Size" />
-                        <TableColumn prefWidth="67.0" text="Calories" />
-                        <TableColumn prefWidth="51.0" text="Fat" />
-                        <TableColumn prefWidth="122.0" text="Carbohydrates" />
-                        <TableColumn prefWidth="85.0" text="Protein" />
+                        <TableColumn prefWidth="75.0" text="Name">
+                        	<cellValueFactory>
+                        		<PropertyValueFactory property="name" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        
+                        <TableColumn prefWidth="75.0" text="# Servings">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servings" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="83.0" text="Serving Size">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servingSize" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="67.0" text="Calories">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="calories" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="51.0" text="Fat">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="fat" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="122.0" text="Carbohydrates">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="carbs" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="85.0" text="Protein">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="protein" />
+                        	</cellValueFactory>
+                        </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
                      </columns>
+                     <items>
+                     	<FXCollections fx:factory="observableArrayList" />
+                     </items>
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
                   </TableView>
                   <TableView fx:id="lunchTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="201.0" prefHeight="161.0" prefWidth="645.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="# Servings" />
-                        <TableColumn prefWidth="83.0" text="Serving Size" />
-                        <TableColumn prefWidth="67.0" text="Calories" />
-                        <TableColumn prefWidth="51.0" text="Fat" />
-                        <TableColumn prefWidth="122.0" text="Carbohydrates" />
-                        <TableColumn prefWidth="85.0" text="Protein" />
+                        <TableColumn prefWidth="75.0" text="Name">
+                        	<cellValueFactory>
+                        		<PropertyValueFactory property="name" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        
+                        <TableColumn prefWidth="75.0" text="# Servings">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servings" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="83.0" text="Serving Size">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servingSize" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="67.0" text="Calories">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="calories" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="51.0" text="Fat">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="fat" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="122.0" text="Carbohydrates">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="carbs" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="85.0" text="Protein">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="protein" />
+                        	</cellValueFactory>
+                        </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
                      </columns>
+                     <items>
+                     	<FXCollections fx:factory="observableArrayList" />
+                     </items>
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
                   </TableView>
                   <TableView fx:id="dinnerTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="406.0" prefHeight="183.0" prefWidth="645.0">
                      <columns>
-                        <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="# Servings" />
-                        <TableColumn prefWidth="83.0" text="Serving Size" />
-                        <TableColumn prefWidth="67.0" text="Calories" />
-                        <TableColumn prefWidth="51.0" text="Fat" />
-                        <TableColumn prefWidth="122.0" text="Carbohydrates" />
-                        <TableColumn prefWidth="85.0" text="Protein" />
+                        <TableColumn prefWidth="75.0" text="Name">
+                        	<cellValueFactory>
+                        		<PropertyValueFactory property="name" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        
+                        <TableColumn prefWidth="75.0" text="# Servings">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servings" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="83.0" text="Serving Size">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="servingSize" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="67.0" text="Calories">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="calories" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="51.0" text="Fat">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="fat" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="122.0" text="Carbohydrates">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="carbs" />
+                        	</cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="85.0" text="Protein">
+                        <cellValueFactory>
+                        		<PropertyValueFactory property="protein" />
+                        	</cellValueFactory>
+                        </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
                      </columns>
+                     <items>
+                     	<FXCollections fx:factory="observableArrayList" />
+                     </items>
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
@@ -207,7 +337,7 @@
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
                   <Region layoutX="10.0" layoutY="58.0" prefHeight="50.0" prefWidth="107.0" />
-                  <Button fx:id="addMealButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Add Meal">
+                  <Button fx:id="addMealButton" mnemonicParsing="false" onAction="#addMeal" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Add Meal">
                      <font>
                         <Font size="18.0" />
                      </font>

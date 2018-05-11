@@ -105,6 +105,7 @@ public class Login extends AnchorPane implements SceneNavigation {
 
 			return;
 		}
+		
 		if (mController.authenticateLogin(username, typedPW)) {
 			try (PrintWriter output = new PrintWriter(new File("resources/init.txt"))) {
 				if (rememberUsernameCB.isSelected())
@@ -127,5 +128,14 @@ public class Login extends AnchorPane implements SceneNavigation {
 			if (!errorLabel.isVisible())
 				errorLabel.setVisible(true);
 		}
+	}
+	
+	/*
+	 * TODO remove this function after development
+	 */
+	@FXML	
+	private void test_bypassLogin() {
+		HomePage homePage = new HomePage();
+		mController.changeScene(homePage.getView(), true);
 	}
 }
