@@ -178,6 +178,18 @@ public class Controller extends Application {
 		}
 
 	}
+	
+	public boolean updateUser(User user, String[] fields, String[] values) {
+		if (user != null && fields.length == values.length) {
+			try {
+				return mDB.updateRecord(TABLE_NAMES[0], Integer.toString(user.getId()), fields, values);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 
 	public boolean updateUserPassword(User user, String newPassword) {
 		// can't use previous password as new password
