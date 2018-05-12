@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
+import edu.orangecoastcollege.cs272.capstone.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,6 +48,7 @@ public class Login extends AnchorPane implements SceneNavigation {
 
 	private Controller mController;
 	private static String savedUser = "";
+	
 
 	public Login() {
 		mController = Controller.getInstance();
@@ -117,6 +119,7 @@ public class Login extends AnchorPane implements SceneNavigation {
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
+			mController.setCurrentUser(username);
 			HomePage homePage = new HomePage();
 			mController.changeScene(homePage.getView(), true);
 

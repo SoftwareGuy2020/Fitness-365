@@ -74,7 +74,8 @@ public class Controller extends Application {
 	private static Controller mInstance;
 	private DBModel mDB;
 	private Stage mMainStage;
-
+    
+	private User mCurrentUser;
 
 	public Controller() {}
 
@@ -210,6 +211,16 @@ public class Controller extends Application {
 	public void changeScene(Scene scene, boolean resizable) {
 		mMainStage.setScene(scene);
 		mMainStage.setResizable(resizable);
+		mMainStage.setTitle("Fitness 365");
 	}
-
+	
+	public void setCurrentUser(String username)
+	{
+		mCurrentUser = getUser(username);
+	}
+	
+	public User getCurrentUser()
+	{
+		return mCurrentUser;
+	}
 }

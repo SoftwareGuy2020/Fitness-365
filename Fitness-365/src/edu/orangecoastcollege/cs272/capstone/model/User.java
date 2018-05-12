@@ -142,7 +142,7 @@ public class User {
 	 * @return the age
 	 */
 	public int getAge() {
-		return Period.between(LocalDate.now(), this.mBirthDate).getYears();
+		return Period.between(this.mBirthDate, LocalDate.now()).getYears();
 	}
 	
 	/**

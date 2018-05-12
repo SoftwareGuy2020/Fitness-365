@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.HomePage">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.HomePage">
    <children>
       <MenuBar>
         <menus>
@@ -32,6 +32,12 @@
         <tabs>
           <Tab fx:id="foodDiaryTab" text="Food Diary">
           	<fx:include fx:id="foodDiary" source="food_diary.fxml" />
+          </Tab>
+          <Tab fx:id="workoutHistoryTab" text="Workout History">
+            <fx:include fx:id="workoutHistory" source="workout_history.fxml" />
+          </Tab>
+          <Tab fx:id="sleepLogTab" text="Sleep Log"> 
+          	<fx:include fx:id="sleepLog" source="sleep_log.fxml" />
           </Tab>
           <Tab fx:id="calculatorsTab" text="Calculators">
           	<fx:include fx:id="calculators" source="CalcHomePage.fxml" />
