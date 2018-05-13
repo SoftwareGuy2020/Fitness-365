@@ -10,10 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 
-/**
- * @author Travis
- *
- */
 public class HomePage extends VBox implements SceneNavigation {
 	private static final String HOMEPAGE_FXML_FILENAME = "HomePage.fxml";
 	
@@ -30,6 +26,7 @@ public class HomePage extends VBox implements SceneNavigation {
 	public void signOut() {
 		Login login = new Login();
 		mController.changeScene(login.getView(), false);
+		mController.setCurrentUser(null);
 	}
 
 	@Override
@@ -41,5 +38,15 @@ public class HomePage extends VBox implements SceneNavigation {
 			e.printStackTrace();
 		}
 		return new Scene(vb);		
+	}
+	
+	public void goToMyAccount()
+	{
+		// TODO Make MyAccount page. Add transition here for MyAccount Menu Item
+	}
+	
+	public void goToAboutPopUp()
+	{
+		// TODO Make About pop-up. Add transition here. 
 	}
 }

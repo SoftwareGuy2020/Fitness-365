@@ -26,11 +26,15 @@ public class ForgotPassword extends AnchorPane implements SceneNavigation {
 	private Controller mController;
 	private User mUser;
 	
+	
 	public ForgotPassword() {
 		mController = Controller.getInstance();
 		mUser = null;
 	}
 	
+	public void initialize() {
+		usernameTF.setFocusTraversable(false);
+	}
 	@FXML
 	private void getUser()
 	{

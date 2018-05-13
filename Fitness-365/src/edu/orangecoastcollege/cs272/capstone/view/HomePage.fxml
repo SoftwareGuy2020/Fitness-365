@@ -11,19 +11,15 @@
    <children>
       <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="User">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="myAccountMenuItem" mnemonicParsing="false" onAction="#goToMyAccount" text="My Account" />
+                  <MenuItem fx:id="signOutMenuItem" mnemonicParsing="false" onAction="#signOut" text="Sign Out" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" onAction="#goToAboutPopUp" text="About" />
             </items>
           </Menu>
         </menus>
