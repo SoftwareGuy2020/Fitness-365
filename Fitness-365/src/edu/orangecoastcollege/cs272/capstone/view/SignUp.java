@@ -87,7 +87,7 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 			return;
 		}
 
-		User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, 0.0, 0.0, 0.0, 0.0);
+		User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, 0.0, 0.0, 0.0, 0.0, 0);
 		mController.createNewUser(newUser, typedPW);
 		mController.setCurrentUser(username);
 		HomePage home = new HomePage();

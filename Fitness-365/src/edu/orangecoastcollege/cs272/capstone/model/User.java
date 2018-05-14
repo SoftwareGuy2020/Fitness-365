@@ -26,6 +26,7 @@ public class User {
 	private double mGoalWeight;
 	private double mCurrentWeight;
 	private double mWeeklyGoal;
+	private int mTDEE;
 		
 	
 	/**
@@ -45,7 +46,7 @@ public class User {
 	 */
 	public User(int id, String userName, String securityQ, String securityA, String name,
 			LocalDate birthDate, Sex sex, Units[] unitsOfChoice, int height, double startingWeight,
-			double goalWeight, double currentWeight, double weeklyGoal) {
+			double goalWeight, double currentWeight, double weeklyGoal, int tdee) {
 		this.mId = id;
 		this.mUserName = userName;
 		this.mSecurityQ = securityQ;
@@ -62,6 +63,7 @@ public class User {
 		this.mGoalWeight = goalWeight;
 		this.mCurrentWeight = currentWeight;
 		this.mWeeklyGoal = weeklyGoal;
+		this.mTDEE = tdee;
 	}
 
 
@@ -311,6 +313,26 @@ public class User {
 		
 	}
 	
+	
+	
+	/**
+	 * Gets the TDEE of User
+	 * @return the TDEE
+	 */
+	public int getTDEE() {
+		return this.mTDEE;
+	}
+
+
+	/**
+	 * Sets the TDEE of User
+	 * @param tDEE the TDEE to set
+	 */
+	public void setTDEE(int tdee) {
+		this.mTDEE = tdee;
+	}
+
+
 	public byte[] convertUnitsToByteArray() {
 		byte[] bArray = new byte[3];
 		byte zero = (byte) 0;

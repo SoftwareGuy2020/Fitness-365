@@ -6,6 +6,8 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
+import javafx.beans.binding.IntegerExpression;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -50,14 +52,41 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private Button addMealButton;
 	@FXML
 	private Button deleteMealButton;
+	private ObservableList<FoodDiaryEntry> entries;
 
 	
 	public void initialize() {
-		ObservableList<FoodDiaryEntry> entries = mController.getAllFoodDiaryEntries();		
+		entries = mController.getAllFoodDiaryEntries();		
 		breakfastTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Breakfast));
 		lunchTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Lunch));
 		dinnerTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Dinner));
 		snacksTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Snack));
+		
+		entries.addListener(new ListChangeListener<FoodDiaryEntry>() {
+
+			@Override
+			public void onChanged(Change<? extends FoodDiaryEntry> c) {
+				c.next();
+				if (c.wasAdded()) {
+					updateCalorieCounters(c.getAddedSubList().get(0).getMealCalories());
+				}				
+			}			
+		});
+		
+		int tdee = mController.getCurrentUser().getTDEE();
+		int consumedCalories = 0;
+		for (FoodDiaryEntry e : entries)
+			consumedCalories += e.getMealCalories();
+		calorieGoalTF.setText(Integer.toString(tdee));
+		calorieConsumedTF.setText(Integer.toString(consumedCalories));
+		calorieRemainingTF.setText(Integer.toString(tdee - consumedCalories));
+	}
+
+	protected void updateCalorieCounters(int mealCalories) {
+		int currentConsumed = Integer.parseInt(calorieConsumedTF.getText());
+		int caloriesRemaining = Integer.parseInt(calorieRemainingTF.getText());
+		calorieConsumedTF.setText(Integer.toString(currentConsumed + mealCalories));
+		calorieRemainingTF.setText(Integer.toString(caloriesRemaining - mealCalories));		
 	}
 
 	public FoodDiary() {
@@ -110,6 +139,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				break;
 			}
 			mController.addFoodDiaryEntry(entry);
+			
 		}
 		
 		} catch (IOException e) {

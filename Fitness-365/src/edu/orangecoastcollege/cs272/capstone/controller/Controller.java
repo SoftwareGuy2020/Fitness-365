@@ -35,7 +35,7 @@ public class Controller extends Application {
 												"favorite_meals", "sleep_log", "personal_bests", "pictures", "weight_progress"};
 	private static final String[][] FIELD_NAMES = {{"_id", "username", "password", "salt", "security_question",
 													"security_answer", "full_name", "birth_date", "sex", "units", "height",
-													"starting_weight", "goal_weight", "current_weight", "weekly_goals"},
+													"starting_weight", "goal_weight", "current_weight", "weekly_goals", "tdee"},
 												{"_id", "name", "muscle_group"},
 												{"_id", "user_id", "exercise_id", "weight", "reps", "date"},
 												{"_id", "meal_id", "num_servings", "category", "date", "user_id"},
@@ -45,9 +45,10 @@ public class Controller extends Application {
 												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
-												{"_id", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"}};
+												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"}};
 
-	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT", "INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL"},
+	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT",
+														"INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "TEXT", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "INTEGER", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "REAL", "TEXT", "TEXT", "INTEGER"},
@@ -57,7 +58,7 @@ public class Controller extends Application {
 													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "BLOB"},
-													{"INTEGER PRIMARY KEY", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"}};
+													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"}};
 
 	private static final String[][] FOREIGN_KEYS = {{}, {}, {"FOREIGN KEY(" + FIELD_NAMES[2][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
 															"FOREIGN KEY(" + FIELD_NAMES[2][2] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")"},
@@ -93,8 +94,6 @@ public class Controller extends Application {
 
 	@Override
 	public void init() throws Exception {
-
-
 		mInstance = this;
 		mDB = new DBModel(DB_NAME, TABLE_NAMES, FIELD_NAMES, FIELD_TYPES, FOREIGN_KEYS);
 
@@ -102,9 +101,9 @@ public class Controller extends Application {
 		if (mDB.getRecordCount(TABLE_NAMES[0]) == 0) {
 			byte[] salt = PasswordEncryption.generateSalt();
 			byte[] password = PasswordEncryption.getEncryptedPassword("password123", salt);
-			User user = new User(-1, "player1", "Favorite Color?", "Red", "John Smith", LocalDate.of(1991, 1, 11),
-			Sex.Male, new Units[] {Units.POUNDS, Units.INCHES, Units.MILES}, 72,
-									185.0, 205.0, 185.0, 1.0);
+			User user = new User( -1, "player1", "Favorite Color?", "Red", "John Smith",
+					LocalDate.of(1991, 1, 11), Sex.Male, new Units[] {Units.POUNDS, Units.INCHES, Units.MILES},
+					72, 185.0, 205.0, 185.0, 1.0, 2_871);
 			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
 					 user, password, salt);
 		}
@@ -134,7 +133,8 @@ public class Controller extends Application {
 					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(5), rs.getString(6),
 							rs.getString(7), LocalDate.parse(rs.getString(8)), Sex.parseInt(rs.getInt(9)),
 							Units.parse(rs.getBytes(10)),
-							rs.getInt(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14), rs.getDouble(15));
+							rs.getInt(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14),
+							rs.getDouble(15), rs.getInt(16));
 					return user;
 				}
 			} catch (SQLException e) {
@@ -174,7 +174,8 @@ public class Controller extends Application {
 		try {
 			byte[] salt = PasswordEncryption.generateSalt();
 			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(password, salt);
-			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length), user, hashedPassword, salt);
+			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
+					user, hashedPassword, salt);
 		}
 		catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
@@ -291,7 +292,7 @@ public class Controller extends Application {
 		ObservableList<FoodDiaryEntry> entries = FXCollections.observableArrayList();
 		
 		try {
-			ArrayList<Integer> mealIdNums = new ArrayList();
+			ArrayList<Integer> mealIdNums = new ArrayList<Integer>();
 			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[3], new String[] {FIELD_NAMES[3][5]},
 							new String[]{key});
 						

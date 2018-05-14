@@ -167,15 +167,15 @@ public class FoodDiaryEntry {
 	}
 
 	public double getMealFat() {
-		return this.mMeal.getFat();
+		return (int) (this.mMeal.getFat() * this.mNumServings);
 	}
 	
 	public double getMealCarbs() {
-		return this.mMeal.getCarbs();
+		return (int) (this.mMeal.getCarbs() * this.mNumServings);
 	}
 	
 	public double getMealProtein() {
-		return this.mMeal.getProtein();
+		return (int) (this.mMeal.getProtein() * this.mNumServings);
 	}
 	
 	/* (non-Javadoc)
