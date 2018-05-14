@@ -6,14 +6,17 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
+import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
+import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
 import edu.orangecoastcollege.cs272.capstone.model.Sex;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
-import edu.orangecoastcollege.cs272.capstone.view.FoodDiary;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -35,9 +38,9 @@ public class Controller extends Application {
 													"starting_weight", "goal_weight", "current_weight", "weekly_goals"},
 												{"_id", "name", "muscle_group"},
 												{"_id", "user_id", "exercise_id", "weight", "reps", "date"},
-												{"_id", "meal_id", "catagory", "date", "user_id"},
+												{"_id", "meal_id", "num_servings", "category", "date", "user_id"},
 												{"_id", "name", "user_id", "exercise_id"},
-												{"_id", "serving_size", "calories", "fat", "carbs", "protein"},
+												{"_id", "name", "serving_size", "calories", "fat", "carbs", "protein"},
 												{"_id", "meal_id", "user_id"},
 												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
@@ -47,9 +50,9 @@ public class Controller extends Application {
 	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT", "INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "TEXT", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "INTEGER", "TEXT"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "INTEGER"},
+													{"INTEGER PRIMARY KEY", "INTEGER", "REAL", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "TEXT", "INTEGER", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "REAL", "INTEGER", "REAL", "REAL", "REAL"},
+													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL"},
@@ -222,5 +225,102 @@ public class Controller extends Application {
 	public User getCurrentUser()
 	{
 		return mCurrentUser;
+	}
+
+
+	public int addMeal(Meal meal) {
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length);
+		String[] values = {meal.getName(), Double.toString(meal.getServingSize()),
+							Double.toString(meal.getCalories()), Double.toString(meal.getFat()),
+							Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
+		
+		try {
+			return mDB.createRecord(TABLE_NAMES[5], fields, values);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}		
+	}
+	
+	public Meal getMeal(int id) {
+		String key = Integer.toString(id);		
+		try {
+			ResultSet rs = mDB.getRecord(TABLE_NAMES[5], key);
+			if (rs.next()) {
+				return new Meal(rs.getInt(1), rs.getString(2), rs.getDouble(3),
+								rs.getInt(4), rs.getDouble(5), rs.getDouble(6),
+								rs.getDouble(7));
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();			
+		}
+		return null;
+	}
+	
+	public int addFoodDiaryEntry(FoodDiaryEntry entry) {
+		if (entry == null)
+			return -1;		
+		
+		try {			
+			Meal meal = entry.getMeal();
+			String[] mealValues = {meal.getName(), Double.toString(meal.getServingSize()), Integer.toString(meal.getCalories()),
+						Double.toString(meal.getFat()), Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
+			
+			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
+						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
+			
+			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
+			entry.getMeal().setId(key);
+			
+			
+			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
+						entry.getCategory().toString(), entry.getDate().toString(),
+						Integer.toString(mCurrentUser.getId())};
+		
+			return mDB.createRecord(TABLE_NAMES[3], Arrays.copyOfRange(FIELD_NAMES[3], 1, FIELD_NAMES[3].length), entryValues);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
+		String key = Integer.toString(mCurrentUser.getId());
+		ObservableList<FoodDiaryEntry> entries = FXCollections.observableArrayList();
+		
+		try {
+			ArrayList<Integer> mealIdNums = new ArrayList();
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[3], new String[] {FIELD_NAMES[3][5]},
+							new String[]{key});
+						
+			Meal meal;
+			int entryId;
+			double numServings;
+			Category category;
+			LocalDate date;
+			
+			while (rs.next()) {				
+				entryId = rs.getInt(1);
+				numServings = rs.getDouble(3);				
+				category = Category.valueOf(rs.getString(4));
+				date = LocalDate.parse(rs.getString(5));
+				mealIdNums.add(rs.getInt(2));
+				entries.add(new FoodDiaryEntry(entryId, null, numServings, category, date, mCurrentUser.getId()));				
+			}
+			// The second for loop and the arraylist mealIdNums is to handle the fact
+			// that only one resultset can exist per sqlite statement object.
+			// executing a new statement overwrites the previous data in resultset.		
+			for (int i = 0; i < mealIdNums.size(); ++i) {
+				meal = getMeal(mealIdNums.get(i));
+				entries.get(i).setMeal(meal);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return entries;
 	}
 }

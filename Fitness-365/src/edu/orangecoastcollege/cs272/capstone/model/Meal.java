@@ -9,8 +9,7 @@ package edu.orangecoastcollege.cs272.capstone.model;
 public class Meal {
 	private int mId;
 	private String mName;
-	private double mServingSize;
-	private double mServings;
+	private double mServingSize;	
 	private int calories;
 	private double fat;
 	private double carbs;
@@ -24,12 +23,11 @@ public class Meal {
 	 * @param carbs
 	 * @param protein
 	 */
-	public Meal(int id, String name, double servingSize, double servings, int calories, double fat, double carbs,
+	public Meal(int id, String name, double servingSize, int calories, double fat, double carbs,
 			double protein) {
 		this.mId = id;
 		this.mName = name;
-		this.mServingSize = servingSize;
-		this.mServings = servings;
+		this.mServingSize = servingSize;		
 		this.calories = calories;
 		this.fat = fat;
 		this.carbs = carbs;
@@ -43,12 +41,11 @@ public class Meal {
 	 * @param carbs
 	 * @param protein
 	 */
-	public Meal(String name, double servingSize, double servings, int calories, double fat, double carbs,
+	public Meal(String name, double servingSize, int calories, double fat, double carbs,
 			double protein) {
 		this.mId = -1;
 		this.mName = name;
-		this.mServingSize = servingSize;
-		this.mServings = servings;
+		this.mServingSize = servingSize;		
 		this.calories = calories;
 		this.fat = fat;
 		this.carbs = carbs;
@@ -111,26 +108,7 @@ public class Meal {
 	public void setServingSize(double servingSize) {
 		this.mServingSize = servingSize;
 	}
-
-	/**
-	 * Gets the servings of Meal
-	 * 
-	 * @return the servings
-	 */
-	public double getServings() {
-		return this.mServings;
-	}
-
-	/**
-	 * Sets the servings of Meal
-	 * 
-	 * @param servings
-	 *            the servings to set
-	 */
-	public void setServings(double servings) {
-		this.mServings = servings;
-	}
-
+	
 	/**
 	 * Gets the calories of Meal
 	 * 

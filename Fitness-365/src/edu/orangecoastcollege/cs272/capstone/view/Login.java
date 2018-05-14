@@ -139,6 +139,7 @@ public class Login extends AnchorPane implements SceneNavigation {
 	@FXML	
 	private void test_bypassLogin() {
 		HomePage homePage = new HomePage();
+		mController.setCurrentUser("player1");
 		mController.changeScene(homePage.getView(), true);
 	}
 }

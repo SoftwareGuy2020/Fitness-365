@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import edu.orangecoastcollege.cs272.capstone.model.Category?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -11,17 +12,21 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: gainsboro;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodDiary">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: gainsboro;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.AddMealForm">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints />
+    <ColumnConstraints maxWidth="-Infinity" prefWidth="20.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
+    <RowConstraints />
     <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
@@ -30,31 +35,34 @@
       <RowConstraints maxHeight="-Infinity" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <ComboBox fx:id="mealCatagoryCB" prefWidth="150.0" GridPane.columnIndex="1">
+      <ComboBox fx:id="mealCategoryCB" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
       	<items>
       		<FXCollections fx:factory="observableArrayList">
-	      		<String fx:value="Breakfast" />
-	      		<String fx:value="Lunch" />
-	      		<String fx:value="Dinner" />
-	      		<String fx:value="Snack" />
+	      		<Category fx:value="Breakfast" />
+	      		<Category fx:value="Lunch" />
+	      		<Category fx:value="Dinner" />
+	      		<Category fx:value="Snack" />
       		</FXCollections>
       	</items>
+      	<value>
+      		<Category fx:value="Breakfast" />
+      	</value>
       </ComboBox>
-      <TextField fx:id="descriptionTF" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-      <TextField fx:id="servingSizeTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="servingsTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextField fx:id="caloriesTF" layoutX="110.0" layoutY="278.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <TextField fx:id="fatTF" layoutX="110.0" layoutY="358.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <TextField fx:id="carbsTF" layoutX="110.0" layoutY="312.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <TextField fx:id="proteinTF" layoutX="110.0" layoutY="323.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Label text="Description" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Label layoutX="30.0" layoutY="122.0" text="Serving Size" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <Label layoutX="10.0" layoutY="202.0" text="# of Servings" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Label layoutX="10.0" layoutY="282.0" text="Calories" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-      <Label layoutX="39.0" layoutY="303.0" text="Fat" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-      <Label layoutX="52.0" layoutY="369.0" text="Carbohydrates" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <Label layoutX="21.0" layoutY="373.0" text="Protein" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnSpan="3" GridPane.rowIndex="8">
+      <TextField fx:id="descriptionTF" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <TextField fx:id="servingSizeTF" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+      <TextField fx:id="servingsTF" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <TextField fx:id="caloriesTF" layoutX="110.0" layoutY="278.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+      <TextField fx:id="fatTF" layoutX="110.0" layoutY="358.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+      <TextField fx:id="carbsTF" layoutX="110.0" layoutY="312.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+      <TextField fx:id="proteinTF" layoutX="110.0" layoutY="323.0" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+      <Label text="Description" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <Label layoutX="30.0" layoutY="122.0" text="Serving Size" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Label layoutX="10.0" layoutY="202.0" text="# of Servings" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Label layoutX="10.0" layoutY="282.0" text="Calories" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+      <Label layoutX="39.0" layoutY="303.0" text="Fat" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+      <Label layoutX="52.0" layoutY="369.0" text="Carbohydrates" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+      <Label layoutX="21.0" layoutY="373.0" text="Protein" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="9">
          <children>
             <Button fx:id="okButton" mnemonicParsing="false" onAction="#submitAddMealForm" text="OK">
                <HBox.margin>
@@ -68,6 +76,49 @@
             </Button>
          </children>
       </HBox>
+      <Label fx:id="descriptionError" focusTraversable="false" text="*" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="categoryError" focusTraversable="false" layoutX="15.0" layoutY="92.0" text="*" textFill="RED" visible="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <padding>
+            <Insets right="5.0" />
+         </padding>
+      </Label>
+      <Label fx:id="servingSizeError" focusTraversable="false" layoutX="23.0" layoutY="57.0" text="*" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="servingsError" focusTraversable="false" layoutX="15.0" layoutY="127.0" text="*" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="fatError" focusTraversable="false" layoutX="15.0" layoutY="197.0" text="*" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="carbsError" focusTraversable="false" layoutX="15.0" layoutY="232.0" text="*" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="proteinError" focusTraversable="false" layoutX="15.0" layoutY="267.0" text="*" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="addMealErrorLabel" focusTraversable="false" text="Please fill out all required fields" textFill="RED" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="5.0" />
+         </GridPane.margin>
+      </Label>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
