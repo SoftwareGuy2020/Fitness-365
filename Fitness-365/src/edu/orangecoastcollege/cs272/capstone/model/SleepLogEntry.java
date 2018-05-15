@@ -1,6 +1,9 @@
 package edu.orangecoastcollege.cs272.capstone.model;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class SleepLogEntry {
 	
@@ -62,6 +65,16 @@ public class SleepLogEntry {
 	public LocalTime getWakeTime() {
 		return mWakeTime;
 	}
+	public String getFormatedWakeTime()
+	{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+		return mWakeTime.format(formatter);
+	}
+	public String getFormatedSleepTime()
+	{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+		return mSleepTime.format(formatter);
+	}
 	/**
 	 * @param wakeTime the wakeTime to set
 	 */
@@ -79,6 +92,11 @@ public class SleepLogEntry {
 	 */
 	public void setNumOfInterruptions(int numOfInterruptions) {
 		this.numOfInterruptions = numOfInterruptions;
+	}
+	public double getHoursAsleep()
+	{
+		double hours = Math.abs((double) (MINUTES.between(getSleepTime(), getWakeTime()))/60.0);
+		return hours;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

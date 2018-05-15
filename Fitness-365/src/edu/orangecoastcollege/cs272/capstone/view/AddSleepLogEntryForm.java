@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import jfxtras.scene.control.LocalDatePicker;
 import jfxtras.scene.control.LocalTimePicker;
+import jfxtras.scene.control.LocalDatePicker.Mode;
 
 public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 
@@ -33,8 +35,17 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 	
 	private Controller mController;
 	
+	private SleepLogEntry mEntry;
+	
 	public void initialize() {
 		mController = Controller.getInstance();
+		datePicker.setMode(Mode.SINGLE);
+		datePicker.setLocalDate(LocalDate.now());
+	}
+	
+	public SleepLogEntry getEntry()
+	{
+		return mEntry;
 	}
 	@Override
 	public Scene getView() {
@@ -49,7 +60,7 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 	}
 	
 	@FXML
-	private void addSleepLogEntry()
+	private void addSleepLogEntry(ActionEvent e)
 	{
 		LocalTime sleepTime, wakeTime;
 		LocalDate date;
@@ -60,7 +71,7 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 			numOfInterruptions = Integer.valueOf(numInterruptionsTF.getText());
 			if (numOfInterruptions < 0) 
 				throw new NumberFormatException();
-		} catch (NumberFormatException e)
+		} catch (NumberFormatException e1)
 		{
 			invalidNumberErrorLabel.setVisible(true);
 			return;
@@ -71,9 +82,11 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 		wakeTime = wakeTimePicker.getLocalTime();
 		date = datePicker.getLocalDate();
 		
-		SleepLogEntry entry = new SleepLogEntry(date, sleepTime, wakeTime, numOfInterruptions);
+		mEntry = new SleepLogEntry(date, sleepTime, wakeTime, numOfInterruptions);
 		
-		entry.setID(mController.addSleepLogEntry(entry));
+		mEntry.setID(mController.addSleepLogEntry(mEntry));
+		((Button) e.getSource()).getScene().getWindow().hide();
+		
 		
 	}
 	

@@ -343,6 +343,16 @@ public class Controller extends Application {
 			return -1;
 		}
 	}
+	public void deleteSleepLogEntry(SleepLogEntry entry)
+	{
+		String key = String.valueOf(entry.getID());
+		try {
+			mDB.deleteRecord(TABLE_NAMES[7], key);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
 	{
