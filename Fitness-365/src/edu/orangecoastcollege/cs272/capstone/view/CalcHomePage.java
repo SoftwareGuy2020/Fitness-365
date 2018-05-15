@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
-import javafx.event.ActionEvent;
 
 public class CalcHomePage implements SceneNavigation{
 
@@ -23,11 +22,11 @@ public class CalcHomePage implements SceneNavigation{
 	{
 		BMICalc obj = new BMICalc();
 
-		mController.changeScene(obj.getView(), true);
+		mController.changeScene(obj.getView(), false);
 	}
 	// Event Listener on Button.onAction
 	@FXML
-	public void goToBMRScene(ActionEvent event)
+	public void goToBMRScene()
 	{
 		TDEECalc calc = new TDEECalc();
 		mController.changeScene(calc.getView(), false);
@@ -35,11 +34,20 @@ public class CalcHomePage implements SceneNavigation{
 	// Event Listener on Button.onAction
 
 	@FXML
-	public void goToHomeScene(ActionEvent event)
+	public void goToHomeScene()
 	{
 		HomePage page = new HomePage();
 		mController.changeScene(page.getView(), true);
 	}
+	
+
+	@FXML
+	public void goToBodyFatScene()
+	{
+		BodyFatCalc page = new BodyFatCalc();
+		mController.changeScene(page.getView(), false);
+	}
+	
 	@Override
 	public Scene getView()
 	{
