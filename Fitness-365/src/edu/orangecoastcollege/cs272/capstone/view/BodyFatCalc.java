@@ -105,7 +105,7 @@ public class BodyFatCalc implements SceneNavigation{
 			
 			
 			bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean) 
-					/ ( Double.parseDouble(weightTF.getText())) * 100)).toString() + " %");
+					/ ( Double.parseDouble(weightTF.getText())) * 100)).toString() + " % ");
 		}
 		else
 		{
