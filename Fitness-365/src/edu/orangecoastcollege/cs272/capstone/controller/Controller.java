@@ -6,6 +6,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,6 +16,7 @@ import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
 import edu.orangecoastcollege.cs272.capstone.model.Sex;
+import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
@@ -42,7 +44,7 @@ public class Controller extends Application {
 												{"_id", "name", "user_id", "exercise_id"},
 												{"_id", "name", "serving_size", "calories", "fat", "carbs", "protein"},
 												{"_id", "meal_id", "user_id"},
-												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
+								/*7*/			{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
 												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"}};
@@ -322,6 +324,54 @@ public class Controller extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return entries;
+	}
+	
+	public int addSleepLogEntry(SleepLogEntry entry)
+	{
+		if (entry == null)
+			return -1;	
+		
+		try {			
+			String[] entryValues = {Integer.toString(mCurrentUser.getId()), entry.getDate().toString()
+					, entry.getSleepTime().toString(), entry.getWakeTime().toString(), Integer.toString(entry.getNumOfInterruptions())};
+			
+			return mDB.createRecord(TABLE_NAMES[7],Arrays.copyOfRange(FIELD_NAMES[7], 1, FIELD_NAMES[7].length), entryValues);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
+	{
+		String key = Integer.toString(mCurrentUser.getId());
+		ObservableList<SleepLogEntry> entries = FXCollections.observableArrayList();
+		
+		try {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[7], new String[] {FIELD_NAMES[7][1]}, new String[] {key});
+			
+			LocalDate date;
+			LocalTime bedTime, wakeTime;
+			int entryId, numOfInterruptions;
+			
+			while (rs.next())
+			{
+				entryId = rs.getInt(1);
+				date = LocalDate.parse(rs.getString(3));
+				bedTime = LocalTime.parse(rs.getString(4));
+				wakeTime = LocalTime.parse(rs.getString(5));
+				numOfInterruptions = rs.getInt(6);
+				entries.add(new SleepLogEntry(entryId, date, bedTime, wakeTime, numOfInterruptions));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return entries;
 	}
 }

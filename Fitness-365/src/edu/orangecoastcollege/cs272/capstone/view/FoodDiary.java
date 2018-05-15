@@ -52,6 +52,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private Button addMealButton;
 	@FXML
 	private Button deleteMealButton;
+	
 	private ObservableList<FoodDiaryEntry> entries;
 
 	

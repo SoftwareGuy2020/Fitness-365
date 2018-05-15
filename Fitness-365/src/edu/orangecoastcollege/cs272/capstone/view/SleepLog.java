@@ -4,15 +4,21 @@ import java.io.IOException;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
+import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class SleepLog implements SceneNavigation {
 
@@ -21,11 +27,13 @@ public class SleepLog implements SceneNavigation {
 	@FXML
 	private ProgressIndicator lastEntryPI, averagePI;
 	@FXML
-	private Button addNewEntryButton, deleteEntryButton, editEntryButton;
+	private Button addNewEntryButton, deleteEntryButton;
 	@FXML
 	private Text sleepHoursByAgeText;
 	@FXML
-	private TableView sleepLogTV;
+	private Label noSelectedEntryLabel;
+	@FXML
+	private TableView<SleepLogEntry> sleepLogTV;
 	
 	private Controller mController;
 	private User mUser;
@@ -33,6 +41,9 @@ public class SleepLog implements SceneNavigation {
 	public void initialize() 
 	{
 		mUser = mController.getCurrentUser();
+		
+		sleepLogTV.setItems(mController.getAllSleepLogEntries());
+		
 		if (mUser != null)
 		{
 			int userAge = mUser.getAge();
@@ -75,7 +86,35 @@ public class SleepLog implements SceneNavigation {
 			return null;
 		}
 	}
-	// TODO Button methods for creating, editing, and deleting entries
-	
+	// TODO Button methods for creating and deleting entries
+	@FXML
+	private void addNewEntry()
+	{
+		try
+		{
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("addSleepLogEntryForm.fxml"));		
+		Pane pane = loader.load();
+				
+		stage.setScene(new Scene(pane));
+		stage.initStyle(StageStyle.UTILITY);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setResizable(false);
+		stage.showAndWait();
+		
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+	}
+	@FXML
+	private void deleteSelectedEntry()
+	{
+
+	}
+
 
 }
