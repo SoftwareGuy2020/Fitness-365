@@ -262,19 +262,20 @@ public class Meal {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Meal [mId=");
-		builder.append(this.mId);
-		builder.append(", mServingSize=");
-		builder.append(this.mServingSize);
-		builder.append(", calories=");
+		
+		builder.append("Name = ");
+		builder.append(this.mName);
+		builder.append(", Group = ");
+		builder.append(this.group);
+		builder.append(", Calories = ");
 		builder.append(this.calories);
-		builder.append(", fat=");
+		builder.append(", Fat = ");
 		builder.append(this.fat);
-		builder.append(", carbs=");
+		builder.append(", Carbs = ");
 		builder.append(this.carbs);
-		builder.append(", protein=");
+		builder.append(", Protein = ");
 		builder.append(this.protein);
-		builder.append("]");
+		
 		return builder.toString();
 	}
 }

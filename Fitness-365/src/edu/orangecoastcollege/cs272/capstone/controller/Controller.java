@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
@@ -93,54 +94,6 @@ public class Controller extends Application {
 	private static final String MEALS_DATA_FILE = "nutrients.csv";
 
 	public Controller() {}
-
-	public ObservableList<Meal> getAllMeals()
-	{
-	    return mInstance.mAllMealsList;
-	}
-
-	private int populatingMealTable()
-	{
-	    int recordsCreated = 0;
-
-        try {
-            Scanner fileScanner = new Scanner(new File(MEALS_DATA_FILE));
-            // First read is for headings:
-            fileScanner.nextLine();
-            // All subsequent reads are for user data
-            while (fileScanner.hasNextLine()) {
-                String[] data = fileScanner.nextLine().split(",");
-
-                String[] values = new String[FIELD_NAMES[5].length - 1];
-                //"name", "group", "serving_size", "calories", "fat", "carbs", "protein"
-                values[0] = data[0];
-                values[1] = data[1];
-                values[2] = "1";
-                values[3] = (!data[12].isEmpty()) ? data[12] : "0";
-                values[4] = (!data[10].isEmpty()) ? data[10] : "0";
-                values[5] = (!data[8].isEmpty()) ? data[8] : "0";
-                values[6] = (!data[2].isEmpty()) ? data[2] : "0";
-
-                try
-                {
-                    mInstance.mDB.createRecord(TABLE_NAMES[5], Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), values);
-                }
-                catch (SQLException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                //String table, String[] fields, String[] values
-                recordsCreated++;
-            }
-
-            // All done with the CSV file, close the connection
-            fileScanner.close();
-        } catch (FileNotFoundException e) {
-            return 0;
-        }
-        return recordsCreated;
-	}
 
 	public static Controller getInstance() {
 		if (mInstance == null)
@@ -472,4 +425,101 @@ public class Controller extends Application {
 
 		return entries;
 	}
+	
+
+	private int populatingMealTable()
+	{
+	    int recordsCreated = 0;
+
+        try {
+            Scanner fileScanner = new Scanner(new File(MEALS_DATA_FILE));
+            // First read is for headings:
+            fileScanner.nextLine();
+            // All subsequent reads are for user data
+            while (fileScanner.hasNextLine()) {
+                String[] data = fileScanner.nextLine().split(",");
+
+                String[] values = new String[FIELD_NAMES[5].length - 1];
+                //"name", "group", "serving_size", "calories", "fat", "carbs", "protein"
+                values[0] = data[0];
+                values[1] = data[1];
+                values[2] = "1";
+                values[3] = (!data[12].isEmpty()) ? data[12] : "-";
+                values[4] = (!data[10].isEmpty()) ? data[10] : "-";
+                values[5] = (!data[8].isEmpty()) ? data[8] : "-";
+                values[6] = (!data[2].isEmpty()) ? data[2] : "-";
+
+                try
+                {
+                    mInstance.mDB.createRecord(TABLE_NAMES[5], Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), values);
+                }
+                catch (SQLException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                //String table, String[] fields, String[] values
+                recordsCreated++;
+            }
+
+            // All done with the CSV file, close the connection
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            return 0;
+        }
+        return recordsCreated;
+	}
+	
+	/**
+     * Filters on a criteria
+     * 
+     * @param crit
+     * @return
+     */
+	public ObservableList<Meal> filter(Predicate<Meal> crit)
+    {
+		ObservableList<Meal> filtered = FXCollections.observableArrayList();
+
+        for(Meal m : mInstance.mAllMealsList)
+        {
+            if(crit.test(m))
+            {
+            	filtered.add(m);
+            }
+        }
+        return filtered;
+    }
+	 
+	/**
+	 * Returns all meals
+	 * 
+	 * @return
+	 */
+	public ObservableList<Meal> getAllMeals()
+	{
+	    return mInstance.mAllMealsList;
+	}
+	
+	
+	/**
+     * Returns food group of meal
+     * 
+     * @return
+     */
+    public ObservableList<String> getFoodGroups()
+    {
+        ObservableList<String> c = FXCollections.observableArrayList();
+        c.add(" ");
+        
+        for(Meal m : mAllMealsList)
+        {
+            if(!c.contains(m.getGroup()))
+            {
+                c.add(m.getGroup());
+            }
+        }
+                
+        FXCollections.sort(c);
+        return c;
+    }
 }
