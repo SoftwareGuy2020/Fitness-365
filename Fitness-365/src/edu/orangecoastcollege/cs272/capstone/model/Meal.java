@@ -2,18 +2,19 @@ package edu.orangecoastcollege.cs272.capstone.model;
 
 /**
  * Represents a food entry in the food diary
- * 
+ *
  * @author Travis
  *
  */
 public class Meal {
 	private int mId;
 	private String mName;
-	private double mServingSize;	
+	private double mServingSize;
 	private int calories;
 	private double fat;
 	private double carbs;
 	private double protein;
+	private String group;
 
 	/**
 	 * @param id
@@ -24,14 +25,15 @@ public class Meal {
 	 * @param protein
 	 */
 	public Meal(int id, String name, double servingSize, int calories, double fat, double carbs,
-			double protein) {
+			double protein, String group) {
 		this.mId = id;
 		this.mName = name;
-		this.mServingSize = servingSize;		
+		this.mServingSize = servingSize;
 		this.calories = calories;
 		this.fat = fat;
 		this.carbs = carbs;
 		this.protein = protein;
+		this.group = group;
 	}
 
 	/**
@@ -42,19 +44,20 @@ public class Meal {
 	 * @param protein
 	 */
 	public Meal(String name, double servingSize, int calories, double fat, double carbs,
-			double protein) {
+			double protein, String group) {
 		this.mId = -1;
 		this.mName = name;
-		this.mServingSize = servingSize;		
+		this.mServingSize = servingSize;
 		this.calories = calories;
 		this.fat = fat;
 		this.carbs = carbs;
 		this.protein = protein;
+		this.group = group;
 	}
 
 	/**
 	 * Gets the id of Meal
-	 * 
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -63,7 +66,7 @@ public class Meal {
 
 	/**
 	 * Sets the id of Meal
-	 * 
+	 *
 	 * @param id
 	 *            the id to set
 	 */
@@ -73,7 +76,7 @@ public class Meal {
 
 	/**
 	 * Gets the name of Meal
-	 * 
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -82,7 +85,7 @@ public class Meal {
 
 	/**
 	 * Sets the name of Meal
-	 * 
+	 *
 	 * @param name
 	 *            the name to set
 	 */
@@ -92,7 +95,7 @@ public class Meal {
 
 	/**
 	 * Gets the servingSize of Meal
-	 * 
+	 *
 	 * @return the servingSize
 	 */
 	public double getServingSize() {
@@ -101,17 +104,17 @@ public class Meal {
 
 	/**
 	 * Sets the servingSize of Meal
-	 * 
+	 *
 	 * @param servingSize
 	 *            the servingSize to set
 	 */
 	public void setServingSize(double servingSize) {
 		this.mServingSize = servingSize;
 	}
-	
+
 	/**
 	 * Gets the calories of Meal
-	 * 
+	 *
 	 * @return the calories
 	 */
 	public int getCalories() {
@@ -120,7 +123,7 @@ public class Meal {
 
 	/**
 	 * Sets the calories of Meal
-	 * 
+	 *
 	 * @param calories
 	 *            the calories to set
 	 */
@@ -130,7 +133,7 @@ public class Meal {
 
 	/**
 	 * Gets the fat of Meal
-	 * 
+	 *
 	 * @return the fat
 	 */
 	public double getFat() {
@@ -139,7 +142,7 @@ public class Meal {
 
 	/**
 	 * Sets the fat of Meal
-	 * 
+	 *
 	 * @param fat
 	 *            the fat to set
 	 */
@@ -149,7 +152,7 @@ public class Meal {
 
 	/**
 	 * Gets the carbs of Meal
-	 * 
+	 *
 	 * @return the carbs
 	 */
 	public double getCarbs() {
@@ -158,7 +161,7 @@ public class Meal {
 
 	/**
 	 * Sets the carbs of Meal
-	 * 
+	 *
 	 * @param carbs
 	 *            the carbs to set
 	 */
@@ -167,27 +170,41 @@ public class Meal {
 	}
 
 	/**
-	 * Gets the protein of Meal
-	 * 
-	 * @return the protein
+	 * Gets the group of Meal
+	 *
+	 * @return the group
 	 */
-	public double getProtein() {
-		return this.protein;
+	public String getGroup() {
+		return this.group;
 	}
 
 	/**
-	 * Sets the protein of Meal
-	 * 
-	 * @param protein
-	 *            the protein to set
+	 * Sets the group of Meal
+	 *
+	 * @param group
+	 *            the group to set
 	 */
-	public void setProtein(double protein) {
-		this.protein = protein;
+	public void setGroup(String group) {
+		this.group = group;
 	}
+
+	public double getProtein() {
+        return this.protein;
+    }
+
+    /**
+     * Sets the protein of Meal
+     *
+     * @param protein
+     *            the protein to set
+     */
+    public void setProtein(double protein) {
+        this.protein = protein;
+    }
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -210,7 +227,7 @@ public class Meal {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -239,7 +256,7 @@ public class Meal {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

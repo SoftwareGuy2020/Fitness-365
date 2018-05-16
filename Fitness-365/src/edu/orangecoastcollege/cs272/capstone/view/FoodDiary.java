@@ -6,7 +6,12 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
+<<<<<<< HEAD
 import javafx.beans.property.SimpleDoubleProperty;
+=======
+import javafx.beans.binding.IntegerExpression;
+import javafx.beans.property.DoubleProperty;
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -29,9 +34,9 @@ import jfxtras.scene.control.CalendarPicker;
 public class FoodDiary extends VBox implements SceneNavigation {
 
 	private static final String FXML_FILE_NAME = "food_diary.fxml";
-		
+
 	private Controller mController;
-	
+
 	@FXML
 	private PieChart macroPieChart;
 	@FXML
@@ -54,7 +59,12 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private Button addMealButton;
 	@FXML
 	private Button deleteMealButton;
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
 	private ObservableList<FoodDiaryEntry> entries;
+<<<<<<< HEAD
 	
 	public void initialize() {
 		entries = mController.getAllFoodDiaryEntries();		
@@ -69,7 +79,11 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		macroPieChart.setData(data);		
 		
 		entries.addListener(new ListChangeListener<FoodDiaryEntry>() {
+=======
 
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
+
+<<<<<<< HEAD
 			@Override
 			public void onChanged(Change<? extends FoodDiaryEntry> c) {
 				c.next();
@@ -89,6 +103,61 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		calorieConsumedTF.setText(Integer.toString(consumedCalories));
 		calorieRemainingTF.setText(Integer.toString(tdee - consumedCalories));
 	}
+=======
+	public void initialize() {
+        entries = mController.getAllFoodDiaryEntries();
+        breakfastTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Breakfast));
+        lunchTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Lunch));
+        dinnerTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Dinner));
+        snacksTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Snack));
+
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+        data.addAll(new PieChart.Data("Protein", 0.0), new PieChart.Data("Fat", 0.0),
+                new PieChart.Data("Carbs", 0.0));
+        macroPieChart.setData(data);
+        entries.forEach(e -> updateMacros(e));
+
+        entries.addListener(new ListChangeListener<FoodDiaryEntry>() {
+
+            @Override
+            public void onChanged(Change<? extends FoodDiaryEntry> c) {
+                c.next();
+                if (c.wasAdded()) {
+                    FoodDiaryEntry entry = c.getAddedSubList().get(0);
+                    updateCalorieCounters(entry.getMealCalories());
+                    updateMacros(entry);
+                }
+            }
+        });
+
+        int tdee = mController.getCurrentUser().getTDEE();
+        int consumedCalories = 0;
+        for (FoodDiaryEntry e : entries)
+            consumedCalories += e.getMealCalories();
+        calorieGoalTF.setText(Integer.toString(tdee));
+        calorieConsumedTF.setText(Integer.toString(consumedCalories));
+        calorieRemainingTF.setText(Integer.toString(tdee - consumedCalories));
+    }
+
+    protected void updateMacros(FoodDiaryEntry entry) {
+        macroPieChart.getData().forEach(e -> {
+            String name = e.getName();
+            DoubleProperty value;
+            if (name.equals("Protein")) {
+                value = e.pieValueProperty();
+                value.set(value.get() + entry.getMealProtein());
+            }
+            else if (name.equals("Fat")) {
+                value = e.pieValueProperty();
+                value.set(value.get() + entry.getMealFat());
+            }
+            else if (name.equals("Carbs")) {
+                value = e.pieValueProperty();
+                value.set(value.get() + entry.getMealCarbs());
+            }
+        });
+    }
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
 
 	protected void updateMacros(FoodDiaryEntry newEntry) {
 		double protein = newEntry.getMealProtein(),
@@ -107,7 +176,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		int currentConsumed = Integer.parseInt(calorieConsumedTF.getText());
 		int caloriesRemaining = Integer.parseInt(calorieRemainingTF.getText());
 		calorieConsumedTF.setText(Integer.toString(currentConsumed + mealCalories));
-		calorieRemainingTF.setText(Integer.toString(caloriesRemaining - mealCalories));		
+		calorieRemainingTF.setText(Integer.toString(caloriesRemaining - mealCalories));
 	}
 
 	public FoodDiary() {
@@ -132,22 +201,22 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		try {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("addMealForm.fxml"));		
+		loader.setLocation(getClass().getResource("addMealForm.fxml"));
 		Pane pane = loader.load();
-				
+
 		AddMealForm form = loader.getController();
 		stage.setScene(new Scene(pane));
 		stage.initStyle(StageStyle.UTILITY);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setResizable(false);
 		stage.showAndWait();
-		
+
 		FoodDiaryEntry entry = form.getEntry();
-		
-		if (entry != null) {			
+
+		if (entry != null) {
 			switch (entry.getCategory()) {
 			case Breakfast:
-				((FilteredList) breakfastTableView.getItems()).getSource().add(entry);				
+				((FilteredList) breakfastTableView.getItems()).getSource().add(entry);
 				break;
 			case Lunch:
 				((FilteredList) lunchTableView.getItems()).getSource().add(entry);
@@ -160,9 +229,9 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				break;
 			}
 			mController.addFoodDiaryEntry(entry);
-			
+
 		}
-		
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

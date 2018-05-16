@@ -53,6 +53,7 @@ public class DBModel implements AutoCloseable {
 				}
 			}
 			createSQL.append(")");
+
 			mStmt.executeUpdate(createSQL.toString());
 		}
 	}
@@ -76,20 +77,20 @@ public class DBModel implements AutoCloseable {
 		String selectSQL = "SELECT * FROM " + mTableNames[tableIdx];
 		return mStmt.executeQuery(selectSQL);
 	}
-	
+
 	public ResultSet getAllRecordsMatch(String table, String[] fields, String[] values) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1 || fields.length != values.length)
 			return null;
 
 		StringBuilder selectSQL = new StringBuilder("SELECT * FROM ");
-		selectSQL.append(mTableNames[tableIdx]).append(" WHERE ");		
+		selectSQL.append(mTableNames[tableIdx]).append(" WHERE ");
 		for (int i = 0; i < fields.length - 1; ++i) {
 			selectSQL.append(fields[i]).append("=")
-			.append(convertToSQLText(tableIdx, fields[i], values[i])).append(" AND ");		
+			.append(convertToSQLText(tableIdx, fields[i], values[i])).append(" AND ");
 		}
 		selectSQL.append(fields[fields.length - 1]).append("=").append(values[fields.length - 1]);
-		
+
 		return mStmt.executeQuery(selectSQL.toString());
 	}
 
@@ -101,7 +102,7 @@ public class DBModel implements AutoCloseable {
 		String singleRecord = "SELECT * FROM " + mTableNames[tableIdx] + " WHERE " + mFieldNames[tableIdx][0] + "=" + key;
 		return mStmt.executeQuery(singleRecord);
 	}
-	
+
 	public ResultSet getRecordMatch(String table, String[] fields, String[] values) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1 || fields.length != values.length)
@@ -109,13 +110,13 @@ public class DBModel implements AutoCloseable {
 
 		StringBuilder selectSQL = new StringBuilder("SELECT * FROM ");
 		selectSQL.append(mTableNames[tableIdx]).append(" WHERE ");
-		
+
 		for (int i = 0; i < fields.length - 1; ++i) {
 			selectSQL.append(fields[i]).append("=")
-			.append(convertToSQLText(tableIdx, fields[i], values[i])).append(" AND ");		
+			.append(convertToSQLText(tableIdx, fields[i], values[i])).append(" AND ");
 		}
 		selectSQL.append(fields[fields.length - 1]).append("=").append(values[fields.length - 1]);
-		
+
 		return mStmt.executeQuery(selectSQL.toString());
 	}
 

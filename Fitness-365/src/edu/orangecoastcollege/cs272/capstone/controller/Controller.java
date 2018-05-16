@@ -1,6 +1,8 @@
 package edu.orangecoastcollege.cs272.capstone.controller;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
@@ -42,12 +45,13 @@ public class Controller extends Application {
 												{"_id", "user_id", "exercise_id", "weight", "reps", "date"},
 												{"_id", "meal_id", "num_servings", "category", "date", "user_id"},
 												{"_id", "name", "user_id", "exercise_id"},
-												{"_id", "name", "serving_size", "calories", "fat", "carbs", "protein"},
+												{"_id", "name", "food_group", "serving_size", "calories", "fat", "carbs", "protein"},
 												{"_id", "meal_id", "user_id"},
 								/*7*/			{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
-												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"}};
+												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"},
+												};
 
 	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT",
 														"INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL", "INTEGER"},
@@ -55,12 +59,13 @@ public class Controller extends Application {
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "INTEGER", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "REAL", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "TEXT", "INTEGER", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "REAL", "REAL", "REAL"},
+													{"INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER", "REAL", "REAL", "REAL", "TEXT"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "BLOB"},
-													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"}};
+													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"},
+													};
 
 	private static final String[][] FOREIGN_KEYS = {{}, {}, {"FOREIGN KEY(" + FIELD_NAMES[2][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
 															"FOREIGN KEY(" + FIELD_NAMES[2][2] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")"},
@@ -75,20 +80,73 @@ public class Controller extends Application {
 													{"FOREIGN KEY(" + FIELD_NAMES[8][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[9][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",
-														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"}};
+														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
+													};
 
 	private static Controller mInstance;
 	private DBModel mDB;
 	private Stage mMainStage;
-    
+
 	private User mCurrentUser;
+	private ObservableList<Meal> mAllMealsList;
+
+	private static final String MEALS_DATA_FILE = "nutrients.csv";
 
 	public Controller() {}
 
+	public ObservableList<Meal> getAllMeals()
+	{
+	    return mInstance.mAllMealsList;
+	}
+
+	private int populatingMealTable()
+	{
+	    int recordsCreated = 0;
+
+        try {
+            Scanner fileScanner = new Scanner(new File(MEALS_DATA_FILE));
+            // First read is for headings:
+            fileScanner.nextLine();
+            // All subsequent reads are for user data
+            while (fileScanner.hasNextLine()) {
+                String[] data = fileScanner.nextLine().split(",");
+
+                String[] values = new String[FIELD_NAMES[5].length - 1];
+                //"name", "group", "serving_size", "calories", "fat", "carbs", "protein"
+                values[0] = data[0];
+                values[1] = data[1];
+                values[2] = "1";
+                values[3] = (!data[12].isEmpty()) ? data[12] : "0";
+                values[4] = (!data[10].isEmpty()) ? data[10] : "0";
+                values[5] = (!data[8].isEmpty()) ? data[8] : "0";
+                values[6] = (!data[2].isEmpty()) ? data[2] : "0";
+
+                try
+                {
+                    mInstance.mDB.createRecord(TABLE_NAMES[5], Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), values);
+                }
+                catch (SQLException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                //String table, String[] fields, String[] values
+                recordsCreated++;
+            }
+
+            // All done with the CSV file, close the connection
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            return 0;
+        }
+        return recordsCreated;
+	}
 
 	public static Controller getInstance() {
 		if (mInstance == null)
+		{
 			mInstance = new Controller();
+		}
 
 		return mInstance;
 	}
@@ -109,6 +167,36 @@ public class Controller extends Application {
 			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
 					 user, password, salt);
 		}
+
+		mInstance.mAllMealsList = FXCollections.observableArrayList();
+
+        ResultSet rs;
+
+        try
+        {
+            rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
+
+            //mInstance.populatingMealTable();
+
+            while (rs.next())
+            {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String group = rs.getString(3);
+                double size = rs.getDouble(4);
+                int calories = rs.getInt(5);
+                double fat = rs.getDouble(6);
+                double carbs = rs.getDouble(7);
+                double protein = rs.getDouble(8);
+
+                mInstance.mAllMealsList.add(new Meal(id, name, size, calories, fat, carbs, protein, group));
+            }
+        }
+        catch (SQLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 		super.init();
 	}
 
@@ -185,7 +273,7 @@ public class Controller extends Application {
 		}
 
 	}
-	
+
 	public boolean updateUser(User user, String[] fields, String[] values) {
 		if (user != null && fields.length == values.length) {
 			try {
@@ -219,12 +307,12 @@ public class Controller extends Application {
 		mMainStage.setResizable(resizable);
 		mMainStage.setTitle("Fitness 365");
 	}
-	
+
 	public void setCurrentUser(String username)
 	{
 		mCurrentUser = getUser(username);
 	}
-	
+
 	public User getCurrentUser()
 	{
 		return mCurrentUser;
@@ -236,51 +324,51 @@ public class Controller extends Application {
 		String[] values = {meal.getName(), Double.toString(meal.getServingSize()),
 							Double.toString(meal.getCalories()), Double.toString(meal.getFat()),
 							Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
-		
+
 		try {
 			return mDB.createRecord(TABLE_NAMES[5], fields, values);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
-		}		
+		}
 	}
-	
+
 	public Meal getMeal(int id) {
-		String key = Integer.toString(id);		
+		String key = Integer.toString(id);
 		try {
 			ResultSet rs = mDB.getRecord(TABLE_NAMES[5], key);
 			if (rs.next()) {
-				return new Meal(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-								rs.getInt(4), rs.getDouble(5), rs.getDouble(6),
-								rs.getDouble(7));
+				return new Meal(rs.getInt(1), rs.getString(2), rs.getDouble(4),
+								rs.getInt(5), rs.getDouble(6), rs.getDouble(7),
+								rs.getDouble(8), rs.getString(3));
 			}
-		} catch (SQLException e) {			
-			e.printStackTrace();			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public int addFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
-			return -1;		
-		
-		try {			
+			return -1;
+
+		try {
 			Meal meal = entry.getMeal();
 			String[] mealValues = {meal.getName(), Double.toString(meal.getServingSize()), Integer.toString(meal.getCalories()),
 						Double.toString(meal.getFat()), Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
-			
+
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
 						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
-			
+
 			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
 			entry.getMeal().setId(key);
-			
-			
+
+
 			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
 						entry.getCategory().toString(), entry.getDate().toString(),
 						Integer.toString(mCurrentUser.getId())};
-		
+
 			return mDB.createRecord(TABLE_NAMES[3], Arrays.copyOfRange(FIELD_NAMES[3], 1, FIELD_NAMES[3].length), entryValues);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -288,54 +376,54 @@ public class Controller extends Application {
 			return -1;
 		}
 	}
-	
+
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<FoodDiaryEntry> entries = FXCollections.observableArrayList();
-		
+
 		try {
 			ArrayList<Integer> mealIdNums = new ArrayList<Integer>();
 			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[3], new String[] {FIELD_NAMES[3][5]},
 							new String[]{key});
-						
+
 			Meal meal;
 			int entryId;
 			double numServings;
 			Category category;
 			LocalDate date;
-			
-			while (rs.next()) {				
+
+			while (rs.next()) {
 				entryId = rs.getInt(1);
-				numServings = rs.getDouble(3);				
+				numServings = rs.getDouble(3);
 				category = Category.valueOf(rs.getString(4));
 				date = LocalDate.parse(rs.getString(5));
 				mealIdNums.add(rs.getInt(2));
-				entries.add(new FoodDiaryEntry(entryId, null, numServings, category, date, mCurrentUser.getId()));				
+				entries.add(new FoodDiaryEntry(entryId, null, numServings, category, date, mCurrentUser.getId()));
 			}
 			// The second for loop and the arraylist mealIdNums is to handle the fact
 			// that only one resultset can exist per sqlite statement object.
-			// executing a new statement overwrites the previous data in resultset.		
+			// executing a new statement overwrites the previous data in resultset.
 			for (int i = 0; i < mealIdNums.size(); ++i) {
 				meal = getMeal(mealIdNums.get(i));
 				entries.get(i).setMeal(meal);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return entries;
 	}
-	
+
 	public int addSleepLogEntry(SleepLogEntry entry)
 	{
 		if (entry == null)
-			return -1;	
-		
-		try {			
+			return -1;
+
+		try {
 			String[] entryValues = {Integer.toString(mCurrentUser.getId()), entry.getDate().toString()
 					, entry.getSleepTime().toString(), entry.getWakeTime().toString(), Integer.toString(entry.getNumOfInterruptions())};
-			
+
 			return mDB.createRecord(TABLE_NAMES[7],Arrays.copyOfRange(FIELD_NAMES[7], 1, FIELD_NAMES[7].length), entryValues);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -353,19 +441,19 @@ public class Controller extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
 	{
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<SleepLogEntry> entries = FXCollections.observableArrayList();
-		
+
 		try {
 			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[7], new String[] {FIELD_NAMES[7][1]}, new String[] {key});
-			
+
 			LocalDate date;
 			LocalTime bedTime, wakeTime;
 			int entryId, numOfInterruptions;
-			
+
 			while (rs.next())
 			{
 				entryId = rs.getInt(1);
@@ -375,13 +463,13 @@ public class Controller extends Application {
 				numOfInterruptions = rs.getInt(6);
 				entries.add(new SleepLogEntry(entryId, date, bedTime, wakeTime, numOfInterruptions));
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return entries;
 	}
 }
