@@ -38,6 +38,9 @@
           <Tab fx:id="calculatorsTab" text="Calculators">
           	<fx:include fx:id="calculators" source="CalcHomePage.fxml" />
           </Tab>
+          <Tab fx:id="foodSearchTab" text="Food Search">
+          	<fx:include fx:id="foodSearch" source="FoodSearch.fxml" />
+          </Tab>
           
         </tabs>
       </TabPane>

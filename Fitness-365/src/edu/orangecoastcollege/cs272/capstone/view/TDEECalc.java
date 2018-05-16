@@ -2,20 +2,14 @@ package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ResourceBundle;
-import java.util.Scanner;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
@@ -24,7 +18,6 @@ import javafx.collections.ObservableList;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.CheckBox;
 
 public class TDEECalc implements SceneNavigation{
 	@FXML
