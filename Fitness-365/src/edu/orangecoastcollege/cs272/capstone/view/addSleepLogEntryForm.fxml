@@ -36,9 +36,9 @@
             <Insets left="168.0" right="168.0" />
          </GridPane.margin>
       </TextField>
-      <Label fx:id="invalidNumberErrorLabel" text="Number of interuptions must be a positive integer!" textFill="RED" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+      <Label fx:id="invalidNumberErrorLabel" text="  Number must be a positive integer!" textFill="RED" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
          <font>
-            <Font name="Calibri Bold" size="14.0" />
+            <Font name="Calibri Bold" size="12.0" />
          </font>
       </Label>
       <LocalTimePicker fx:id="bedTimePicker" prefHeight="80.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
