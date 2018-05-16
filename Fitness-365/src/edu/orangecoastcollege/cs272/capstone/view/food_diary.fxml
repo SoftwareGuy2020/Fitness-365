@@ -31,7 +31,7 @@
                <children>
                   <TableView fx:id="breakfastTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="129.0" prefWidth="645.0">
                      <columns>
-<<<<<<< HEAD
+
                         <TableColumn prefWidth="75.0" text="Name">
                         	<cellValueFactory>
                         		<PropertyValueFactory property="mealName" />
@@ -69,7 +69,7 @@
                         	</cellValueFactory>
                         </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
-=======
+
                         <TableColumn fx:id="breakfastName" prefWidth="75.0" text="Name" />
                         <TableColumn fx:id="breakfastNumServings" prefWidth="75.0" text="# Servings" />
                         <TableColumn fx:id="breakfastServingSize" prefWidth="83.0" text="Serving Size" />
@@ -78,7 +78,7 @@
                         <TableColumn fx:id="breakfastCarbs" prefWidth="122.0" text="Carbohydrates" />
                         <TableColumn fx:id="breakfastProtein" prefWidth="85.0" text="Protein" />
                         <TableColumn fx:id="breakfastDetails" prefWidth="85.0" text="Details" />
->>>>>>> stash
+
                      </columns>
                      
                      <tooltip>
@@ -87,7 +87,7 @@
                   </TableView>
                   <TableView fx:id="snacksTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="638.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="645.0">
                      <columns>
-<<<<<<< HEAD
+
                          <TableColumn prefWidth="75.0" text="Name">
                         	<cellValueFactory>
                         		<PropertyValueFactory property="mealName" />
@@ -125,7 +125,7 @@
                         	</cellValueFactory>
                         </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
-=======
+
                         <TableColumn fx:id="snacksName" prefWidth="75.0" text="Name" />
                         <TableColumn fx:id="snacksNumServings" prefWidth="75.0" text="# Servings" />
                         <TableColumn fx:id="snacksServingSize" prefWidth="83.0" text="Serving Size" />
@@ -134,7 +134,7 @@
                         <TableColumn fx:id="snacksCarbs" prefWidth="122.0" text="Carbohydrates" />
                         <TableColumn fx:id="snacksProtein" prefWidth="85.0" text="Protein" />
                         <TableColumn fx:id="snacksDetails" prefWidth="85.0" text="Details" />
->>>>>>> stash
+
                      </columns>
                      
                      <tooltip>
@@ -143,7 +143,7 @@
                   </TableView>
                   <TableView fx:id="lunchTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="201.0" prefHeight="161.0" prefWidth="645.0">
                      <columns>
-<<<<<<< HEAD
+
                          <TableColumn prefWidth="75.0" text="Name">
                         	<cellValueFactory>
                         		<PropertyValueFactory property="mealName" />
@@ -181,7 +181,7 @@
                         	</cellValueFactory>
                         </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
-=======
+
                         <TableColumn fx:id="lunchName" prefWidth="75.0" text="Name" />
                         <TableColumn fx:id="lunchNumServings" prefWidth="75.0" text="# Servings" />
                         <TableColumn fx:id="lunchServingSize" prefWidth="83.0" text="Serving Size" />
@@ -190,7 +190,7 @@
                         <TableColumn fx:id="lunchCarbs" prefWidth="122.0" text="Carbohydrates" />
                         <TableColumn fx:id="lunchProtein" prefWidth="85.0" text="Protein" />
                         <TableColumn fx:id="lunchDetails" prefWidth="85.0" text="Details" />
->>>>>>> stash
+
                      </columns>
                     
                      <tooltip>
@@ -199,7 +199,7 @@
                   </TableView>
                   <TableView fx:id="dinnerTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="406.0" prefHeight="183.0" prefWidth="645.0">
                      <columns>
-<<<<<<< HEAD
+
                          <TableColumn prefWidth="75.0" text="Name">
                         	<cellValueFactory>
                         		<PropertyValueFactory property="mealName" />
@@ -237,7 +237,7 @@
                         	</cellValueFactory>
                         </TableColumn>
                         <TableColumn prefWidth="85.0" text="Details" />
-=======
+
                         <TableColumn fx:id="dinnerName" prefWidth="75.0" text="Name" />
                         <TableColumn fx:id="dinnerNumServings" prefWidth="75.0" text="# Servings" />
                         <TableColumn fx:id="dinnerServingSize" prefWidth="83.0" text="Serving Size" />
@@ -246,7 +246,7 @@
                         <TableColumn fx:id="dinnerCarbs" prefWidth="122.0" text="Carbohydrates" />
                         <TableColumn fx:id="dinnerProtein" prefWidth="85.0" text="Protein" />
                         <TableColumn fx:id="dinnerDetails" prefWidth="85.0" text="Details" />
->>>>>>> stash
+
                      </columns>
                     
                      <tooltip>

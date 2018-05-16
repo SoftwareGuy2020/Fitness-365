@@ -6,12 +6,7 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
-<<<<<<< HEAD
-import javafx.beans.property.SimpleDoubleProperty;
-=======
-import javafx.beans.binding.IntegerExpression;
 import javafx.beans.property.DoubleProperty;
->>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -21,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -59,51 +53,10 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private Button addMealButton;
 	@FXML
 	private Button deleteMealButton;
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
 	private ObservableList<FoodDiaryEntry> entries;
-<<<<<<< HEAD
+
 	
-	public void initialize() {
-		entries = mController.getAllFoodDiaryEntries();		
-		breakfastTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Breakfast));
-		lunchTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Lunch));
-		dinnerTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Dinner));
-		snacksTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Snack));
-		
-		ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-		data.addAll(new PieChart.Data("Protein", 10.0), new PieChart.Data("Fat", 10.0),
-				new PieChart.Data("Carbs", 10.0));
-		macroPieChart.setData(data);		
-		
-		entries.addListener(new ListChangeListener<FoodDiaryEntry>() {
-=======
-
->>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
-
-<<<<<<< HEAD
-			@Override
-			public void onChanged(Change<? extends FoodDiaryEntry> c) {
-				c.next();
-				if (c.wasAdded()) {
-					FoodDiaryEntry newEntry = c.getAddedSubList().get(0);
-					updateCalorieCounters(newEntry.getMealCalories());
-					// TODO updateMacros(newEntry);
-				}				
-			}			
-		});
-		
-		int tdee = mController.getCurrentUser().getTDEE();
-		int consumedCalories = 0;
-		for (FoodDiaryEntry e : entries)
-			consumedCalories += e.getMealCalories();
-		calorieGoalTF.setText(Integer.toString(tdee));
-		calorieConsumedTF.setText(Integer.toString(consumedCalories));
-		calorieRemainingTF.setText(Integer.toString(tdee - consumedCalories));
-	}
-=======
 	public void initialize() {
         entries = mController.getAllFoodDiaryEntries();
         breakfastTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Breakfast));
@@ -157,20 +110,6 @@ public class FoodDiary extends VBox implements SceneNavigation {
             }
         });
     }
->>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365
-
-	protected void updateMacros(FoodDiaryEntry newEntry) {
-		double protein = newEntry.getMealProtein(),
-				fat = newEntry.getMealFat(),
-				carbs = newEntry.getMealCarbs();
-		macroPieChart.getData().forEach(e -> {
-			if (e.getName().equals("Protein")) {
-				
-			}
-				
-		});
-		
-	}
 
 	protected void updateCalorieCounters(int mealCalories) {
 		int currentConsumed = Integer.parseInt(calorieConsumedTF.getText());
