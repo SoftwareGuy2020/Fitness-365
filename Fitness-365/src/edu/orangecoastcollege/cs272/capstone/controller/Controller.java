@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
+import edu.orangecoastcollege.cs272.capstone.model.Food;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
@@ -20,6 +21,7 @@ import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
+import edu.orangecoastcollege.cs272.ic13.model.VideoGame;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +36,7 @@ public class Controller extends Application {
 
 	private static final String DB_NAME = "fitness_365.db";
 	private static final String[] TABLE_NAMES = {"users", "exercises", "workout_diary", "food_diary", "saved_workouts", "meals",
-												"favorite_meals", "sleep_log", "personal_bests", "pictures", "weight_progress"};
+												"favorite_meals", "sleep_log", "personal_bests", "pictures", "weight_progress", "food"};
 	private static final String[][] FIELD_NAMES = {{"_id", "username", "password", "salt", "security_question",
 													"security_answer", "full_name", "birth_date", "sex", "units", "height",
 													"starting_weight", "goal_weight", "current_weight", "weekly_goals", "tdee"},
@@ -47,7 +49,8 @@ public class Controller extends Application {
 								/*7*/			{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
-												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"}};
+												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"},
+												{"_id", "name", "group", "calories", "protein", "fat", "carbs", "fiber"}};
 
 	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT",
 														"INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL", "INTEGER"},
@@ -60,7 +63,8 @@ public class Controller extends Application {
 													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL"},
 													{"INTEGER PRIMARY KEY", "INTEGER", "BLOB"},
-													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"}};
+													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"},
+													{"INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "REAL", "REAL", "REAL", "REAL"}};
 
 	private static final String[][] FOREIGN_KEYS = {{}, {}, {"FOREIGN KEY(" + FIELD_NAMES[2][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
 															"FOREIGN KEY(" + FIELD_NAMES[2][2] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")"},
@@ -75,20 +79,27 @@ public class Controller extends Application {
 													{"FOREIGN KEY(" + FIELD_NAMES[8][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[9][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
 													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",
-														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"}};
+														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
+													{}};
 
 	private static Controller mInstance;
 	private DBModel mDB;
 	private Stage mMainStage;
     
 	private User mCurrentUser;
+	
+	private ObservableList<Food> mAllFoodsList;
 
 	public Controller() {}
 
 
 	public static Controller getInstance() {
 		if (mInstance == null)
+		{
 			mInstance = new Controller();
+			
+			mInstance.mAllFoodsList = FXCollections.observableArrayList();
+		}
 
 		return mInstance;
 	}
