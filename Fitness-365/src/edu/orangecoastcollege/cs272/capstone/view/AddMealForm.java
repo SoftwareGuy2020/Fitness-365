@@ -27,8 +27,8 @@ import javafx.scene.layout.Pane;
 public class AddMealForm extends GridPane implements SceneNavigation {
 	private static final double FAT_CALORIES = 9.0;
 	private static final double CARBS_CALORIES = 4.0;
-	private static final double PROTEIN_CALORIES = 4.0;	
-	
+	private static final double PROTEIN_CALORIES = 4.0;
+
 	@FXML
 	private ComboBox<Category> mealCategoryCB;
 	@FXML
@@ -61,49 +61,49 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 	private Label carbsError;
 	@FXML
 	private Label proteinError;
-	
+
 	private Controller mController;
 	private FoodDiaryEntry mEntry;
 	private Meal mMeal;
-	
+
 	public void initialize() {
 		mController = Controller.getInstance();
 	}
-	
+
 	public FoodDiaryEntry getEntry() {
 		return mEntry;
 	}
-	
+
 	@FXML
-	private void submitAddMealForm(ActionEvent e) {	
-		clearVisibleErrors();		
-		
+	private void submitAddMealForm(ActionEvent e) {
+		clearVisibleErrors();
+
 		if (validateAddMealForm()) {
 			String name = descriptionTF.getText();
 			double servingSize = Double.parseDouble(servingSizeTF.getText());
-			double numServings = Double.parseDouble(servingsTF.getText());			
+			double numServings = Double.parseDouble(servingsTF.getText());
 			double fat = Double.parseDouble(fatTF.getText());
 			double carbs = Double.parseDouble(carbsTF.getText());
 			double protein = Double.parseDouble(proteinTF.getText());
 			Category category = mealCategoryCB.getValue();
 			int calories;
-			
-			if (caloriesTF.getText().isEmpty()) 
+
+			if (caloriesTF.getText().isEmpty())
 				calories = (int) (fat * FAT_CALORIES + carbs * CARBS_CALORIES + protein * PROTEIN_CALORIES);
-			
+
 			else
 				calories = Integer.parseInt(caloriesTF.getText());
 
-			mMeal = new Meal(name, servingSize, calories, fat, carbs, protein);
+			mMeal = new Meal(name, servingSize, calories, fat, carbs, protein, null);
 			mEntry = new FoodDiaryEntry(mMeal, numServings, category, LocalDate.now(),
 									mController.getCurrentUser().getId());
 		}
 		((Button) e.getSource()).getScene().getWindow().hide();
 	}
-	
+
 	private boolean validateAddMealForm() {
 		boolean isValid = true;
-		
+
 		if (descriptionTF.getText().isEmpty()) {
 			descriptionError.setVisible(true);
 			isValid = false;
@@ -131,10 +131,10 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 		if (!isValid) {
 			addMealErrorLabel.setVisible(true);
 			return false;
-		}		
+		}
 		return true;
 	}
-	
+
 	private void clearVisibleErrors() {
 		descriptionError.setVisible(false);
 		servingSizeError.setVisible(false);
@@ -145,19 +145,19 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 	}
 
 	@FXML
-	private void cancelMealForm(Event e) {		
+	private void cancelMealForm(Event e) {
 		((Button) e.getSource()).getScene().getWindow().hide();
 	}
-	
+
 	@Override
 	public Scene getView() {
-		try {			
+		try {
 			Pane pane = FXMLLoader.load(getClass().getResource("addMealForm.fxml"));
-			
+
 			return new Scene(pane);
-		} catch (IOException e) {			
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
-	}	
+	}
 }
