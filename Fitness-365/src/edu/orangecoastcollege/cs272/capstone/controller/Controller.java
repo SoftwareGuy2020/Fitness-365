@@ -21,7 +21,6 @@ import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
-import edu.orangecoastcollege.cs272.ic13.model.VideoGame;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
