@@ -6,7 +6,6 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
-import javafx.beans.binding.IntegerExpression;
 import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -57,7 +56,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 
 	private ObservableList<FoodDiaryEntry> entries;
 
-
+	
 	public void initialize() {
         entries = mController.getAllFoodDiaryEntries();
         breakfastTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Breakfast));
@@ -65,6 +64,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
         dinnerTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Dinner));
         snacksTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Snack));
 
+        
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         data.addAll(new PieChart.Data("Protein", 0.0), new PieChart.Data("Fat", 0.0),
                 new PieChart.Data("Carbs", 0.0));

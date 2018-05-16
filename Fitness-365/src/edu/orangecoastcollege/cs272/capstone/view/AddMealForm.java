@@ -97,8 +97,9 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 			mMeal = new Meal(name, servingSize, calories, fat, carbs, protein, null);
 			mEntry = new FoodDiaryEntry(mMeal, numServings, category, LocalDate.now(),
 									mController.getCurrentUser().getId());
-		}
+		
 		((Button) e.getSource()).getScene().getWindow().hide();
+		}
 	}
 
 	private boolean validateAddMealForm() {

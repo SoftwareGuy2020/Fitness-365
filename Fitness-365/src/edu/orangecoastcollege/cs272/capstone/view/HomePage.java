@@ -37,7 +37,10 @@ public class HomePage extends VBox implements SceneNavigation {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new Scene(vb);		
+
+		return new Scene(vb);	
+
+
 	}
 	
 	public void goToMyAccount()
