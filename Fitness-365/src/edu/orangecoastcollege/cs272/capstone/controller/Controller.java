@@ -167,7 +167,7 @@ public class Controller extends Application {
 			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
 					 user, password, salt);
 		}
-
+		//mDB.deleteAllRecords(TABLE_NAMES[3]);
 		mInstance.mAllMealsList = FXCollections.observableArrayList();
 
         ResultSet rs;
@@ -321,12 +321,17 @@ public class Controller extends Application {
 
 	public int addMeal(Meal meal) {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length);
-		String[] values = {meal.getName(), Double.toString(meal.getServingSize()),
+		String[] values = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
 							Double.toString(meal.getCalories()), Double.toString(meal.getFat()),
 							Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
 
 		try {
-			return mDB.createRecord(TABLE_NAMES[5], fields, values);
+			int key = mDB.createRecord(TABLE_NAMES[5], fields, values);
+			if (key != -1) {
+				meal.setId(key);
+				mAllMealsList.add(meal);
+			}
+			return key;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -355,7 +360,7 @@ public class Controller extends Application {
 
 		try {
 			Meal meal = entry.getMeal();
-			String[] mealValues = {meal.getName(), Double.toString(meal.getServingSize()), Integer.toString(meal.getCalories()),
+			String[] mealValues = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()), Integer.toString(meal.getCalories()),
 						Double.toString(meal.getFat()), Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
 
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],

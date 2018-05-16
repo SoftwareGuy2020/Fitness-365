@@ -64,6 +64,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
         dinnerTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Dinner));
         snacksTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Snack));
 
+        
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
         data.addAll(new PieChart.Data("Protein", 0.0), new PieChart.Data("Fat", 0.0),
                 new PieChart.Data("Carbs", 0.0));
