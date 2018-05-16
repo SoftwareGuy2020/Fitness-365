@@ -6,7 +6,8 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
-import javafx.beans.binding.IntegerExpression;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -52,9 +54,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private Button addMealButton;
 	@FXML
 	private Button deleteMealButton;
-	
 	private ObservableList<FoodDiaryEntry> entries;
-
 	
 	public void initialize() {
 		entries = mController.getAllFoodDiaryEntries();		
@@ -63,13 +63,20 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		dinnerTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Dinner));
 		snacksTableView.setItems(entries.filtered(e -> e.getCategory() == Category.Snack));
 		
+		ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+		data.addAll(new PieChart.Data("Protein", 10.0), new PieChart.Data("Fat", 10.0),
+				new PieChart.Data("Carbs", 10.0));
+		macroPieChart.setData(data);		
+		
 		entries.addListener(new ListChangeListener<FoodDiaryEntry>() {
 
 			@Override
 			public void onChanged(Change<? extends FoodDiaryEntry> c) {
 				c.next();
 				if (c.wasAdded()) {
-					updateCalorieCounters(c.getAddedSubList().get(0).getMealCalories());
+					FoodDiaryEntry newEntry = c.getAddedSubList().get(0);
+					updateCalorieCounters(newEntry.getMealCalories());
+					// TODO updateMacros(newEntry);
 				}				
 			}			
 		});
@@ -81,6 +88,19 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		calorieGoalTF.setText(Integer.toString(tdee));
 		calorieConsumedTF.setText(Integer.toString(consumedCalories));
 		calorieRemainingTF.setText(Integer.toString(tdee - consumedCalories));
+	}
+
+	protected void updateMacros(FoodDiaryEntry newEntry) {
+		double protein = newEntry.getMealProtein(),
+				fat = newEntry.getMealFat(),
+				carbs = newEntry.getMealCarbs();
+		macroPieChart.getData().forEach(e -> {
+			if (e.getName().equals("Protein")) {
+				
+			}
+				
+		});
+		
 	}
 
 	protected void updateCalorieCounters(int mealCalories) {
