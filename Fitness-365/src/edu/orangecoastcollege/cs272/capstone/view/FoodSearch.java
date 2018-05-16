@@ -88,11 +88,13 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	@Override
 	public Scene getView()
 	{
-		try {
+		try 
+		{
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
 
-		} catch (IOException e) {
+		} catch (IOException e) 
+		{
 			e.printStackTrace();
 			return null;
 		}
