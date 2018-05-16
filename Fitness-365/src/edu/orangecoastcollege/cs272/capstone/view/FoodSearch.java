@@ -16,6 +16,7 @@ import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -30,6 +31,14 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	private TextField searchTF;
 	@FXML
 	private Slider calorieSlider;
+	@FXML
+	private Slider macrosSlider;
+	@FXML
+	private RadioButton proteinRB;
+	@FXML
+	private RadioButton fatRB;
+	@FXML
+	private RadioButton carbRB;
 	@FXML
 	private Label itemCountLabel;
 	
@@ -46,9 +55,24 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		String comboBox = filterCB.getSelectionModel().getSelectedItem();
 		String search = searchTF.getText();
 		int calories = (int) calorieSlider.getValue();
-	   
-	    mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
-	    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories));
+		int macros = (int) macrosSlider.getValue();
+		
+		if(proteinRB.isSelected())
+		{
+			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
+		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getProtein() >= macros);
+		}
+		else if (fatRB.isSelected())
+		{
+			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
+		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getFat() <= macros);
+		}
+		else
+		{
+			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
+		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getCarbs() <= macros);
+		}
+	    
 
 	    foodLV.setItems(mealsList);
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
@@ -69,7 +93,8 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		searchTF.clear();
 		calorieSlider.setValue(1000);
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
-
+	    macrosSlider.setValue(0);
+	    proteinRB.setSelected(true);
 	}
 	// Event Listener on Button.onAction
 	@FXML
