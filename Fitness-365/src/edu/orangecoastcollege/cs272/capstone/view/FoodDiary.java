@@ -30,7 +30,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private static final String FXML_FILE_NAME = "food_diary.fxml";
 
 	private Controller mController;
-
+	
 	@FXML
 	private PieChart macroPieChart;
 	@FXML
@@ -55,7 +55,6 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private Button deleteMealButton;
 
 	private ObservableList<FoodDiaryEntry> entries;
-
 	
 	public void initialize() {
         entries = mController.getAllFoodDiaryEntries();
@@ -177,4 +176,5 @@ public class FoodDiary extends VBox implements SceneNavigation {
 			e.printStackTrace();
 		}
 	}
+	
 }
