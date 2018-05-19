@@ -120,7 +120,7 @@ public class Controller extends Application {
 			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
 					 user, password, salt);
 		}
-		//mDB.deleteAllRecords(TABLE_NAMES[3]);
+
 		mInstance.mAllMealsList = FXCollections.observableArrayList();
 
         ResultSet rs;
@@ -274,17 +274,12 @@ public class Controller extends Application {
 
 	public int addMeal(Meal meal) {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length);
-		String[] values = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
+		String[] values = {meal.getName(), Double.toString(meal.getServingSize()),
 							Double.toString(meal.getCalories()), Double.toString(meal.getFat()),
 							Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
 
 		try {
-			int key = mDB.createRecord(TABLE_NAMES[5], fields, values);
-			if (key != -1) {
-				meal.setId(key);
-				mAllMealsList.add(meal);
-			}
-			return key;
+			return mDB.createRecord(TABLE_NAMES[5], fields, values);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -319,8 +314,10 @@ public class Controller extends Application {
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
 						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
 
+			
 			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
 			entry.getMeal().setId(key);
+			
 
 
 			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
@@ -449,10 +446,10 @@ public class Controller extends Application {
                 values[0] = data[0];
                 values[1] = data[1];
                 values[2] = "1";
-                values[3] = (!data[12].isEmpty()) ? data[12] : "-";
-                values[4] = (!data[10].isEmpty()) ? data[10] : "-";
-                values[5] = (!data[8].isEmpty()) ? data[8] : "-";
-                values[6] = (!data[2].isEmpty()) ? data[2] : "-";
+                values[3] = (!data[12].isEmpty()) ? data[12] : "0";
+                values[4] = (!data[10].isEmpty()) ? data[10] : "0";
+                values[5] = (!data[8].isEmpty()) ? data[8] : "0";
+                values[6] = (!data[2].isEmpty()) ? data[2] : "0";
 
                 try
                 {
