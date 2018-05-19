@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
@@ -20,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import jfxtras.scene.control.CalendarPicker?>
+<?import jfxtras.scene.control.LocalDatePicker?>
 
 <VBox prefHeight="800.0" prefWidth="948.0" style="-fx-background-color: gainsboro;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodDiary">
    <children>
@@ -266,16 +267,25 @@
                            <effect>
                               <InnerShadow choke="0.37" height="12.1" radius="7.775" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
                         </TextField>
                         <TextField fx:id="calorieConsumedTF" alignment="CENTER" editable="false" focusTraversable="false" layoutX="10.0" layoutY="13.0" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="1600" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <effect>
                               <InnerShadow choke="0.37" height="12.1" radius="7.775" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
                         </TextField>
                         <TextField fx:id="calorieRemainingTF" alignment="CENTER" editable="false" focusTraversable="false" layoutX="79.0" layoutY="13.0" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: gainsboro;" text="1200" GridPane.columnIndex="4" GridPane.rowIndex="1">
                            <effect>
                               <InnerShadow choke="0.37" height="12.1" radius="7.775" />
                            </effect>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
                         </TextField>
                         <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Goal" textAlignment="CENTER" GridPane.halignment="CENTER">
                            <font>
@@ -313,11 +323,17 @@
                      </VBox.margin>
                   </Region>
                   <Separator layoutX="10.0" layoutY="249.0" prefWidth="200.0" />
-                  <CalendarPicker fx:id="calendar" prefHeight="205.0" prefWidth="302.0">
+                  <LocalDatePicker fx:id="calendar" allowNull="false" prefHeight="205.0" prefWidth="302.0">
                      <padding>
                         <Insets left="5.0" right="5.0" top="5.0" />
                      </padding>
-                  </CalendarPicker>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </LocalDatePicker>
                </children>
                <effect>
                   <DropShadow />
@@ -341,12 +357,18 @@
                      <font>
                         <Font size="18.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Region prefHeight="50.0" prefWidth="107.0" />
-                  <Button fx:id="deleteMealButton" disable="true" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Delete Meal" wrapText="true">
+                  <Button fx:id="deleteMealButton" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#deleteMeal" prefHeight="48.0" prefWidth="107.0" style="-fx-background-radius: 10px;" text="Delete Meal" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Region layoutX="10.0" layoutY="108.0" prefHeight="50.0" prefWidth="107.0" />
                </children>
