@@ -141,7 +141,8 @@ public class FoodSearch implements SceneNavigation, Initializable{
 			
 			FoodDiaryEntry entry = new FoodDiaryEntry(meal, servingSize, category, LocalDate.now(), mController.getCurrentUser().getId());
 			
-			mController.addFoodDiaryEntry(entry);
+			int key = mController.addFoodDiaryEntry(entry);
+			entry.setId(key);
 		}
 		else
 			servingSizeTF.setText("INCOMPLETE");	
