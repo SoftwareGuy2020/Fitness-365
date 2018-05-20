@@ -2,7 +2,11 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/jfxtras-all-9.0-r1.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.21.0.jar"/>
+	<classpathentry kind="lib" path="lib/jfxtras-all-8.0-r6.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Fitness-365/lib/jfxtras-all-8.0-r6-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.SignUp">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.SignUp">
    <children>
       <GridPane layoutX="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0">
         <columnConstraints>
@@ -85,7 +85,9 @@
             <AnchorPane GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
                <children>
                   <Label layoutX="210.0" layoutY="35.0" text="Already have an account?" />
-                  <Hyperlink fx:id="signInLink" layoutX="345.0" layoutY="32.0" onAction="#loadSignInScene" text="Sign in" />
+                  <Hyperlink fx:id="signInLink" layoutX="345.0" layoutY="32.0" onAction="#loadSignInScene" text="Sign in" textFill="BLUE" underline="true" />
+                  <Label fx:id="usernameTakenLabel" layoutX="169.0" layoutY="6.0" text="Username already taken!" textFill="RED" visible="false" />
+                  <Hyperlink fx:id="forgotPasswordHL" layoutX="303.0" layoutY="3.0" onAction="#loadForgotPasswordScene" text="Forgot your password?" textFill="BLUE" underline="true" visible="false" />
                </children>
             </AnchorPane>
          </children>

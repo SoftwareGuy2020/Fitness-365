@@ -28,9 +28,8 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="307.0" layoutY="448.0" prefHeight="23.0" prefWidth="155.0" text="Dont have an account?" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="371.0" AnchorPane.topAnchor="448.0" />
-      <Hyperlink fx:id="signUpHL" layoutX="440.0" layoutY="448.0" onAction="#transitionToSignUpScene" text="Sign up here!" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="281.0" />
-      <Hyperlink fx:id="forgotPassHL" layoutX="347.0" layoutY="414.0" text="Forgot your password?" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="324.0" />
+      <Hyperlink fx:id="signUpHL" layoutX="377.0" layoutY="455.0" onAction="#transitionToSignUpScene" prefHeight="23.0" prefWidth="80.0" text="Sign up here!" textFill="BLUE" AnchorPane.bottomAnchor="117.0" AnchorPane.leftAnchor="377.0" AnchorPane.rightAnchor="376.0" />
+      <Hyperlink fx:id="forgotPassHL" layoutX="347.0" layoutY="414.0" onAction="#transitionToForgotPasswordScene" prefHeight="23.0" prefWidth="130.0" text="Forgot your password?" textFill="BLUE" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="356.0" />
       <CheckBox fx:id="rememberUsernameCB" layoutX="292.0" layoutY="353.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="148.0" text="Remember Username?" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="292.0" AnchorPane.rightAnchor="393.0" AnchorPane.topAnchor="353.0" />
       <Label fx:id="errorLabel" alignment="CENTER" layoutX="307.0" layoutY="196.0" prefHeight="23.0" prefWidth="219.0" text="Must enter a username and password!" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.bottomAnchor="376.0" AnchorPane.leftAnchor="307.0" AnchorPane.topAnchor="196.0">
          <font>
@@ -41,5 +40,6 @@
             <Image url="@../../../../../../resources/logo.png" />
          </image>
       </ImageView>
+      <Button layoutY="2.0" mnemonicParsing="false" onAction="#test_bypassLogin" text="homepage" />
    </children>
 </AnchorPane>

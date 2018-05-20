@@ -17,13 +17,13 @@ public class DBModel implements AutoCloseable {
 	private Connection mConnection;
 	private Statement mStmt;
 
-		
-	public DBModel(String dbName, String[] tableNames, String[][] fieldNames, String[][] fieldTypes, String[][] foreignKeys) throws SQLException {		
+
+	public DBModel(String dbName, String[] tableNames, String[][] fieldNames, String[][] fieldTypes, String[][] foreignKeys) throws SQLException {
 		mDBName = dbName;
 		mTableNames = Arrays.copyOf(tableNames, tableNames.length);
 		mFieldNames = Arrays.copyOf(fieldNames, fieldNames.length);
 		mFieldTypes = Arrays.copyOf(fieldTypes, fieldTypes.length);
-		
+
 		if (mFieldNames == null || mFieldTypes == null || mFieldNames.length == 0
 				|| mFieldNames.length != mFieldTypes.length)
 			throw new SQLException("Database field names and types must exist and have the same number of elements.");
@@ -31,32 +31,33 @@ public class DBModel implements AutoCloseable {
 		mStmt = mConnection.createStatement();
 		createTables(foreignKeys);
 	}
-	
-	
-	
+
+
+
 	private void createTables(String[][] foreignKeys) throws SQLException {
 		StringBuilder createSQL = null;
 		for (int i = 0; i < mTableNames.length; ++i) {
-			
+
 			createSQL = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
 			createSQL.append(mTableNames[i]).append("(");
-			
+
 			for (int j = 0; j < mFieldNames[i].length - 1; ++j)
 				createSQL.append(mFieldNames[i][j]).append(" ").append(mFieldTypes[i][j]).append(", ");
-						
+
 			createSQL.append(mFieldNames[i][mFieldNames[i].length - 1]).append(" ")
 			.append(mFieldTypes[i][mFieldNames[i].length - 1]);
-			
-			if (foreignKeys != null) {				
+
+			if (foreignKeys != null) {
 				for (int k = 0; k < foreignKeys[i].length; ++k) {
 					createSQL.append(", ").append(foreignKeys[i][k]);
-				}				
+				}
 			}
-			createSQL.append(")");			
+			createSQL.append(")");
+
 			mStmt.executeUpdate(createSQL.toString());
 		}
 	}
-	
+
 	public int searchUsers(String username) throws SQLException {
 		if (username != null) {
 			ResultSet rs = mStmt.executeQuery("SELECT " + mFieldNames[0][0] + " FROM " + mTableNames[0] + " WHERE "
@@ -70,20 +71,53 @@ public class DBModel implements AutoCloseable {
 
 	public ResultSet getAllRecords(String table) throws SQLException {
 		int tableIdx = getTableIndex(table);
-		if (tableIdx == -1) 
+		if (tableIdx == -1)
 			return null;
-		
+
 		String selectSQL = "SELECT * FROM " + mTableNames[tableIdx];
 		return mStmt.executeQuery(selectSQL);
+	}
+
+	public ResultSet getAllRecordsMatch(String table, String[] fields, String[] values) throws SQLException {
+		int tableIdx = getTableIndex(table);
+		if (tableIdx == -1 || fields.length != values.length)
+			return null;
+
+		StringBuilder selectSQL = new StringBuilder("SELECT * FROM ");
+		selectSQL.append(mTableNames[tableIdx]).append(" WHERE ");
+		for (int i = 0; i < fields.length - 1; ++i) {
+			selectSQL.append(fields[i]).append("=")
+			.append(convertToSQLText(tableIdx, fields[i], values[i])).append(" AND ");
+		}
+		selectSQL.append(fields[fields.length - 1]).append("=").append(values[fields.length - 1]);
+
+		return mStmt.executeQuery(selectSQL.toString());
 	}
 
 	public ResultSet getRecord(String table, String key) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
 			return null;
-		
+
 		String singleRecord = "SELECT * FROM " + mTableNames[tableIdx] + " WHERE " + mFieldNames[tableIdx][0] + "=" + key;
 		return mStmt.executeQuery(singleRecord);
+	}
+
+	public ResultSet getRecordMatch(String table, String[] fields, String[] values) throws SQLException {
+		int tableIdx = getTableIndex(table);
+		if (tableIdx == -1 || fields.length != values.length)
+			return null;
+
+		StringBuilder selectSQL = new StringBuilder("SELECT * FROM ");
+		selectSQL.append(mTableNames[tableIdx]).append(" WHERE ");
+
+		for (int i = 0; i < fields.length - 1; ++i) {
+			selectSQL.append(fields[i]).append("=")
+			.append(convertToSQLText(tableIdx, fields[i], values[i])).append(" AND ");
+		}
+		selectSQL.append(fields[fields.length - 1]).append("=").append(values[fields.length - 1]);
+
+		return mStmt.executeQuery(selectSQL.toString());
 	}
 
 	public int getRecordCount(String table) throws SQLException {
@@ -100,11 +134,11 @@ public class DBModel implements AutoCloseable {
 	public int createRecord(String table, String[] fields, String[] values) throws SQLException {
 		if (fields == null || values == null || fields.length == 0 || fields.length != values.length)
 			return -1;
-		
-		int tableIdx = getTableIndex(table); 
+
+		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
-			return -1; 
-		
+			return -1;
+
 		StringBuilder insertSQL = new StringBuilder("INSERT INTO ");
 		insertSQL.append(table).append("(");
 		for (int i = 0; i < fields.length; i++)
@@ -116,18 +150,18 @@ public class DBModel implements AutoCloseable {
 		// Return the newly generated primary key (as an int)
 		return mStmt.getGeneratedKeys().getInt(1);
 	}
-	
-	
+
+
 	public int createUser(String userTable, String[] fields, User user, byte[] hash, byte[] salt) throws SQLException {
 		int id = -1;
 		StringBuilder sqlString = new StringBuilder("INSERT INTO ");
 		sqlString.append(userTable).append("(");
-		
-		for (int i = 0; i < fields.length; ++i) 
-			sqlString.append(fields[i]).append((i < fields.length - 1) ? "," : ") VALUES(");		
+
+		for (int i = 0; i < fields.length; ++i)
+			sqlString.append(fields[i]).append((i < fields.length - 1) ? "," : ") VALUES(");
 		for (int i = 0; i < fields.length; ++i)
 			sqlString.append("?").append((i < fields.length - 1) ? "," : ")");
-		
+
 		PreparedStatement pStmt = mConnection.prepareStatement(sqlString.toString());
 		pStmt.setString(1, user.getUserName());
 		pStmt.setBytes(2, hash);
@@ -143,27 +177,28 @@ public class DBModel implements AutoCloseable {
 		pStmt.setDouble(12, user.getGoalWeight());
 		pStmt.setDouble(13, user.getCurrentWeight());
 		pStmt.setDouble(14, user.getWeeklyGoal());
+		pStmt.setInt(15, user.getTDEE());
 		System.out.println(pStmt.toString());
 		id = pStmt.executeUpdate();
 		pStmt.close();
 		return id;
-		
+
 	}
-	
+
 	/**
-	 * Gets the  tableNames array index for the table.
-	 * If the table does not exist or table param is null, then -1 is returned; 
+	 * Gets the tableNames array index for the table.
+	 * If the table does not exist or table param is null, then -1 is returned;
 	 * @param table - the name of the database table
 	 * @return the index for the table, or -1 if not found/null.
 	 */
 	private int getTableIndex(String table) {
 		if (table == null)
 			return -1;
-		
-		for (int i = 0; i < mTableNames.length; ++ i) {
+
+		for (int i = 0; i < mTableNames.length; ++i) {
 			if (mTableNames[i].equals(table))
 				return i;
-		}		
+		}
 		return -1;
 	}
 
@@ -172,9 +207,9 @@ public class DBModel implements AutoCloseable {
 		if (fields == null || values == null || fields.length == 0 || values.length == 0
 				|| fields.length != values.length)
 			return false;
-		
+
 		int tableIdx = getTableIndex(table);
-		if (tableIdx == -1) 
+		if (tableIdx == -1)
 			return false;
 
 		StringBuilder updateSQL = new StringBuilder("UPDATE ");
@@ -184,31 +219,48 @@ public class DBModel implements AutoCloseable {
 					.append((i < values.length - 1) ? "," : " ");
 
 		updateSQL.append("WHERE ").append(mFieldNames[tableIdx][0]).append("=").append(key);
+		System.out.println(updateSQL.toString());
 		mStmt.executeUpdate(updateSQL.toString());
+
+		return true;
+	}
+
+	public boolean updateUserPassword(String table, String key, byte[] newPassword) throws SQLException {
+		if (key.isEmpty() || newPassword == null)
+			return false;
+
+		StringBuilder updateSQL = new StringBuilder("UPDATE ");
+		updateSQL.append(table).append(" SET ");
+		updateSQL.append(mFieldNames[0][2]).append("=").append("?");
+
+		PreparedStatement pStmt = mConnection.prepareStatement(updateSQL.toString());
+		pStmt.setBytes(1, newPassword);
+		pStmt.executeUpdate();
 
 		return true;
 	}
 
 	public void deleteAllRecords(String table) throws SQLException {
 		int tableIdx = getTableIndex(table);
-		if (tableIdx == -1) 
+		if (tableIdx == -1)
 			return;
-		
+
 		String deleteSQL = "DELETE FROM " + mTableNames[tableIdx];
 		mStmt.executeUpdate(deleteSQL);
 	}
 
-	public void deleteRecord(String table, String key) throws SQLException {
+	public boolean deleteRecord(String table, String key) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
-			return;
-		
+			return false;
+
 		String deleteRecord = "DELETE FROM " + mTableNames[tableIdx] + " WHERE " + mFieldNames[tableIdx][0] + "=" + key;
 		mStmt.executeUpdate(deleteRecord);
+		return true;
 	}
 
-	private String convertToSQLText(int tableNameIdx, String field, String value) {	
-		
+	private String convertToSQLText(int tableNameIdx, String field, String value) {
+
 		for (int i = 0; i < mFieldNames[tableNameIdx].length; i++) {
 			if (field.equalsIgnoreCase(mFieldNames[tableNameIdx][i])) {
 				if (mFieldTypes[tableNameIdx][i].equals("TEXT"))

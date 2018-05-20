@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import jfxtras.scene.control.LocalDatePicker?>
+<?import jfxtras.scene.control.LocalTimePicker?>
+
+<GridPane prefHeight="487.0" prefWidth="513.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.AddSleepLogEntryForm">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="77.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="71.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="31.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="73.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints maxWidth="1.7976931348623157E308" minWidth="175.0" prefWidth="257.0" />
+      <ColumnConstraints maxWidth="1.7976931348623157E308" minWidth="30.0" prefWidth="256.0" />
+   </columnConstraints>
+   <children>
+      <LocalDatePicker fx:id="datePicker" prefHeight="205.0" prefWidth="284.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="125.0" right="125.0" top="10.0" />
+         </GridPane.margin>
+      </LocalDatePicker>
+      <Button fx:id="addSleepLogEntryButton" mnemonicParsing="false" onAction="#addSleepLogEntry" text="Add Sleep Log Entry" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+      <TextField fx:id="numInterruptionsTF" prefHeight="25.0" prefWidth="229.0" promptText="Enter number of interruptions" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets left="168.0" right="168.0" />
+         </GridPane.margin>
+      </TextField>
+      <Label fx:id="invalidNumberErrorLabel" text="  Number must be a positive integer!" textFill="RED" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Label>
+      <LocalTimePicker fx:id="bedTimePicker" prefHeight="80.0" prefWidth="224.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </LocalTimePicker>
+      <LocalTimePicker fx:id="wakeTimePicker" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </LocalTimePicker>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select bed time" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Calibri Bold" size="16.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select wake time" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Calibri Bold" size="16.0" />
+         </font>
+      </Text>
+   </children>
+</GridPane>
