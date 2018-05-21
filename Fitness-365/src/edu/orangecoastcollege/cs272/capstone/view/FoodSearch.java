@@ -59,14 +59,14 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	private TextField servingSizeTF;
 	@FXML
 	private Label mealtimeLabel;
-	
+	@FXML
+	private Label errorLabel;
 	
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "FoodSearch.fxml";
 	
 	private ObservableList<Meal> mealsList;
 	
-	// Event Listener on ComboBox[#filterCB].onAction
 	@FXML
 	public void filter()
 	{
@@ -117,12 +117,14 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		lunchRB.setVisible(false);
 		dinnerRB.setVisible(false);
 		snackRB.setVisible(false);
-		
+		errorLabel.setVisible(false);
+		searchTF.requestFocus();
 	}
-	// Event Listener on Button.onAction
+	
 	@FXML
 	public void addItemtoFD()
 	{
+		errorLabel.setVisible(false);
 		Category category = Category.Breakfast;
 		
 		if(snackRB.isSelected())
@@ -143,9 +145,12 @@ public class FoodSearch implements SceneNavigation, Initializable{
 			
 			int key = mController.addFoodDiaryEntry(entry);
 			entry.setId(key);
+			
+			HomePage home = new HomePage();
+	        mController.changeScene(home.getView(), true);
 		}
 		else
-			servingSizeTF.setText("INCOMPLETE");	
+			errorLabel.setVisible(true);
 	}
 	
 	@FXML
@@ -158,14 +163,9 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		lunchRB.setVisible(true);
 		dinnerRB.setVisible(true);
 		snackRB.setVisible(true);
+		errorLabel.setVisible(false);
 	}
-	// Event Listener on Button.onAction
-	@FXML
-	public void goToHomeScreen()
-	{
-		HomePage page = new HomePage();
-		mController.changeScene(page.getView(), true);
-	}
+	
 	@Override
 	public Scene getView()
 	{
@@ -180,6 +180,7 @@ public class FoodSearch implements SceneNavigation, Initializable{
 			return null;
 		}
 	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
@@ -187,6 +188,6 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		foodLV.setItems(mController.getAllMeals());
 		filterCB.setItems(mController.getFoodGroups());
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
-
+	    searchTF.requestFocus();
 	}
 }

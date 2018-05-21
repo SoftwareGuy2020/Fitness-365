@@ -15,33 +15,31 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.TDEECalc">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.TDEECalc">
    <top>
-      <VBox alignment="TOP_CENTER" maxHeight="175.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #6565f8; -fx-border-color: black;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="140.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: gray; -fx-border-color: black;" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="TOP_CENTER" style="-fx-background-color: red; -fx-background-radius: 10;" text="Welcome to the BMR and TDEE calculator!">
+            <Text fill="#3fb94d" stroke="BLACK" strokeType="OUTSIDE" text="BMR and TDEE Calculator">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets bottom="30.0" top="20.0" />
                </VBox.margin>
-            </Label>
-            <Label alignment="CENTER" text="*BMR (Basal Metabolic Rate) is an estimate of how many calories you'd burn if you were to do nothing but rest for 24 hours. It represents the minimum amount of energy needed to keep your body functioning, including breathing and keeping your heart beating." wrapText="true">
+            </Text>
+            <Label text="*BMR (Basal Metabolic Rate) is an estimate of how many calories you'd burn if you were to do nothing but rest for 24 hours." wrapText="true">
                <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
                <font>
                   <Font size="11.0" />
                </font>
             </Label>
-            <Label text="*Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. It is calculated by first figuring out your Basal Metabolic Rate, then multiplying that value by an activity multiplier." wrapText="true">
+            <Label alignment="CENTER" text="*Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn per day when exercise is taken into account. " wrapText="true">
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
+                  <Insets />
                </VBox.margin>
                <font>
                   <Font size="11.0" />
@@ -54,7 +52,7 @@
       </VBox>
    </top>
    <center>
-      <GridPane maxWidth="400.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" maxWidth="400.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
@@ -88,8 +86,8 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <TextField fx:id="feetTF" />
-                  <TextField fx:id="inchesTF" />
+                  <TextField fx:id="feetTF" alignment="CENTER_RIGHT" />
+                  <TextField fx:id="inchesTF" alignment="CENTER_RIGHT" />
                </children>
             </HBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" GridPane.columnIndex="1">
@@ -107,7 +105,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="bmrTF" focusTraversable="false" maxWidth="100.0" prefHeight="25.0" prefWidth="93.0" />
+                  <TextField fx:id="bmrTF" alignment="CENTER_RIGHT" editable="false" focusTraversable="false" maxWidth="100.0" prefHeight="25.0" prefWidth="93.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-border-color: green; -fx-border-radius: 10;" GridPane.columnIndex="1" GridPane.rowIndex="7">
@@ -117,12 +115,17 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tdeeTF" maxWidth="97.0" prefHeight="25.0" prefWidth="91.0" />
+                  <TextField fx:id="tdeeTF" alignment="CENTER_RIGHT" editable="false" focusTraversable="false" maxWidth="97.0" prefHeight="25.0" prefWidth="91.0" />
                </children>
             </HBox>
             <ComboBox fx:id="activityCB" onAction="#calculate" prefWidth="150.0" style="-fx-background-radius: 10;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <TextField fx:id="weightTF" maxWidth="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <TextField fx:id="ageTF" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <TextField fx:id="weightTF" alignment="CENTER_RIGHT" maxWidth="100.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <TextField fx:id="ageTF" alignment="CENTER_RIGHT" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Label fx:id="errorLabel" alignment="CENTER" text="*All fields are required" textAlignment="CENTER" textFill="RED" visible="false" GridPane.columnSpan="2">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
@@ -132,7 +135,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateProfile" style="-fx-background-radius: 30; -fx-border-color: blue; -fx-border-radius: 30;" text="Update Profile">
+            <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateProfile" style="-fx-background-radius: 30; -fx-border-color: blue; -fx-border-radius: 30;" text="Update Profile" visible="false">
                <HBox.margin>
                   <Insets right="110.0" />
                </HBox.margin>
@@ -142,7 +145,4 @@
          </children>
       </HBox>
    </bottom>
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </left>
 </BorderPane>

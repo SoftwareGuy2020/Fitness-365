@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,15 +14,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.BodyFatCalc">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.BodyFatCalc">
    <center>
-      <GridPane alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" maxWidth="400.0" style="-fx-border-color: black; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -31,10 +34,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Gender:" GridPane.halignment="CENTER" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="1">
+            <Label text="Gender:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <RadioButton fx:id="male" mnemonicParsing="false" onAction="#setMale" text="Male">
+                  <RadioButton fx:id="male" mnemonicParsing="false" onAction="#setMale" selected="true" text="Male">
                      <toggleGroup>
                         <ToggleGroup fx:id="genderGroup" />
                      </toggleGroup>
@@ -42,57 +45,66 @@
                   <RadioButton fx:id="female" mnemonicParsing="false" onAction="#setFemale" text="Female" toggleGroup="$genderGroup" />
                </children>
             </HBox>
-            <Label text="Enter your weight (lbs):" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <TextField fx:id="weightTF" alignment="CENTER" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <TextField fx:id="waistTF" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Waist Circumference (inches):" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Label fx:id="hipLabel" text="Hip Circumference (inches):" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-            <Label fx:id="forearmLabel" text="Forearm Circumference (inches):" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <TextField fx:id="hipTF" maxWidth="100.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-            <TextField fx:id="forearmTF" maxWidth="100.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <TextField fx:id="wristTF" maxWidth="100.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <TextField fx:id="bfTF" editable="false" focusTraversable="false" maxWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-            <Label fx:id="wristLabel" text="Wrist Circumference (inches):" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <Label text="Your Body Fat Percentage:" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Label text="Enter your weight (lbs):" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <TextField fx:id="weightTF" alignment="CENTER_RIGHT" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <TextField fx:id="waistTF" alignment="CENTER_RIGHT" maxWidth="100.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Waist Circumference (inches):" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Label fx:id="hipLabel" text="Hip Circumference (inches):" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <Label fx:id="forearmLabel" text="Forearm Circumference (inches):" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+            <TextField fx:id="hipTF" alignment="CENTER_RIGHT" maxWidth="100.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <TextField fx:id="forearmTF" alignment="CENTER_RIGHT" maxWidth="100.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+            <TextField fx:id="wristTF" alignment="CENTER_RIGHT" maxWidth="100.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <TextField fx:id="bfTF" alignment="CENTER_RIGHT" editable="false" focusTraversable="false" maxWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+            <Label fx:id="wristLabel" text="Wrist Circumference (inches):" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Label text="Your Body Fat Percentage:" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+            <Label fx:id="errorLabel" text="*All fields are required" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </center>
    <top>
-      <VBox maxHeight="175.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #6565f8; -fx-border-color: black;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="150.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: black; -fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
-            <Label style="-fx-background-color: red; -fx-background-radius: 5;" text="Welcome to the Body Fat Percentage Calculator!">
+            <Text fill="#3fb94d" stroke="BLACK" strokeType="OUTSIDE" text="Body Fat Percentage Calculator">
+               <VBox.margin>
+                  <Insets bottom="30.0" top="20.0" />
+               </VBox.margin>
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
+            </Text>
+            <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <Label text="*Your body fat percentage is the percentage of your weight that comes from fat.">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="*This method uses a different set of measurements for men and women, since the distribution of fat is different between the genders." wrapText="true">
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
                <VBox.margin>
-                  <Insets bottom="30.0" left="125.0" top="20.0" />
+                  <Insets bottom="5.0" left="10.0" right="10.0" />
                </VBox.margin>
-            </Label>
-            <Label text="*Your body fat percentage is the percentage of your weight that comes from fat.">
-               <VBox.margin>
-                  <Insets left="30.0" />
-               </VBox.margin>
-            </Label>
-            <Label text="*This method uses a different set of measurements for men and women, since the distribution of fat is different between the genders." wrapText="true">
-               <VBox.margin>
-                  <Insets left="30.0" right="30.0" />
-               </VBox.margin>
-            </Label>
+            </VBox>
          </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
       </VBox>
    </top>
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </left>
    <bottom>
       <HBox alignment="CENTER" prefHeight="28.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="updateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateProfile" style="-fx-background-radius: 30; -fx-border-color: blue; -fx-border-radius: 30;" text="Update Profile">
+                  <Button fx:id="updateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateProfile" style="-fx-background-radius: 30; -fx-border-color: blue; -fx-border-radius: 30;" text="Update Profile" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -114,4 +126,24 @@
          </padding>
       </HBox>
    </bottom>
+   <left>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea prefHeight="200.0" prefWidth="200.0" text="Men: 20-40 yrs old: Underfat: under 8 percent, Healthy: 8-19 percent, Overweight: 19-25 percent, Obese: over 25 percent" wrapText="true" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <right>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea prefHeight="200.0" prefWidth="200.0" text="Women: 20-40 yrs old: Underfat: under 21 percent, Healthy: 21-33 percent, Overweight: 33-39 percent, Obese: Over 39 percent" wrapText="true" />
+         </children>
+         <BorderPane.margin>
+            <Insets right="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
 </BorderPane>
