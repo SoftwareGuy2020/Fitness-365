@@ -448,6 +448,7 @@ public class Controller extends Application {
 	}
 	
 
+	@SuppressWarnings("unused")
 	private int populatingMealTable()
 	{
 	    int recordsCreated = 0;
@@ -543,26 +544,10 @@ public class Controller extends Application {
         FXCollections.sort(c);
         return c;
     }
-<<<<<<< HEAD
 
-	public boolean deleteFoodDiaryEntry(FoodDiaryEntry entry) {
-		if (entry == null)
-			return false;
-		String key = Integer.toString(entry.getId());
-		try {
-			mDB.deleteRecord(TABLE_NAMES[3], key);
-			return true;
-		} catch (SQLException e) {			
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
 	public void openWebpage(String url)
 	{
 		HostServices host = getHostServices();
         host.showDocument(url);
 	}
-=======
->>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365.git
 }

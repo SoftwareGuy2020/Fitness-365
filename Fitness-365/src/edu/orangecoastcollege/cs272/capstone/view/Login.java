@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
-import edu.orangecoastcollege.cs272.capstone.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

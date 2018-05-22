@@ -1,12 +1,10 @@
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+
 import java.time.LocalDate;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
-import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import edu.orangecoastcollege.cs272.capstone.model.SecurityQuestion;
 import edu.orangecoastcollege.cs272.capstone.model.Sex;
