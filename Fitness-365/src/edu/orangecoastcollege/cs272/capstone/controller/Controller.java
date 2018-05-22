@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
+
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
@@ -25,6 +26,7 @@ import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -230,7 +232,10 @@ public class Controller extends Application {
 	public boolean updateUser(User user, String[] fields, String[] values) {
 		if (user != null && fields.length == values.length) {
 			try {
-				return mDB.updateRecord(TABLE_NAMES[0], Integer.toString(user.getId()), fields, values);
+				boolean success = mDB.updateRecord(TABLE_NAMES[0], Integer.toString(user.getId()), fields, values);
+				if (success)
+					setCurrentUser(user.getUserName()); // Need to update the Current User object so it has the saved changes
+				return success;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -539,5 +544,11 @@ public class Controller extends Application {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public void openWebpage(String url)
+	{
+		HostServices host = getHostServices();
+        host.showDocument(url);
 	}
 }

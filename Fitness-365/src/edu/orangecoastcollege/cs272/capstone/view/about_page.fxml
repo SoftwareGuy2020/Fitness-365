@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.AboutPage">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../resources/logo.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="117.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Developers: Ian Maynard, Travis Morrissey, Jason Panella">
+         <font>
+            <Font name="ACaslonPro-Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="128.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Special thanks to: Michael Paulding, Andrea Vacondio">
+         <font>
+            <Font name="ACaslonPro-Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="107.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fitness 365 Github: ">
+         <font>
+            <Font name="ACaslonPro-Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="107.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Andrea's Github: ">
+         <font>
+            <Font name="ACaslonPro-Bold" size="15.0" />
+         </font>
+      </Text>
+      <Hyperlink fx:id="fitnessHL" layoutX="300.0" layoutY="269.0" onAction="#goToFitnessGithub" text="https://github.com/BigTravis/Fitness-365" />
+      <Hyperlink fx:id="andreaHL" layoutX="300.0" layoutY="303.0" onAction="#goToAndreaGithub" text="https://github.com/torakiki" />
+   </children>
+</AnchorPane>

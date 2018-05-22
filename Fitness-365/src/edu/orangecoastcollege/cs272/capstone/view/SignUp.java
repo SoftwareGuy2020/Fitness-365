@@ -24,10 +24,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-/**
- * @author Travis
- *
- */
+// EDIT TO INCLUDE WEIGHTS AND GOALS
 public class SignUp extends AnchorPane implements SceneNavigation {
 	private static final String FXML_FILE_NAME = "SignUp.fxml";
 
@@ -39,12 +36,15 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 	public DatePicker birthDatePicker;
 	public TextField nameTF;
 	public ComboBox<Sex> sexCB;
-	public Label errorLabel;
+	public Label errorLabel, weightErrorLabel;
 	public Button signUpButton;
 	public Hyperlink signInLink;
 	public Hyperlink forgotPasswordHL;
 	public Label usernameTakenLabel;
-
+	
+	public TextField currentWeightTF, goalWeightTF;
+	public ComboBox<Double> weeklyGoalCB;
+	
 	private Controller mController;
 
 	public SignUp() {
@@ -54,6 +54,8 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 	public void initialize() {
 		securityQuestionCB.setItems(FXCollections.observableArrayList(SecurityQuestion.getAllQuestions()));
 		sexCB.setItems(FXCollections.observableArrayList(Sex.values()));
+		weeklyGoalCB.setItems(FXCollections.observableArrayList(-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0));
+		weeklyGoalCB.setValue(0.0);
 	}
 
 	public Scene getView() {
@@ -74,24 +76,35 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 			forgotPasswordHL.setVisible(true);
 			return;
 		}
-
 		String typedPW = passwordField.getText();
 		String sq = securityQuestionCB.getValue();
 		String sa = securityAnswerTF.getText();
 		LocalDate birthDate = birthDatePicker.getValue();
 		String fullName = nameTF.getText();
-		Sex sex = sexCB.getValue();
-
-		if (username.isEmpty() || !typedPW.equals(confirmPasswordF.getText()) || fullName.isEmpty()) {
+		
+		if (username.isEmpty() || !typedPW.equals(confirmPasswordF.getText()) || fullName.isEmpty() || sa.isEmpty()) {
 			errorLabel.setVisible(true);
 			return;
 		}
-
-		User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, 0.0, 0.0, 0.0, 0.0, 0);
-		mController.createNewUser(newUser, typedPW);
-		mController.setCurrentUser(username);
-		HomePage home = new HomePage();
-		mController.changeScene(home.getView(), true);
+		
+		Sex sex = sexCB.getValue();
+		double weeklyGoal = weeklyGoalCB.getValue();
+		
+		try
+		{
+			double currentWeight = Double.parseDouble(currentWeightTF.getText());
+			double goalWeight = Double.parseDouble(goalWeightTF.getText());
+			
+			User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, currentWeight, goalWeight, currentWeight, weeklyGoal, 0);
+			mController.createNewUser(newUser, typedPW);
+			mController.setCurrentUser(username);
+			HomePage home = new HomePage();
+			mController.changeScene(home.getView(), true); // Make it go to My Account so they can set up their Weight and Goals
+		}
+		catch (NumberFormatException e)
+		{
+			weightErrorLabel.setVisible(true);
+		}
 
 	}
 	
