@@ -22,7 +22,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-// EDIT TO INCLUDE WEIGHTS AND GOALS
 public class SignUp extends AnchorPane implements SceneNavigation {
 	private static final String FXML_FILE_NAME = "SignUp.fxml";
 
@@ -97,7 +96,7 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 			mController.createNewUser(newUser, typedPW);
 			mController.setCurrentUser(username);
 			HomePage home = new HomePage();
-			mController.changeScene(home.getView(), true); // Make it go to My Account so they can set up their Weight and Goals
+			mController.changeScene(home.getView(), true); 
 		}
 		catch (NumberFormatException e)
 		{
