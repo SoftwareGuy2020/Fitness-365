@@ -3,20 +3,28 @@ package edu.orangecoastcollege.cs272.capstone.model;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class SleepLogEntry {
 	
 	private LocalDate mDate;
 	private LocalTime mSleepTime, mWakeTime;
 	private int mID, numOfInterruptions;
+	
+	/**
+	 * @param date
+	 * @param sleepTime
+	 * @param wakeTime
+	 * @param numOfInterruptions 
+	 */
 	public SleepLogEntry(LocalDate date, LocalTime sleepTime, LocalTime wakeTime, int numOfInterruptions) {
 		mDate = date;
 		mSleepTime = sleepTime;
 		mWakeTime = wakeTime;
 		this.numOfInterruptions = numOfInterruptions;
 	}
+	
 	/**
+	 * @param id
 	 * @param date
 	 * @param sleepTime
 	 * @param wakeTime
@@ -65,13 +73,24 @@ public class SleepLogEntry {
 	public LocalTime getWakeTime() {
 		return mWakeTime;
 	}
+	/**
+	 * @return the wake time (string) formatted to hh:mm am/pm, null if time is null
+	 */
 	public String getFormatedWakeTime()
 	{
+		if (mWakeTime == null)
+			return null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 		return mWakeTime.format(formatter);
 	}
+	/**
+	 * @return the sleep time (string) formatted to hh:mm am/pm, null if time is null
+	 * 
+	 */
 	public String getFormatedSleepTime()
 	{
+		if (mSleepTime == null)
+			return null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 		return mSleepTime.format(formatter);
 	}
@@ -93,10 +112,26 @@ public class SleepLogEntry {
 	public void setNumOfInterruptions(int numOfInterruptions) {
 		this.numOfInterruptions = numOfInterruptions;
 	}
+	/**
+	 * 
+	 * @return the hours (double) between the sleep time and wake time
+	 * of this entry
+	 */
 	public double getHoursAsleep()
 	{
-		double hours = Math.abs((double) (MINUTES.between(getSleepTime(), getWakeTime()))/60.0);
+		if (getSleepTime() == null || getWakeTime() == null)
+			return -1.0;
+		double hours = 0.0;
+		LocalTime sleepTimeCopy = getSleepTime();
+		while (sleepTimeCopy.getHour() != getWakeTime().getHour())
+		{
+			++hours;
+			sleepTimeCopy = sleepTimeCopy.plusHours(1);
+		}
+		hours += (getWakeTime().getMinute() - sleepTimeCopy.getMinute())/60.0;
+
 		return hours;
+		
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
