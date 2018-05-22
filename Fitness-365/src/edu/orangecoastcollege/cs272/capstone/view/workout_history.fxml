@@ -2,12 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.Tooltip?>
@@ -21,121 +15,85 @@
 <?import javafx.scene.text.Text?>
 <?import jfxtras.scene.control.LocalDatePicker?>
 
-
-<TabPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <tabs>
-      <Tab fx:id="historyTab" closable="false" text="History">
-         <content>
-            <VBox prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: gainsboro;">
+<VBox prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: gainsboro;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.WorkoutHistory">
+   <children>
+      <BorderPane prefHeight="797.0" prefWidth="1123.0">
+         <center>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="757.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane prefHeight="797.0" prefWidth="1123.0">
-                     <center>
-                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="757.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <TableView fx:id="workoutTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="694.0" prefWidth="645.0" tableMenuButtonVisible="true">
-                                 <columns>
-            
-                                    <TableColumn minWidth="-Infinity" prefWidth="161.0" text="Name">
-                                    	<cellValueFactory>
-                                    		<PropertyValueFactory property="mealName" />
-                                    	</cellValueFactory>
-                                    </TableColumn>
-                                    
-                                    <TableColumn prefWidth="161.0" text="Muscle Group">
-                                    <cellValueFactory>
-                                    		<PropertyValueFactory property="numServings" />
-                                    	</cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="161.0" text="Weight">
-                                    <cellValueFactory>
-                                    		<PropertyValueFactory property="mealServingSize" />
-                                    	</cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="161.0" text="Repetitions">
-                                    <cellValueFactory>
-                                    		<PropertyValueFactory property="mealCalories" />
-                                    	</cellValueFactory>
-                                    </TableColumn>
-                                 </columns>
-                                 
-                                 <tooltip>
-                                    <Tooltip text="Empty Tooltip" />
-                                 </tooltip>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
-                              <Text fontSmoothingType="LCD" layoutX="300.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Workouts">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <padding>
-                              <Insets bottom="5.0" />
-                           </padding>
-                        </AnchorPane>
-                     </center>
-                     <left>
-                        <VBox prefHeight="523.0" prefWidth="302.0" style="-fx-background-color: #cccccc;" BorderPane.alignment="CENTER">
-                           <children>
-                              <LocalDatePicker fx:id="calendar" allowNull="false" prefHeight="205.0" prefWidth="302.0">
-                                 <padding>
-                                    <Insets left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <VBox.margin>
-                                    <Insets top="50.0" />
-                                 </VBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </LocalDatePicker>
-                           </children>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                           <padding>
-                              <Insets top="5.0" />
-                           </padding>
-                           <BorderPane.margin>
-                              <Insets left="5.0" right="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </VBox>
-                     </left>
-                     <bottom>
-                        <Region maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
-                     </bottom>
-                  </BorderPane>
+                  <TableView fx:id="workoutTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="694.0" prefWidth="645.0" tableMenuButtonVisible="true">
+                     <columns>
+                        <TableColumn editable="false" prefWidth="75.0" text="Name">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="exerciseName" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn editable="false" prefWidth="75.0" text="Muscle Group">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="exerciseMuscleGroup" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn editable="false" prefWidth="75.0" text="Repetitions">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="reps" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn editable="false" prefWidth="75.0" text="Weight">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="weight" />
+                           </cellValueFactory>
+                        </TableColumn>
+                     </columns>
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip" />
+                     </tooltip>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Text fontSmoothingType="LCD" layoutX="300.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Workouts">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
                </children>
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" />
                </padding>
-            </VBox>
-         </content>
-      </Tab>
-      <Tab fx:id="graphTab" closable="false" text="Graphs">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: gainsboro;">
-               <children>
-                  <LineChart fx:id="maxWeightChart" layoutX="609.0" layoutY="14.0" prefHeight="754.0" prefWidth="550.0" title="Max Weight">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-                  <LineChart fx:id="oneRepMaxChart" layoutX="47.0" layoutY="14.0" prefHeight="754.0" prefWidth="554.0" title="1 Rep Max">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-               </children>
             </AnchorPane>
-        </content>
-      </Tab>
-   </tabs>
-</TabPane>
+         </center>
+         <left>
+            <VBox prefHeight="523.0" prefWidth="302.0" style="-fx-background-color: #cccccc;" BorderPane.alignment="CENTER">
+               <children>
+                  <LocalDatePicker fx:id="workoutCalendar" allowNull="false" prefHeight="205.0" prefWidth="302.0">
+                     <padding>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </LocalDatePicker>
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+         <bottom>
+            <Region maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

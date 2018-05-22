@@ -7,6 +7,7 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Exercise;
 import edu.orangecoastcollege.cs272.capstone.model.Workout;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -38,7 +39,7 @@ public class WorkoutLog {
 	@FXML
 	private void initialize() {
 		mController = Controller.getInstance();
-		todaysWorkoutTableView.setItems(mController.getallWorkouts());
+		todaysWorkoutTableView.setItems(mController.getallWorkouts().filtered(w -> w.getDate().equals(LocalDate.now())));
 		
 		mAllExercisesList = mController.getAllExercises();
 		exercisesTableView.setItems(mAllExercisesList);
@@ -109,6 +110,7 @@ public class WorkoutLog {
 	}
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
 	private void AddEntry() {
 		Exercise exercise = exercisesTableView.getSelectionModel().getSelectedItem();
@@ -120,8 +122,8 @@ public class WorkoutLog {
 				Workout w = new Workout(-1, mController.getCurrentUser().getId(),
 										exercise, weight, reps, LocalDate.now());
 				int id = mController.addWorkout(w);
-				if (id != -1) {
-					todaysWorkoutTableView.getItems().add(w);
+				if (id != -1) {					
+					((FilteredList)todaysWorkoutTableView.getItems()).getSource().add(w);
 				}
 			}
 		}

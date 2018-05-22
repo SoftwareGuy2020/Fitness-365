@@ -7,14 +7,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -31,15 +30,12 @@
                   <Insets top="5.0" />
                </padding>
                <children>
-                  <HBox alignment="CENTER" spacing="10.0">
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#newExercise" text="New Exercise">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </Button>
-                        <Region prefHeight="24.0" prefWidth="41.0" />
-                        <TextField onKeyPressed="#search" promptText="Search" />
+                        <TextField onKeyPressed="#search" promptText="Search">
+                           <HBox.margin>
+                              <Insets right="19.0" />
+                           </HBox.margin></TextField>
                      </children>
                   </HBox>
                   <TableView fx:id="exercisesTableView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="315.0" prefWidth="288.0" style="-fx-background-color: gainsboro;">

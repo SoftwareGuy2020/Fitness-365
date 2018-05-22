@@ -151,5 +151,78 @@ public class Workout {
 	 */
 	public void setDate(LocalDate date) {
 		this.mDate = date;
-	}	
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.mDate == null) ? 0 : this.mDate.hashCode());
+		result = prime * result + ((this.mExercise == null) ? 0 : this.mExercise.hashCode());
+		result = prime * result + this.mId;
+		result = prime * result + this.mReps;
+		result = prime * result + this.mUserId;
+		long temp;
+		temp = Double.doubleToLongBits(this.mWeight);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Workout))
+			return false;
+		Workout other = (Workout) obj;
+		if (this.mDate == null) {
+			if (other.mDate != null)
+				return false;
+		} else if (!this.mDate.equals(other.mDate))
+			return false;
+		if (this.mExercise == null) {
+			if (other.mExercise != null)
+				return false;
+		} else if (!this.mExercise.equals(other.mExercise))
+			return false;
+		if (this.mId != other.mId)
+			return false;
+		if (this.mReps != other.mReps)
+			return false;
+		if (this.mUserId != other.mUserId)
+			return false;
+		if (Double.doubleToLongBits(this.mWeight) != Double.doubleToLongBits(other.mWeight))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Workout [mId=");
+		builder.append(this.mId);
+		builder.append(", mUserId=");
+		builder.append(this.mUserId);
+		builder.append(", mExercise=");
+		builder.append(this.mExercise);
+		builder.append(", mWeight=");
+		builder.append(this.mWeight);
+		builder.append(", mReps=");
+		builder.append(this.mReps);
+		builder.append(", mDate=");
+		builder.append(this.mDate);
+		builder.append("]");
+		return builder.toString();
+	}
 }
