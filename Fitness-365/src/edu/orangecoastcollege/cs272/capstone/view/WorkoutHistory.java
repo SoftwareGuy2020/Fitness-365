@@ -17,11 +17,7 @@ public class WorkoutHistory {
 	@FXML
 	private TableView<Workout> workoutTableView;
 	@FXML
-	private LocalDatePicker workoutCalendar;
-	@FXML
-	private LineChart<String, Number> maxWeightChart;
-	@FXML
-	private LineChart<String, Number> oneRepMaxChart;
+	private LocalDatePicker workoutCalendar;	
 
 	private Controller mController;
 	private LocalDate mSelectedDate;
