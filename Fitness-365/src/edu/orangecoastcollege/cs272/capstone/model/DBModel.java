@@ -178,7 +178,7 @@ public class DBModel implements AutoCloseable {
 		pStmt.setDouble(13, user.getCurrentWeight());
 		pStmt.setDouble(14, user.getWeeklyGoal());
 		pStmt.setInt(15, user.getTDEE());
-		System.out.println(pStmt.toString());
+		
 		id = pStmt.executeUpdate();
 		pStmt.close();
 		return id;

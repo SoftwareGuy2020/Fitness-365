@@ -22,9 +22,12 @@ public class HomePage extends VBox implements SceneNavigation {
 	private FoodDiary foodDiaryController;
 	@FXML
 	private CalcHomePage calculatorsController;
-	private Controller mController;
+	@FXML
+	private WorkoutLog workoutLogController;
 	@FXML
 	private MenuItem myAccountMenuItem, signOutMenuItem, aboutMenuItem;
+	
+	private Controller mController;
 	
 	public HomePage() {
 		mController = Controller.getInstance();

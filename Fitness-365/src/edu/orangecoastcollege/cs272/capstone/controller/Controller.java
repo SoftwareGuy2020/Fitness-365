@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
+import edu.orangecoastcollege.cs272.capstone.model.Exercise;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
@@ -24,6 +24,7 @@ import edu.orangecoastcollege.cs272.capstone.model.Sex;
 import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
+import edu.orangecoastcollege.cs272.capstone.model.Workout;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -36,7 +37,7 @@ import javafx.stage.Stage;
  * @author Travis
  *
  */
-public class Controller extends Application {
+public class Controller extends Application implements AutoCloseable {
 
 	private static final String DB_NAME = "fitness_365.db";
 	private static final String[] TABLE_NAMES = {"users", "exercises", "workout_diary", "food_diary", "saved_workouts", "meals",
@@ -94,6 +95,7 @@ public class Controller extends Application {
 	private ObservableList<Meal> mAllMealsList;
 
 	private static final String MEALS_DATA_FILE = "nutrients.csv";
+	private static final String EXERCISE_DATA_FILE = "Exercises.csv";
 
 	public Controller() {}
 
@@ -130,8 +132,9 @@ public class Controller extends Application {
         try
         {
             rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
-
+            
             //mInstance.populatingMealTable();
+            //populateExerciseTable();
 
             while (rs.next())
             {
@@ -447,6 +450,35 @@ public class Controller extends Application {
 		return entries;
 	}
 	
+	private int populateExerciseTable() {
+		int recordsCreated = 0;
+
+		try {
+			Scanner fileScanner = new Scanner(new File(EXERCISE_DATA_FILE));
+			String[] data = null, values = null;
+			while (fileScanner.hasNextLine()) {
+				data = fileScanner.nextLine().split(",");
+				values = new String[FIELD_NAMES[1].length - 1];
+
+				// "name", "muscle group",
+				values[0] = data[0];
+				values[1] = data[1];
+				try {
+					mDB.createRecord(TABLE_NAMES[1], Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
+							values);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				recordsCreated++;
+			}
+			fileScanner.close();
+		} catch (FileNotFoundException e) {
+			return 0;
+		}
+		return recordsCreated;
+	}
 
 	@SuppressWarnings("unused")
 	private int populatingMealTable()
@@ -549,5 +581,96 @@ public class Controller extends Application {
 	{
 		HostServices host = getHostServices();
         host.showDocument(url);
+	}
+
+	public ObservableList<Workout> getallWorkouts() {
+		ObservableList<Workout> workouts = FXCollections.observableArrayList();
+		try {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[2], new String[] {FIELD_NAMES[2][1]},
+									new String[] {Integer.toString(mCurrentUser.getId())});
+			
+			Workout w = null;
+			ArrayList<Integer> exerciseIDs = new ArrayList<>(rs.getFetchSize());
+			while (rs.next()) {
+				w = new Workout(rs.getInt(1), rs.getInt(2), null,
+							rs.getDouble(4), rs.getInt(5), LocalDate.parse(rs.getString(6)));
+				workouts.add(w);
+				exerciseIDs.add(rs.getInt(3));
+			}
+		
+			
+			int size = exerciseIDs.size();
+			Exercise exercise = null;
+			for (int i = 0; i < size; ++i) {
+				exercise = getExercise(exerciseIDs.get(i));
+				workouts.get(i).setExercise(exercise);
+			}			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return workouts;
+	}
+
+	public Exercise getExercise(int id) {
+		String key = Integer.toString(id);
+		try {
+			ResultSet rs = mDB.getRecord(TABLE_NAMES[1], key);
+			if (rs.next()) {
+				return new Exercise(rs.getInt(1), rs.getString(2), rs.getString(3));
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public int addExercise (Exercise exercise) {
+		if (exercise == null)
+			return -1;
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
+				 values = {exercise.getName(), exercise.getMuscleGroup()};
+		
+		try {
+			return mDB.createRecord(TABLE_NAMES[2],fields, values);			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public int addWorkout(Workout w) {
+		if (w == null)
+			return -1;
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[2], 1, FIELD_NAMES[2].length),
+				 values = {Integer.toString(w.getUserId()), Integer.toString(w.getExercise().getId()),
+						 Double.toString(w.getWeight()), Integer.toString(w.getReps()), w.getDate().toString()};
+		
+		try {
+			return mDB.createRecord(TABLE_NAMES[2],fields, values);			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public ObservableList<Exercise> getAllExercises() {
+		ObservableList<Exercise> results = FXCollections.observableArrayList();		
+		try {
+			ResultSet rs = mDB.getAllRecords(TABLE_NAMES[1]);
+			Exercise exercise = null;
+			
+			while (rs.next()) {
+				exercise = new Exercise(rs.getInt(1), rs.getString(2), rs.getString(3));
+				results.add(exercise);
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return results;
+	}
+
+	@Override
+	public void close() throws Exception {
+		mDB.close();		
 	}
 }

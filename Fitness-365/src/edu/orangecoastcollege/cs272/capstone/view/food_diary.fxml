@@ -29,7 +29,7 @@
          <center>
             <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="breakfastTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="129.0" prefWidth="645.0">
+                  <TableView fx:id="breakfastTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="32.0" prefHeight="129.0" prefWidth="645.0" tableMenuButtonVisible="true">
                      <columns>
 
                         <TableColumn prefWidth="75.0" text="Name">
@@ -74,8 +74,11 @@
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
-                  <TableView fx:id="snacksTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="638.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="645.0">
+                  <TableView fx:id="snacksTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="638.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="645.0" tableMenuButtonVisible="true">
                      <columns>
 
                          <TableColumn prefWidth="75.0" text="Name">
@@ -120,8 +123,11 @@
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
-                  <TableView fx:id="lunchTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="201.0" prefHeight="161.0" prefWidth="645.0">
+                  <TableView fx:id="lunchTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="201.0" prefHeight="161.0" prefWidth="645.0" tableMenuButtonVisible="true">
                      <columns>
 
                          <TableColumn prefWidth="75.0" text="Name">
@@ -167,8 +173,11 @@
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
-                  <TableView fx:id="dinnerTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="406.0" prefHeight="183.0" prefWidth="645.0">
+                  <TableView fx:id="dinnerTableView" accessibleRole="LIST_VIEW" layoutX="39.0" layoutY="406.0" prefHeight="183.0" prefWidth="645.0" tableMenuButtonVisible="true">
                      <columns>
 
                          <TableColumn prefWidth="75.0" text="Name">
@@ -214,6 +223,9 @@
                      <tooltip>
                         <Tooltip text="Empty Tooltip" />
                      </tooltip>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                   <Text layoutX="39.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lunch">
                      <font>

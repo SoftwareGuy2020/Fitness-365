@@ -29,6 +29,9 @@
           <Tab fx:id="foodDiaryTab" text="Food Diary">
           	<fx:include fx:id="foodDiary" source="food_diary.fxml" />
           </Tab>
+          <Tab fx:id="workoutLogTab" text="Workout Log">
+          	<fx:include fx:id="workoutLog" source="workout_log.fxml" />
+          </Tab>
           <Tab fx:id="workoutHistoryTab" text="Workout History">
             <fx:include fx:id="workoutHistory" source="workout_history.fxml" />
           </Tab>
