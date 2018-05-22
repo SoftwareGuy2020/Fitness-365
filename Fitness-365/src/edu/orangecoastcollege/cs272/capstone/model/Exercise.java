@@ -130,13 +130,10 @@ public class Exercise {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Exercise [mId=");
-		builder.append(this.mId);
-		builder.append(", mName=");
+				
 		builder.append(this.mName);
-		builder.append(", mMuscleGroup=");
-		builder.append(this.mMuscleGroup);
-		builder.append("]");
+		builder.append(" : ");
+		builder.append(this.mMuscleGroup);		
 		return builder.toString();
 	}
 }
