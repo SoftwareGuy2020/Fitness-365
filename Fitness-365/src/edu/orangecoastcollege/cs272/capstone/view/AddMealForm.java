@@ -94,7 +94,7 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 			else
 				calories = Integer.parseInt(caloriesTF.getText());
 
-			mMeal = new Meal(name, servingSize, calories, fat, carbs, protein, null);
+			mMeal = new Meal(name, servingSize, calories, fat, carbs, protein, "");
 			mEntry = new FoodDiaryEntry(mMeal, numServings, category, LocalDate.now(),
 									mController.getCurrentUser().getId());
 		

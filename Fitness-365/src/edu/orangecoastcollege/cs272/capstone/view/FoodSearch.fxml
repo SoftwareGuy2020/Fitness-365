@@ -9,74 +9,69 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodSearch">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodSearch">
    <top>
-      <VBox alignment="TOP_CENTER" maxHeight="50.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: silver;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="50.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
             <Text fill="#3fb94d" stroke="BLACK" strokeType="OUTSIDE" text="Food Search">
                <font>
-                  <Font size="39.0" />
+                  <Font name="System Bold" size="39.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="25.0" />
                </VBox.margin>
             </Text>
-            <Label text="*Food Search is powered by the USDA Nutrient Database.">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="&gt; greater than filter  **  &lt; less than filter">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </top>
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
          <center>
-            <ListView fx:id="foodLV" onMouseClicked="#filter" style="-fx-border-color: green;" BorderPane.alignment="CENTER">
+            <ListView fx:id="foodLV" onMouseClicked="#selectMealTime" style="-fx-border-color: green;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="5.0" right="5.0" />
                </BorderPane.margin>
                <effect>
-                  <Lighting>
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
+                  <InnerShadow />
                </effect>
             </ListView>
          </center>
          <top>
-            <HBox alignment="CENTER" maxHeight="60.0" prefHeight="60.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" maxHeight="60.0" prefHeight="60.0" prefWidth="200.0" spacing="21.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox alignment="CENTER" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <HBox alignment="TOP_CENTER" maxWidth="230.0" prefHeight="56.0" prefWidth="230.0" spacing="1.0">
                            <children>
-                              <RadioButton fx:id="proteinRB" mnemonicParsing="false" onAction="#filterFoodGroups" selected="true" text="&gt;Protein ">
+                              <RadioButton fx:id="proteinRB" mnemonicParsing="false" onAction="#filter" selected="true" text="&gt;Protein ">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="macros" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="carbRB" mnemonicParsing="false" onAction="#filterFoodGroups" text="&lt;Carbs" toggleGroup="$macros" />
-                              <RadioButton fx:id="fatRB" mnemonicParsing="false" onAction="#filterFoodGroups" text="&lt;Fats" toggleGroup="$macros" />
+                              <RadioButton fx:id="carbRB" mnemonicParsing="false" onAction="#filter" text="&lt;Carbs" toggleGroup="$macros" />
+                              <RadioButton fx:id="fatRB" mnemonicParsing="false" onAction="#filter" text="&lt;Fats" toggleGroup="$macros" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <Slider fx:id="macrosSlider" blockIncrement="25.0" majorTickUnit="20.0" minorTickCount="5" onMouseClicked="#filterFoodGroups" onMouseDragged="#filterFoodGroups" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="macrosSlider" blockIncrement="25.0" majorTickUnit="20.0" minorTickCount="5" onMouseClicked="#filter" onMouseDragged="#filter" showTickLabels="true" showTickMarks="true" />
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" top="5.0" />
@@ -84,14 +79,14 @@
                   </VBox>
                   <VBox alignment="CENTER" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Label text="Max Calories:" />
-                        <Slider fx:id="calorieSlider" blockIncrement="100.0" majorTickUnit="200.0" max="1000.0" minorTickCount="4" onMouseClicked="#filterFoodGroups" onMouseDragged="#filterFoodGroups" showTickLabels="true" showTickMarks="true" value="1000.0" />
+                        <Label text="&lt; Calories:" />
+                        <Slider fx:id="calorieSlider" blockIncrement="100.0" majorTickUnit="200.0" max="1000.0" minorTickCount="4" onMouseClicked="#filter" onMouseDragged="#filter" showTickLabels="true" showTickMarks="true" value="1000.0" />
                      </children>
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
                   </VBox>
-                  <ComboBox fx:id="filterCB" onAction="#filterFoodGroups" onMouseClicked="#filterFoodGroups" prefWidth="150.0" promptText="Filter by food group" style="-fx-border-color: #17e31e; -fx-background-radius: 5; -fx-border-radius: 5;">
+                  <ComboBox fx:id="filterCB" onAction="#filter" onMouseClicked="#filter" prefWidth="150.0" promptText="Filter by food group" style="-fx-border-color: #17e31e; -fx-background-radius: 5; -fx-border-radius: 5;">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -102,7 +97,8 @@
                      </HBox.margin>
                   </Label>
                   <TextField fx:id="searchTF" alignment="CENTER_RIGHT" />
-                  <Button mnemonicParsing="false" onAction="#filterFoodGroups" style="-fx-border-color: #17e31e; -fx-background-radius: 5; -fx-border-radius: 5;" text="Go" />
+                  <Button mnemonicParsing="false" onAction="#filter" style="-fx-border-color: #17e31e; -fx-background-radius: 5; -fx-border-radius: 5;" text="Go" />
+                  <Button mnemonicParsing="false" onAction="#reset" style="-fx-background-radius: 5; -fx-border-color: blue; -fx-border-radius: 5;" text="Reset" />
                </children>
                <BorderPane.margin>
                   <Insets left="5.0" right="5.0" />
@@ -110,19 +106,32 @@
             </HBox>
          </top>
          <bottom>
-            <HBox alignment="CENTER_RIGHT" maxHeight="35.0" prefHeight="100.0" prefWidth="200.0" spacing="70.0" BorderPane.alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER" maxHeight="35.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
-                  <Label fx:id="itemCountLabel">
-                     <HBox.margin>
-                        <Insets right="300.0" />
-                     </HBox.margin>
+                  <Label fx:id="mealtimeLabel" text="Select meal time: " visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#reset" style="-fx-background-radius: 5; -fx-border-color: blue; -fx-border-radius: 5;" text="Reset" />
-                  <Button mnemonicParsing="false" onAction="#addItemtoFD" style="-fx-background-radius: 5; -fx-border-color: #17e31e; -fx-border-radius: 5;" text="Add Item to Food Diary">
+                  <RadioButton fx:id="breakfastRB" mnemonicParsing="false" selected="true" text="Breakfast" visible="false">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="mealtime" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="lunchRB" mnemonicParsing="false" text="Lunch" toggleGroup="$mealtime" visible="false" />
+                  <RadioButton fx:id="dinnerRB" mnemonicParsing="false" text="Dinner" toggleGroup="$mealtime" visible="false" />
+                  <RadioButton fx:id="snackRB" mnemonicParsing="false" text="Snack" toggleGroup="$mealtime" visible="false" />
+                  <TextField fx:id="servingSizeTF" maxWidth="75.0" promptText="# of servings" visible="false" />
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#addItemtoFD" style="-fx-background-radius: 5; -fx-border-color: #17e31e; -fx-border-radius: 5;" text="Add Item to Food Diary" visible="false">
                      <HBox.margin>
-                        <Insets right="150.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
+                  <Label fx:id="errorLabel" text="*Please enter # of servings" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -134,4 +143,23 @@
          </BorderPane.margin>
       </BorderPane>
    </center>
+   <bottom>
+      <HBox alignment="CENTER" maxHeight="20.0" prefHeight="100.0" prefWidth="200.0" spacing="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="*Food Search is powered by the USDA Nutrient Database.">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="itemCountLabel">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

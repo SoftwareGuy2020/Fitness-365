@@ -66,6 +66,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	}
 
 	public void initialize() {
+		calorieGoalTF.setText(Integer.toString(mController.getCurrentUser().getTDEE()));
 		selectedDate = LocalDate.now();
 		calendar.setLocalDate(selectedDate);
 		calendar.localDateProperty().addListener(new ChangeListener<LocalDate>() {
@@ -84,20 +85,14 @@ public class FoodDiary extends VBox implements SceneNavigation {
 			public void onChanged(Change<? extends FoodDiaryEntry> c) {
 				c.next();
 				if (c.wasAdded()) {
-					FoodDiaryEntry entry = c.getAddedSubList().get(0);
-					updateCalorieCounters(entry.getMealCalories());
+					FoodDiaryEntry entry = c.getAddedSubList().get(0);					
 					updateMacros(entry);
 				}
+				else if (c.wasRemoved()) {
+					updateFilters();
+				}
 			}
-		});
-		
-		int tdee = mController.getCurrentUser().getTDEE();
-		int consumedCalories = 0;
-		for (FoodDiaryEntry e : entries)
-			consumedCalories += e.getMealCalories();
-		calorieGoalTF.setText(Integer.toString(tdee));
-		calorieConsumedTF.setText(Integer.toString(consumedCalories));
-		calorieRemainingTF.setText(Integer.toString(tdee - consumedCalories));		
+		});		
 	}
 
 	private void updateFilters() {
@@ -109,7 +104,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				entries.filtered(e -> (e.getCategory() == Category.Dinner) && e.getDate().isEqual(selectedDate)));
 		snacksTableView.setItems(
 				entries.filtered(e -> (e.getCategory() == Category.Snack) && e.getDate().isEqual(selectedDate)));
-		
+
 		resetMacros();
 		breakfastTableView.getItems().forEach(c -> updateMacros(c));
 		lunchTableView.getItems().forEach(c -> updateMacros(c));
@@ -118,9 +113,11 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	}
 
 	private void resetMacros() {
+		calorieConsumedTF.setText("0");
+		calorieRemainingTF.setText(calorieGoalTF.getText());
 		ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
 		data.addAll(new PieChart.Data("Protein", 0.0), new PieChart.Data("Fat", 0.0), new PieChart.Data("Carbs", 0.0));
-		macroPieChart.setData(data);		
+		macroPieChart.setData(data);
 	}
 
 	protected void updateMacros(FoodDiaryEntry entry) {
@@ -138,6 +135,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				value.set(value.get() + entry.getMealCarbs());
 			}
 		});
+		updateCalorieCounters(entry.getMealCalories());		
 	}
 
 	protected void updateCalorieCounters(int mealCalories) {
@@ -176,6 +174,9 @@ public class FoodDiary extends VBox implements SceneNavigation {
 
 			FoodDiaryEntry entry = form.getEntry();
 			if (entry != null) {
+				int key = mController.addFoodDiaryEntry(entry);
+				entry.setId(key);
+				
 				switch (entry.getCategory()) {
 				case Breakfast:
 					((FilteredList) breakfastTableView.getItems()).getSource().add(entry);
@@ -190,22 +191,22 @@ public class FoodDiary extends VBox implements SceneNavigation {
 					((FilteredList) snacksTableView.getItems()).getSource().add(entry);
 					break;
 				}
-				mController.addFoodDiaryEntry(entry);
+				
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void deleteMeal(ActionEvent e) {
-		Node focusedNode = ((Button)e.getSource()).getScene().getFocusOwner();
+		Node focusedNode = ((Button) e.getSource()).getScene().getFocusOwner();
 		FoodDiaryEntry entry = null;
 		if (focusedNode instanceof TableView<?>) {
 			@SuppressWarnings("unchecked")
 			TableView<FoodDiaryEntry> focusedTable = (TableView<FoodDiaryEntry>) focusedNode;
-			
+
 			if (focusedTable.equals(breakfastTableView))
 				entry = breakfastTableView.getSelectionModel().getSelectedItem();
 			else if (focusedTable.equals(lunchTableView))
@@ -214,9 +215,9 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				entry = dinnerTableView.getSelectionModel().getSelectedItem();
 			else if (focusedTable.equals(snacksTableView))
 				entry = snacksTableView.getSelectionModel().getSelectedItem();
-			
-			if (mController.deleteFoodDiaryEntry(entry)) 
-				entries.remove(entry);			
+
+			if (mController.deleteFoodDiaryEntry(entry))
+				entries.remove(entry);
 		}
 	}
 }

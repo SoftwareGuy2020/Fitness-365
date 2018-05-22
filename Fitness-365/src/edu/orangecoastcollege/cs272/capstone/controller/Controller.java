@@ -122,7 +122,7 @@ public class Controller extends Application {
 			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
 					 user, password, salt);
 		}
-		//mDB.deleteAllRecords(TABLE_NAMES[3]);
+
 		mInstance.mAllMealsList = FXCollections.observableArrayList();
 
         ResultSet rs;
@@ -323,11 +323,10 @@ public class Controller extends Application {
 
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
 						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
-
+			
 			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
 			entry.getMeal().setId(key);
-
-
+			
 			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
 						entry.getCategory().toString(), entry.getDate().toString(),
 						Integer.toString(mCurrentUser.getId())};
@@ -338,6 +337,18 @@ public class Controller extends Application {
 			e.printStackTrace();
 			return -1;
 		}
+	}
+	
+	public boolean deleteFoodDiaryEntry(FoodDiaryEntry entry) {
+		if (entry == null)
+			return false;
+		String key = Integer.toString(entry.getId());
+		try {
+			return mDB.deleteRecord(TABLE_NAMES[3], key);			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
@@ -454,10 +465,10 @@ public class Controller extends Application {
                 values[0] = data[0];
                 values[1] = data[1];
                 values[2] = "1";
-                values[3] = (!data[12].isEmpty()) ? data[12] : "-";
-                values[4] = (!data[10].isEmpty()) ? data[10] : "-";
-                values[5] = (!data[8].isEmpty()) ? data[8] : "-";
-                values[6] = (!data[2].isEmpty()) ? data[2] : "-";
+                values[3] = (!data[12].isEmpty()) ? data[12] : "0";
+                values[4] = (!data[10].isEmpty()) ? data[10] : "0";
+                values[5] = (!data[8].isEmpty()) ? data[8] : "0";
+                values[6] = (!data[2].isEmpty()) ? data[2] : "0";
 
                 try
                 {
@@ -532,6 +543,7 @@ public class Controller extends Application {
         FXCollections.sort(c);
         return c;
     }
+<<<<<<< HEAD
 
 	public boolean deleteFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
@@ -551,4 +563,6 @@ public class Controller extends Application {
 		HostServices host = getHostServices();
         host.showDocument(url);
 	}
+=======
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365.git
 }

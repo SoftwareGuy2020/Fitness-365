@@ -9,9 +9,12 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
+import edu.orangecoastcollege.cs272.capstone.model.Category;
+import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 
@@ -19,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
@@ -41,16 +45,30 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	private RadioButton carbRB;
 	@FXML
 	private Label itemCountLabel;
+	@FXML
+	private Button addButton;
+	@FXML
+	private RadioButton breakfastRB;
+	@FXML
+	private RadioButton lunchRB;
+	@FXML
+	private RadioButton dinnerRB;
+	@FXML
+	private RadioButton snackRB;
+	@FXML
+	private TextField servingSizeTF;
+	@FXML
+	private Label mealtimeLabel;
+	@FXML
+	private Label errorLabel;
 	
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "FoodSearch.fxml";
 	
 	private ObservableList<Meal> mealsList;
-
-
-	// Event Listener on ComboBox[#filterCB].onAction
+	
 	@FXML
-	public void filterFoodGroups()
+	public void filter()
 	{
 		String comboBox = filterCB.getSelectionModel().getSelectedItem();
 		String search = searchTF.getText();
@@ -73,16 +91,10 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getCarbs() <= macros);
 		}
 	    
-
 	    foodLV.setItems(mealsList);
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
 	}
 	
-	@FXML 
-	public void filter()
-	{
-		filterFoodGroups();
-	}
 	@FXML
 	public void reset()
 	{
@@ -95,21 +107,65 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
 	    macrosSlider.setValue(0);
 	    proteinRB.setSelected(true);
+	    
+	    servingSizeTF.clear();
+	    breakfastRB.setSelected(true);
+	    addButton.setVisible(false);
+		mealtimeLabel.setVisible(false);
+		servingSizeTF.setVisible(false);
+		breakfastRB.setVisible(false);
+		lunchRB.setVisible(false);
+		dinnerRB.setVisible(false);
+		snackRB.setVisible(false);
+		errorLabel.setVisible(false);
+		searchTF.requestFocus();
 	}
-	// Event Listener on Button.onAction
+	
 	@FXML
 	public void addItemtoFD()
 	{
+		errorLabel.setVisible(false);
+		Category category = Category.Breakfast;
 		
+		if(snackRB.isSelected())
+			category = Category.Snack;
+		else if(lunchRB.isSelected())
+			category = Category.Lunch;
+		else if(dinnerRB.isSelected())
+			category = Category.Dinner;
+		
+		double servingSize = 0;
+		
+		if(!servingSizeTF.getText().isEmpty())
+		{
+			servingSize = Double.parseDouble(servingSizeTF.getText());
+			Meal meal = foodLV.getSelectionModel().getSelectedItem();
+			
+			FoodDiaryEntry entry = new FoodDiaryEntry(meal, servingSize, category, LocalDate.now(), mController.getCurrentUser().getId());
+			
+			int key = mController.addFoodDiaryEntry(entry);
+			entry.setId(key);
+			
+			HomePage home = new HomePage();
+	        mController.changeScene(home.getView(), true);
+		}
+		else
+			errorLabel.setVisible(true);
 	}
 	
-	// Event Listener on Button.onAction
 	@FXML
-	public void goToHomeScreen()
+	public void selectMealTime()
 	{
-		HomePage page = new HomePage();
-		mController.changeScene(page.getView(), true);
+		addButton.setVisible(true);
+		mealtimeLabel.setVisible(true);
+		servingSizeTF.setVisible(true);
+		breakfastRB.setVisible(true);
+		lunchRB.setVisible(true);
+		dinnerRB.setVisible(true);
+		snackRB.setVisible(true);
+		errorLabel.setVisible(false);
 	}
+	
 	@Override
 	public Scene getView()
 	{
@@ -124,6 +180,7 @@ public class FoodSearch implements SceneNavigation, Initializable{
 			return null;
 		}
 	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
@@ -131,6 +188,6 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		foodLV.setItems(mController.getAllMeals());
 		filterCB.setItems(mController.getFoodGroups());
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
-
+	    searchTF.requestFocus();
 	}
 }

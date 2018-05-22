@@ -249,13 +249,14 @@ public class DBModel implements AutoCloseable {
 		mStmt.executeUpdate(deleteSQL);
 	}
 
-	public void deleteRecord(String table, String key) throws SQLException {
+	public boolean deleteRecord(String table, String key) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
-			return;
+			return false;
 
 		String deleteRecord = "DELETE FROM " + mTableNames[tableIdx] + " WHERE " + mFieldNames[tableIdx][0] + "=" + key;
 		mStmt.executeUpdate(deleteRecord);
+		return true;
 	}
 
 	private String convertToSQLText(int tableNameIdx, String field, String value) {

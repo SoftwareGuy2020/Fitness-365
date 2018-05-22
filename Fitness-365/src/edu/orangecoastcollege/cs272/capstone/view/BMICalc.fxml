@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-border-color: black; -fx-background-color: silver; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.BMICalc">
    <center>
@@ -44,6 +45,12 @@
                   <TextField id="inchesTF" fx:id="inchesTF" alignment="CENTER_RIGHT" />
                </children>
             </HBox>
+            <Label fx:id="errorLabel" text="*All fields required" textFill="RED" visible="false" GridPane.halignment="CENTER" />
+            <Label fx:id="errorLabel" text="*All fields are required" textFill="RED" visible="false" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </center>
@@ -52,7 +59,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="updateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateProfile" style="-fx-background-radius: 30; -fx-border-color: blue; -fx-border-radius: 30;" text="Update Profile">
+                  <Button fx:id="updateButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateProfile" style="-fx-background-radius: 30; -fx-border-color: blue; -fx-border-radius: 30;" text="Update Profile" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -78,17 +85,17 @@
       </HBox>
    </bottom>
    <top>
-      <VBox alignment="CENTER" maxHeight="150.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #6565f8; -fx-border-color: black;" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" maxHeight="100.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: gray; -fx-border-color: black;" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-background-color: red; -fx-background-radius: 10;" text="Welcome to the Body Mass Index (BMI) Calculator!" textAlignment="CENTER">
+            <Text fill="#3fb94d" stroke="BLACK" strokeType="OUTSIDE" text="Body Mass Index (BMI) Calculator">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
-            </Label>
-            <Label alignment="CENTER" prefHeight="100.0" text="*BMI is a method of estimating a person's body fat levels based on their weight and height." wrapText="true">
+            </Text>
+            <Label alignment="CENTER" maxHeight="75.0" prefHeight="100.0" text="*BMI is a method of estimating a person's body fat levels based on their weight and height." wrapText="true">
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
