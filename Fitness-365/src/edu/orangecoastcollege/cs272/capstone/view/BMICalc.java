@@ -1,3 +1,9 @@
+/**
+ * Class which calculates bmi and updates profile if selected
+ * 
+ * @author Jason
+ */
+
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
@@ -36,14 +42,14 @@ public class BMICalc implements SceneNavigation{
 
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	public void updateProfile()
+	private void updateProfile()
 	{
 		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
 	}
 
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	public void cancel()
+	private void cancel()
 	{
 		feetTF.clear();
 		inchesTF.clear();
@@ -58,7 +64,7 @@ public class BMICalc implements SceneNavigation{
 
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	public void calculate()
+	private void calculate()
 	{
 		errorLabel.setVisible(false);
 
@@ -78,11 +84,9 @@ public class BMICalc implements SceneNavigation{
 			errorLabel.setVisible(true);
 	}
 
-	public void initialize()
-	{
-		feetTF.requestFocus();
-	}
-
+	/**
+	 * Scene Navigator
+	 */
 	@Override
 	public Scene getView()
 	{

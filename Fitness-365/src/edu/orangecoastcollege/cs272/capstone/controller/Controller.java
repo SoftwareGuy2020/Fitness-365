@@ -546,6 +546,11 @@ public class Controller extends Application implements AutoCloseable {
 	}
 
 
+	/**
+	 * This function returns a list of favorite meals
+	 * @return An ObservableList<SleepLogEntry> favorite meals
+	 * for the user.
+	 */
 	public ObservableList<Meal> getFavoriteMeals()
 	{
 		String key = Integer.toString(mCurrentUser.getId());
@@ -579,6 +584,12 @@ public class Controller extends Application implements AutoCloseable {
 		return favorites;
 	}
 
+	/**
+	 * Adds meal to favorites database
+	 * 
+	 * @param selectedMeal
+	 * @return
+	 */
 	public int addMealToFavorites(Meal selectedMeal)
 	{
 		if(selectedMeal == null)
@@ -604,6 +615,12 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Deletes meal from favorites database
+	 * 
+	 * @param selectedMeal
+	 * @return
+	 */
 	public void deleteFavoriteMeal(Meal meal)
 	{
 		String key = String.valueOf(meal.getId());
@@ -615,6 +632,7 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private int populateExerciseTable() {
 		int recordsCreated = 0;
 

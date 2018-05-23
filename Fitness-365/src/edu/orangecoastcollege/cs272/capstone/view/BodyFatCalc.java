@@ -1,3 +1,8 @@
+/**
+ * Class which calculates body fat percentage and updates profile if selected
+ * 
+ * @author Jason
+ */
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
@@ -56,7 +61,7 @@ public class BodyFatCalc implements SceneNavigation{
 
 
 	@FXML
-	public void setMale()
+	private void setMale()
 	{
 		wristLabel.setVisible(false);
 		wristTF.setVisible(false);
@@ -70,7 +75,7 @@ public class BodyFatCalc implements SceneNavigation{
 	}
 	// Event Listener on RadioButton.onAction
 	@FXML
-	public void setFemale()
+	private void setFemale()
 	{
 		wristLabel.setVisible(true);
 		wristTF.setVisible(true);
@@ -84,13 +89,13 @@ public class BodyFatCalc implements SceneNavigation{
 	}
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	public void updateProfile(ActionEvent event)
+	private void updateProfile(ActionEvent event)
 	{
 		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
 	}
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	public void cancel()
+	private void cancel()
 	{
 		setMale();
 		wristTF.clear();
@@ -108,7 +113,7 @@ public class BodyFatCalc implements SceneNavigation{
     }
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	public void calculate()
+	private void calculate()
 	{
 		errorLabel.setVisible(false);
 		updateButton.setVisible(false);
@@ -152,11 +157,9 @@ public class BodyFatCalc implements SceneNavigation{
 			errorLabel.setVisible(true);
 	}
 
-	public void initialize()
-	{
-		weightTF.requestFocus();
-	}
-
+	/**
+	 * Scene Navigator
+	 */
 	@Override
 	public Scene getView()
 	{

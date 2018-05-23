@@ -1,3 +1,8 @@
+/**
+ * Class which displays user's favorite meals
+ * 
+ * @author Jason
+ */
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import java.io.IOException;
@@ -7,6 +12,7 @@ import java.util.ResourceBundle;
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +29,8 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	private Button deleteButton;
 
 	private Controller mController = Controller.getInstance();
+	ObservableList<Meal> favorites = mController.getFavoriteMeals();
+
 	private static final String FXML_FILE_NAME = "FavoriteMeals.fxml";
 
 	@FXML
@@ -44,13 +52,14 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 		Meal meal = favoritesLV.getSelectionModel().getSelectedItem();
 
 		mController.deleteFavoriteMeal(meal);
-
+		favorites.remove(meal);
+		
 		reset();
 	}
 
 	private void reset()
 	{
-		favoritesLV.setItems(mController.getFavoriteMeals());
+		favoritesLV.setItems(favorites);
 		deleteButton.setVisible(false);
 	}
 
@@ -61,6 +70,9 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
         mController.changeScene(home.getView(), true);
 	}
 
+	/**
+	 * Scene navigator
+	 */
 	@Override
 	public Scene getView()
 	{
@@ -76,6 +88,9 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 		}
 	}
 
+	/**
+	 * Initializes favorites List View
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{

@@ -1,3 +1,9 @@
+/**
+ * Class which calculates tdee and bmr and updates profile if selected
+ * 
+ * @author Jason
+ */
+
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
@@ -47,7 +53,7 @@ public class TDEECalc implements SceneNavigation{
 
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	public void updateProfile()
+	private void updateProfile()
 	{
 		if(!tdeeTF.getText().isEmpty())
 			mController.getCurrentUser().setTDEE(Integer.parseInt(tdeeTF.getText()));
@@ -57,7 +63,7 @@ public class TDEECalc implements SceneNavigation{
 	}
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	public void cancel()
+	private void cancel()
 	{
 		maleCB.setSelected(true);
 		feetTF.clear();
@@ -71,9 +77,10 @@ public class TDEECalc implements SceneNavigation{
 		HomePage home = new HomePage();
 		mController.changeScene(home.getView(), false);
 	}
+	
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	public void calculate()
+	private void calculate()
 	{
 		errorLabel.setVisible(false);
 
@@ -135,7 +142,10 @@ public class TDEECalc implements SceneNavigation{
     	else
     		errorLabel.setVisible(true);
 	}
-
+	
+	/**
+	 * Scene navigator
+	 */
 	@Override
 	public Scene getView()
 	{
@@ -149,6 +159,9 @@ public class TDEECalc implements SceneNavigation{
 		}
 	}
 
+	/**
+	 * Initializes combobox
+	 */
     public void initialize()
     {
         ObservableList<String> activities = FXCollections.observableArrayList();

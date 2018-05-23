@@ -183,6 +183,9 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		favoritesButton.setVisible(true);
 	}
 
+	/**
+	 * Scene navigator
+	 */
 	@Override
 	public Scene getView()
 	{
@@ -198,6 +201,9 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		}
 	}
 
+	/**
+	 * Initializes the listview and combo box
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
