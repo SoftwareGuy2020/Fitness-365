@@ -1,7 +1,11 @@
 /**
  * Class which serves as a home page for the calculators
  * 
+<<<<<<< HEAD
  * @author Travis
+=======
+ * 
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365.git
  */
 package edu.orangecoastcollege.cs272.capstone.view;
 
