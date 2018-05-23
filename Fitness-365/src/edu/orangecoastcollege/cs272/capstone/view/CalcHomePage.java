@@ -1,7 +1,7 @@
 /**
  * Class which serves as a home page for the calculators
  * 
- * @author Jason
+ * @author Travis
  */
 package edu.orangecoastcollege.cs272.capstone.view;
 
