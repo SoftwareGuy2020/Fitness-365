@@ -61,6 +61,8 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	private Label mealtimeLabel;
 	@FXML
 	private Label errorLabel;
+	@FXML 
+	private Button favoritesButton;
 	
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "FoodSearch.fxml";
@@ -118,7 +120,20 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		dinnerRB.setVisible(false);
 		snackRB.setVisible(false);
 		errorLabel.setVisible(false);
+		favoritesButton.setVisible(false);
 		searchTF.requestFocus();
+	}
+	
+	@FXML
+	public void addNOpenFavorites()
+	{
+		
+		Meal meal = foodLV.getSelectionModel().getSelectedItem();	
+		mController.addMealToFavorites(meal);
+			
+		FavoriteMeals home = new FavoriteMeals();
+	    mController.changeScene(home.getView(), true);
+		
 	}
 	
 	@FXML
@@ -164,6 +179,7 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		dinnerRB.setVisible(true);
 		snackRB.setVisible(true);
 		errorLabel.setVisible(false);
+		favoritesButton.setVisible(true);
 	}
 	
 	@Override

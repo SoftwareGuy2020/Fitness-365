@@ -52,6 +52,11 @@ public class HomePage extends VBox implements SceneNavigation {
 
 	}
 	
+	public void goToFavoriteMeals()
+	{
+		mController.changeScene(new FavoriteMeals().getView(), false);
+	}
+	
 	public void goToMyAccount()
 	{
 		mController.changeScene(new AccountPage().getView(), false);

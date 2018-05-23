@@ -73,7 +73,7 @@ public class AccountPage extends GridPane implements SceneNavigation{
 	
 	public void backToHome()
 	{
-		mController.changeScene(new HomePage().getView(), false);
+		mController.changeScene(new HomePage().getView(), true);
 	}
 	
 	public void applyChanges()

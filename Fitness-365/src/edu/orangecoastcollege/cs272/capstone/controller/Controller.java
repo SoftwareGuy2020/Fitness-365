@@ -353,6 +353,8 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return false;
 	}
+	
+	
 
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
 		String key = Integer.toString(mCurrentUser.getId());
@@ -408,6 +410,8 @@ public class Controller extends Application implements AutoCloseable {
 			return -1;
 		}
 	}
+	
+	
 	public void deleteSleepLogEntry(SleepLogEntry entry)
 	{
 		String key = String.valueOf(entry.getID());
@@ -418,6 +422,7 @@ public class Controller extends Application implements AutoCloseable {
 			e.printStackTrace();
 		}
 	}
+	
 
 	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
 	{
@@ -445,9 +450,77 @@ public class Controller extends Application implements AutoCloseable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 		return entries;
+	}
+	
+	
+	public ObservableList<Meal> getFavoriteMeals()
+	{
+		String key = Integer.toString(mCurrentUser.getId());
+		ObservableList<Meal> favorites = FXCollections.observableArrayList();
+		
+		try
+        {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[6], new String[] {FIELD_NAMES[6][2]}, new String[] {key});
+            
+            int mealId = 0;
+            
+            while(rs.next())
+            {
+                mealId = rs.getInt(2);
+                
+                for(Meal m : mInstance.mAllMealsList)
+                {
+                    if(mealId == m.getId())
+                    {
+                        favorites.add(m);
+                        break;
+                    } 
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+		return favorites;
+	}
+	
+	public int addMealToFavorites(Meal selectedMeal)
+	{
+		if(selectedMeal == null)
+			return -1;
+		
+		ObservableList<Meal> meals = getFavoriteMeals();
+		
+		 if(meals.contains(selectedMeal))
+		 {
+		       return -1;
+         }
+
+		String [] values = {Integer.toString(selectedMeal.getId()), Integer.toString(mCurrentUser.getId())};
+		
+		try
+		{
+			return mDB.createRecord(TABLE_NAMES[6], Arrays.copyOfRange(FIELD_NAMES[6], 1, FIELD_NAMES[6].length), values);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}	
+	}
+	
+	public void deleteFavoriteMeal(Meal meal)
+	{
+		String key = String.valueOf(meal.getId());
+		try {
+			mDB.deleteRecord(TABLE_NAMES[6], key);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private int populateExerciseTable() {

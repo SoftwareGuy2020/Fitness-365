@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FavoriteMeals">
+   <top>
+      <VBox alignment="CENTER" maxHeight="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="#3fb94d" stroke="BLACK" strokeType="OUTSIDE" text="Favorite Meals">
+               <font>
+                  <Font name="System Bold" size="33.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <ListView fx:id="favoritesLV" onMouseClicked="#selectMeal" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+         <effect>
+            <InnerShadow />
+         </effect>
+         <BorderPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </BorderPane.margin></ListView>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" maxHeight="70.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#goToHomeScreen" style="-fx-background-radius: 5; -fx-border-color: blue; -fx-border-radius: 5;" text="Go Back" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteMeal" style="-fx-background-radius: 5; -fx-border-color: red; -fx-border-radius: 5;" text="Delete Meal" visible="false" />
+            <Button mnemonicParsing="false" onAction="#goToFoodSearch" style="-fx-background-radius: 5; -fx-border-color: green; -fx-border-radius: 5;" text="Add Meal from Food Search" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

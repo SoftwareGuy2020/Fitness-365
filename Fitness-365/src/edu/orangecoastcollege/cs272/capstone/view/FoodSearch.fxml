@@ -106,8 +106,9 @@
             </HBox>
          </top>
          <bottom>
-            <HBox alignment="CENTER" maxHeight="35.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER" maxHeight="35.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
+                  <Button fx:id="favoritesButton" maxWidth="200.0" mnemonicParsing="false" onAction="#addNOpenFavorites" style="-fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: green;" text="Add to Favorites" visible="false" />
                   <Label fx:id="mealtimeLabel" text="Select meal time: " visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
