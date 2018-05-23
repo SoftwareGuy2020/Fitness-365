@@ -18,7 +18,11 @@ public class TestMeal
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
-        
+        meal1 = new Meal("name1", 1, 100, 10, 30,
+            20, "Beef products");
+
+        meal2 = new Meal("name2", 3, 200, 30, 20,
+                10, "Fruits");
     }
 
     @AfterClass
@@ -37,9 +41,13 @@ public class TestMeal
     }
 
     @Test
-    public void test()
+    public void testGetProtein()
     {
-        //fail("Not yet implemented");
+        double protein1 = meal1.getProtein();
+        double protein2 = meal2.getProtein();
+
+        assertTrue("Testing with valid protein.", protein1 == 20);
+        assertTrue("Testing with null sleep time.", protein2 == 10);
     }
 
 }

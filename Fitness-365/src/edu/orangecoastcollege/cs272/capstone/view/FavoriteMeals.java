@@ -18,41 +18,40 @@ import javafx.scene.layout.BorderPane;
 public class FavoriteMeals implements SceneNavigation, Initializable {
 	@FXML
 	private ListView<Meal> favoritesLV;
-	
+
 	@FXML
 	private Button deleteButton;
-	
+
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "FavoriteMeals.fxml";
-	
+
 	@FXML
 	public void goToHomeScreen()
 	{
 		HomePage home = new HomePage();
         mController.changeScene(home.getView(), true);
 	}
-	
+
 	@FXML
 	public void selectMeal()
 	{
-		deleteButton.setVisible(true);
+		//deleteButton.setVisible(true);
 	}
-	
+
 	@FXML
 	public void deleteMeal()
 	{
 		Meal meal = favoritesLV.getSelectionModel().getSelectedItem();
-		
+
 		mController.deleteFavoriteMeal(meal);
-		
+
 		reset();
 	}
-	
+
 	private void reset()
 	{
 		favoritesLV.setItems(mController.getFavoriteMeals());
 		deleteButton.setVisible(false);
-
 	}
 
 	@FXML
@@ -61,16 +60,16 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 		FoodSearch home = new FoodSearch();
         mController.changeScene(home.getView(), true);
 	}
-	
+
 	@Override
 	public Scene getView()
 	{
-		try 
+		try
 		{
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
 
-		} catch (IOException e) 
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 			return null;
@@ -80,9 +79,9 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
-	
+
 		favoritesLV.setItems(mController.getFavoriteMeals());
-		
+
 	}
 
 }
