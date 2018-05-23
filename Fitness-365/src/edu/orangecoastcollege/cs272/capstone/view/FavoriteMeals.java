@@ -29,7 +29,7 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	private Button deleteButton;
 
 	private Controller mController = Controller.getInstance();
-	ObservableList<Meal> favorites = mController.getFavoriteMeals();
+	ObservableList<Meal> favorites;
 
 	private static final String FXML_FILE_NAME = "FavoriteMeals.fxml";
 
@@ -94,8 +94,8 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
-
-		favoritesLV.setItems(mController.getFavoriteMeals());
+		favorites = mController.getFavoriteMeals();
+		favoritesLV.setItems(favorites);
 
 	}
 
