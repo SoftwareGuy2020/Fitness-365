@@ -35,7 +35,7 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	@FXML
 	public void selectMeal()
 	{
-		//deleteButton.setVisible(true);
+		deleteButton.setVisible(true);
 	}
 
 	@FXML
