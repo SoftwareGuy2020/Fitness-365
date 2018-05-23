@@ -28,7 +28,7 @@ public class ResetPasswordForm extends AnchorPane{
 	}
 	
 	@FXML
-	public void initialize() {
+	private void initialize() {
 	    Platform.runLater( () -> mPane.requestFocus() );
 	}
 

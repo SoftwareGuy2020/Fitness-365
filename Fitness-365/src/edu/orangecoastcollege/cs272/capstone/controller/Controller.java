@@ -393,7 +393,12 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return entries;
 	}
-
+	
+	/**
+	 * Add's an entry to the sleep log database
+	 * @param SleepLogEntry entry
+	 * @return the ID of the entry, -1 if the entry is null
+	 */
 	public int addSleepLogEntry(SleepLogEntry entry)
 	{
 		if (entry == null)
@@ -411,7 +416,10 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
-
+	/**
+	 * Deletes a SleepLogEntry from the sleep log database
+	 * @param entry to be deleted
+	 */
 	public void deleteSleepLogEntry(SleepLogEntry entry)
 	{
 		String key = String.valueOf(entry.getID());
@@ -424,6 +432,11 @@ public class Controller extends Application implements AutoCloseable {
 	}
 
 
+	/**
+	 * This function returns a list of sleep log entries from he sleep log database matching the user ID
+	 * @return An ObservableList<SleepLogEntry> containing all the sleep log entries
+	 * for the user.
+	 */
 	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
 	{
 		String key = Integer.toString(mCurrentUser.getId());
@@ -650,6 +663,11 @@ public class Controller extends Application implements AutoCloseable {
         return c;
     }
 
+    /**
+     * Open's a URL in either a new window if none are present, or a new tab
+     * of the system's default web browser.
+     * @param url (string) of desired web page to be opened
+     */
 	public void openWebpage(String url)
 	{
 		HostServices host = getHostServices();

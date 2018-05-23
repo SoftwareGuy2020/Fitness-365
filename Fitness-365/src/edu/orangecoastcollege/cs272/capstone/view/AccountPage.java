@@ -7,6 +7,7 @@ import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import edu.orangecoastcollege.cs272.capstone.model.User;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,7 +36,8 @@ public class AccountPage extends GridPane implements SceneNavigation{
 		mController = Controller.getInstance();
 	}
 
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		weeklyGoalCB.setItems(FXCollections.observableArrayList(-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0));
 		if (mController.getCurrentUser() != null)
 		{
@@ -59,6 +61,10 @@ public class AccountPage extends GridPane implements SceneNavigation{
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
 	@Override
 	public Scene getView() {
 		GridPane gp = null;
@@ -70,13 +76,15 @@ public class AccountPage extends GridPane implements SceneNavigation{
 			return null;
 		}
 	}
-
-	public void backToHome()
+	
+	@FXML
+	private void backToHome()
 	{
 		mController.changeScene(new HomePage().getView(), false);
 	}
 
-	public void applyChanges()
+	@FXML
+	private void applyChanges()
 	{
 		errorLabel.setVisible(false);
 		User currentUser = mController.getCurrentUser();
@@ -110,7 +118,8 @@ public class AccountPage extends GridPane implements SceneNavigation{
 		}
 	}
 
-	public void goToChangePasswordPopUp()
+	@FXML
+	private void goToChangePasswordPopUp()
 	{
 		try
 		{

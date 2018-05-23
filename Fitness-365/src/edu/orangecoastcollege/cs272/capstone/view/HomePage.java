@@ -32,12 +32,17 @@ public class HomePage extends VBox implements SceneNavigation {
 	public HomePage() {
 		mController = Controller.getInstance();
 	}
-	public void signOut() {
+	
+	@FXML
+	private void signOut() {
 		Login login = new Login();
 		mController.changeScene(login.getView(), false);
 		mController.setCurrentUser(null);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
 	@Override
 	public Scene getView() {		
 		VBox vb = null;
@@ -52,17 +57,20 @@ public class HomePage extends VBox implements SceneNavigation {
 
 	}
 	
-	public void goToFavoriteMeals()
+	@FXML
+	private void goToFavoriteMeals()
 	{
 		mController.changeScene(new FavoriteMeals().getView(), false);
 	}
 	
-	public void goToMyAccount()
+	@FXML
+	private void goToMyAccount()
 	{
 		mController.changeScene(new AccountPage().getView(), false);
 	}
 	
-	public void goToAboutPopUp()
+	@FXML
+	private void goToAboutPopUp()
 	{
 		try
 		{

@@ -57,7 +57,12 @@ public class DBModel implements AutoCloseable {
 			mStmt.executeUpdate(createSQL.toString());
 		}
 	}
-
+	/**
+	 *  Search's the user database
+	 * @param username (string)
+	 * @return the ID of the user, -1 if username is null OR user is not found
+	 * @throws SQLException
+	 */
 	public int searchUsers(String username) throws SQLException {
 		if (username != null) {
 			ResultSet rs = mStmt.executeQuery("SELECT " + mFieldNames[0][0] + " FROM " + mTableNames[0] + " WHERE "
@@ -68,7 +73,12 @@ public class DBModel implements AutoCloseable {
 		}
 		return -1;
 	}
-
+	/**
+	 * 
+	 * @param table
+	 * @return ResultSet of all the records
+	 * @throws SQLException
+	 */
 	public ResultSet getAllRecords(String table) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)

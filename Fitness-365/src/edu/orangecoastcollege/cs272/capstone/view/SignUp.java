@@ -48,13 +48,19 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 		mController = Controller.getInstance();
 	}
 
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		securityQuestionCB.setItems(FXCollections.observableArrayList(SecurityQuestion.getAllQuestions()));
 		sexCB.setItems(FXCollections.observableArrayList(Sex.values()));
 		weeklyGoalCB.setItems(FXCollections.observableArrayList(-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0));
 		weeklyGoalCB.setValue(0.0);
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
+	@Override
 	public Scene getView() {
 		try {
 			AnchorPane ap = FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));

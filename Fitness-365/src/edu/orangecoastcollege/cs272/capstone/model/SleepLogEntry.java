@@ -37,9 +37,14 @@ public class SleepLogEntry {
 		mWakeTime = wakeTime;
 		this.numOfInterruptions = numOfInterruptions;
 	}
+	/**
+	 * 
+	 * @return Entry ID (int)
+	 */
 	public int getID() {
 		return mID;
 	}
+	
 	public void setID(int iD) {
 		mID = iD;
 	}

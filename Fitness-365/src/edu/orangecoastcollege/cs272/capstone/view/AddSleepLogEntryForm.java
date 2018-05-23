@@ -37,7 +37,8 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 	
 	private SleepLogEntry mEntry;
 	
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		mController = Controller.getInstance();
 		datePicker.setMode(Mode.SINGLE);
 		datePicker.setLocalDate(LocalDate.now());
@@ -47,6 +48,10 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 	{
 		return mEntry;
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
 	@Override
 	public Scene getView() {
 		try {			

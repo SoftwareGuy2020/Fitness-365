@@ -43,8 +43,9 @@ public class SleepLog implements SceneNavigation {
 	private int mRecommendedHours;
 
 	ObservableList<SleepLogEntry> entries;
-
-	public void initialize()
+	
+	@FXML
+	private void initialize()
 	{
 		mUser = mController.getCurrentUser();
 		entries = mController.getAllSleepLogEntries();
@@ -120,6 +121,9 @@ public class SleepLog implements SceneNavigation {
 
 
 	}
+	/**
+	 * Creates new SleepLog
+	 */
 	public SleepLog()
 	{
 		mController = Controller.getInstance();
@@ -137,7 +141,7 @@ public class SleepLog implements SceneNavigation {
 			return null;
 		}
 	}
-	// TODO Button methods for creating and deleting entries
+	
 	@FXML
 	private void addNewEntry()
 	{

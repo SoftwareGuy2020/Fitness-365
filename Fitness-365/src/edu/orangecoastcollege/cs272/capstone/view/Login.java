@@ -53,7 +53,8 @@ public class Login extends AnchorPane implements SceneNavigation {
 		mController = Controller.getInstance();
 	}
 
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		if (!savedUser.isEmpty()) {
 			rememberUsernameCB.setSelected(true);
 			usernameTF.setText(savedUser);
@@ -65,7 +66,11 @@ public class Login extends AnchorPane implements SceneNavigation {
 		if (e.getCode() == KeyCode.ENTER)
 			authenticateLogin();
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
+	@Override
 	public Scene getView() {
 		try {
 			Scanner input = new Scanner(new File("resources/init.txt"));

@@ -17,13 +17,14 @@ public class AboutPage extends AnchorPane{
 		mController = Controller.getInstance();
 	}
 	
-	
-	public void goToFitnessGithub()
+	@FXML
+	private void goToFitnessGithub()
 	{
 		mController.openWebpage(fitnessHL.getText());
 	}
 	
-	public void goToAndreaGithub()
+	@FXML
+	private void goToAndreaGithub()
 	{
 		mController.openWebpage(andreaHL.getText());
 	}
