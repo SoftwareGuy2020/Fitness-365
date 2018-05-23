@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="833.0" style="-fx-background-color: #dcdcdc;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.Login">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="833.0" style="-fx-background-color: #dcdcdc;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.Login">
    <children>
       <TextField fx:id="usernameTF" layoutX="307.0" layoutY="231.0" prefHeight="30.0" prefWidth="187.0" promptText="username" style="-fx-background-color: &quot;#bbbbb&quot;;" AnchorPane.bottomAnchor="336.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="307.0" AnchorPane.topAnchor="231.0">
          <font>
@@ -40,6 +40,5 @@
             <Image url="@../../../../../../resources/logo.png" />
          </image>
       </ImageView>
-      <Button layoutY="2.0" mnemonicParsing="false" onAction="#test_bypassLogin" text="homepage" />
    </children>
 </AnchorPane>
