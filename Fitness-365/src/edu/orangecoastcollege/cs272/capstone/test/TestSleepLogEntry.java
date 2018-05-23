@@ -31,19 +31,6 @@ public class TestSleepLogEntry {
 				LocalTime.of(12, 0), null, 0);
 		
 	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	
 	@Test
 	public void testGetHoursAsleep() {
