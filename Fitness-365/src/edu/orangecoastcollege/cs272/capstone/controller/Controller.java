@@ -262,18 +262,28 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return false;
 	}
-
+	/**
+	 * Changes the scene set on the Main Stage
+	 * @param scene
+	 * @param resizable, whether scene should be resizable or not
+	 */
 	public void changeScene(Scene scene, boolean resizable) {
 		mMainStage.setScene(scene);
 		mMainStage.setResizable(resizable);
 		mMainStage.setTitle("Fitness 365");
 	}
-
+	/**
+	 * Changes current user of program to the one specified by the username
+	 * @param username
+	 */
 	public void setCurrentUser(String username)
 	{
 		mCurrentUser = getUser(username);
 	}
-
+	/**
+	 * 
+	 * @return The current user object
+	 */
 	public User getCurrentUser()
 	{
 		return mCurrentUser;
