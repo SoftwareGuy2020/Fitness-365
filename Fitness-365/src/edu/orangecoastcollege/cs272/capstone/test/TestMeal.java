@@ -46,8 +46,28 @@ public class TestMeal
         double protein1 = meal1.getProtein();
         double protein2 = meal2.getProtein();
 
-        assertTrue("Testing with valid protein.", protein1 == 20);
-        assertTrue("Testing with null sleep time.", protein2 == 10);
+        assertTrue("Testing protein.", protein1 == 20);
+        assertTrue("Testing protein.", protein2 == 10);
+    }
+    
+    @Test
+    public void testGetCarbs()
+    {
+        double carbs1 = meal1.getCarbs();
+        double carbs2 = meal2.getCarbs();
+        
+        assertTrue("Testing carbs.", carbs1 == 30);
+        assertTrue("Testing carbs.", carbs2 == 20);
+    }
+    
+    @Test
+    public void testGetName()
+    {
+        String name1 = meal1.getName();
+        String name2 = meal2.getName();
+        
+        assertTrue("Testing name.", name1.equalsIgnoreCase("Name1"));
+        assertTrue("Testing name.", name2.equalsIgnoreCase("Name2"));
     }
 
 }

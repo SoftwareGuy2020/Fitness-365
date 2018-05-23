@@ -26,20 +26,20 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	private static final String FXML_FILE_NAME = "FavoriteMeals.fxml";
 
 	@FXML
-	public void goToHomeScreen()
+	private void goToHomeScreen()
 	{
 		HomePage home = new HomePage();
         mController.changeScene(home.getView(), true);
 	}
 
 	@FXML
-	public void selectMeal()
+	private void selectMeal()
 	{
 		deleteButton.setVisible(true);
 	}
 
 	@FXML
-	public void deleteMeal()
+	private void deleteMeal()
 	{
 		Meal meal = favoritesLV.getSelectionModel().getSelectedItem();
 
@@ -55,7 +55,7 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	}
 
 	@FXML
-	public void goToFoodSearch()
+	private void goToFoodSearch()
 	{
 		FoodSearch home = new FoodSearch();
         mController.changeScene(home.getView(), true);
