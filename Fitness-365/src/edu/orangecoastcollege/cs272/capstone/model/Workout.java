@@ -3,6 +3,8 @@ package edu.orangecoastcollege.cs272.capstone.model;
 import java.time.LocalDate;
 
 /**
+ * 
+ * Represents a completed workout of one exercise.
  * @author Travis
  *
  */
@@ -15,12 +17,13 @@ public class Workout {
 	private LocalDate mDate;
 
 	/**
-	 * @param id
-	 * @param userId
-	 * @param exerciseId
-	 * @param weight
-	 * @param reps
-	 * @param date
+	 * Instantiates a workout.
+	 * @param id the database index
+	 * @param userId the user's database index
+	 * @param exercise the exercise performed in the workout
+	 * @param weight the weight lifted
+	 * @param reps the number of times the weight was lifted
+	 * @param date the date that the workout occured on
 	 */
 	public Workout(int id, int userId, Exercise exercise, double weight, int reps, LocalDate date) {
 		this.mId = id;

@@ -30,6 +30,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jfxtras.scene.control.LocalDatePicker;
 
+/**
+ * Represents a Food Diary for the user to record their daily intake of food,
+ * and track their nutritional data.
+ * @author Travis
+ *
+ */
 public class FoodDiary extends VBox implements SceneNavigation {
 
 	private static final String FXML_FILE_NAME = "food_diary.fxml";
@@ -61,11 +67,15 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	private LocalDate selectedDate;
 	private ObservableList<FoodDiaryEntry> entries;
 
+	/**
+	 * Instantiates an instance of FoodDiary
+	 */
 	public FoodDiary() {
 		mController = Controller.getInstance();
 	}
-
-	public void initialize() {
+	
+	@FXML
+	private void initialize() {
 		calorieGoalTF.setText(Integer.toString(mController.getCurrentUser().getTDEE()));
 		selectedDate = LocalDate.now();
 		calendar.setLocalDate(selectedDate);
@@ -120,7 +130,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		macroPieChart.setData(data);
 	}
 
-	protected void updateMacros(FoodDiaryEntry entry) {
+	private void updateMacros(FoodDiaryEntry entry) {
 		macroPieChart.getData().forEach(e -> {
 			String name = e.getName();
 			DoubleProperty value;
@@ -138,13 +148,17 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		updateCalorieCounters(entry.getMealCalories());		
 	}
 
-	protected void updateCalorieCounters(int mealCalories) {
+	private void updateCalorieCounters(int mealCalories) {
 		int currentConsumed = Integer.parseInt(calorieConsumedTF.getText());
 		int caloriesRemaining = Integer.parseInt(calorieRemainingTF.getText());
 		calorieConsumedTF.setText(Integer.toString(currentConsumed + mealCalories));
 		calorieRemainingTF.setText(Integer.toString(caloriesRemaining - mealCalories));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
 	@Override
 	public Scene getView() {
 		try {
@@ -157,8 +171,8 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addMeal() {
+	@FXML @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void addMeal() {
 		try {
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
@@ -191,10 +205,9 @@ public class FoodDiary extends VBox implements SceneNavigation {
 					((FilteredList) snacksTableView.getItems()).getSource().add(entry);
 					break;
 				}
-				
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}

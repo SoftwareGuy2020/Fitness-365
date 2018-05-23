@@ -24,6 +24,11 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import jfxtras.scene.control.ListView;
 
+/**
+ * Represents a log of the users's workouts for the current day. 
+ * @author Travis
+ *
+ */
 public class WorkoutLog {
 	@FXML
 	private TableView<Exercise> exercisesTableView;
@@ -38,6 +43,9 @@ public class WorkoutLog {
 	private ObservableList<Exercise> mAllExercisesList;
 	private String mLastSearchTerm = "";
 	
+	/**
+	 * Instantiates an instance of WorkoutLog
+	 */
 	public WorkoutLog() {}
 	
 	@FXML
@@ -116,7 +124,7 @@ public class WorkoutLog {
 			int reps = repSpinner.getValue();
 
 			if (reps != 0 && weight != 0) {				
-				int id = mController.addSavedExercise(exercise);				
+				mController.addSavedExercise(exercise);				
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package edu.orangecoastcollege.cs272.capstone.model;
 
 /**
+ * Represents a physical exercise 
  * @author Travis
  *
  */
@@ -11,9 +12,10 @@ public class Exercise {
 	
 	
 	/**
-	 * @param id
-	 * @param name
-	 * @param muscleGroup
+	 * Instantiates the Exercise
+	 * @param id the index for the exercise in the database
+	 * @param name the name of the exercise
+	 * @param muscleGroup the major muscle group targeted by the exercise
 	 */
 	public Exercise(int id, String name, String muscleGroup) {
 		this.mId = id;

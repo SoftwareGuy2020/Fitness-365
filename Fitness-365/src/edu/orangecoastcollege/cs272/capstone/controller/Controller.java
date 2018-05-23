@@ -34,6 +34,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
+ * The controller for Fitness 365 as per the MVC architecture.
+ * Handles all communications between models and views.
+ * Operates on a singleton design.
  * @author Travis
  *
  */
@@ -51,7 +54,7 @@ public class Controller extends Application implements AutoCloseable {
 												{"_id", "name", "user_id", "exercise_id"},
 												{"_id", "name", "food_group", "serving_size", "calories", "fat", "carbs", "protein"},
 												{"_id", "meal_id", "user_id"},
-								/*7*/			{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
+												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
 												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"},
@@ -97,8 +100,17 @@ public class Controller extends Application implements AutoCloseable {
 	private static final String MEALS_DATA_FILE = "nutrients.csv";
 	private static final String EXERCISE_DATA_FILE = "Exercises.csv";
 
+	/**
+	 * Instantiates the Controller. Do not manually call this.
+	 * JavaFx calls this automatically.
+	 */
 	public Controller() {}
 
+	/**
+	 * The correct method to use in order to get an instance of the Controller.
+	 * 
+	 * @return
+	 */
 	public static Controller getInstance() {
 		if (mInstance == null)
 		{
@@ -108,7 +120,10 @@ public class Controller extends Application implements AutoCloseable {
 		return mInstance;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see javafx.application.Application#init()
+	 */
 	@Override
 	public void init() throws Exception {
 		mInstance = this;
@@ -126,16 +141,12 @@ public class Controller extends Application implements AutoCloseable {
 		}
 
 		mInstance.mAllMealsList = FXCollections.observableArrayList();
-
         ResultSet rs;
 
         try
         {
             rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
-
-            //mInstance.populatingMealTable();
-            //populateExerciseTable();
-
+            
             while (rs.next())
             {
                 int id = rs.getInt(1);
@@ -152,13 +163,15 @@ public class Controller extends Application implements AutoCloseable {
         }
         catch (SQLException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 		super.init();
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Login login = new Login();
@@ -167,11 +180,19 @@ public class Controller extends Application implements AutoCloseable {
 		mInstance.changeScene(login.getView(), false);
 		primaryStage.show();
 	}
-
+	/**
+	 * Das ist mein Main!
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Gets the user from the database based on their username
+	 * @param username the user's unique username
+	 * @return The user who's associated with the username
+	 */
 	public User getUser(String username) {
 		if (username != null) {
 			try {
@@ -185,8 +206,7 @@ public class Controller extends Application implements AutoCloseable {
 							rs.getDouble(15), rs.getInt(16));
 					return user;
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+			} catch (SQLException e) {				
 				e.printStackTrace();
 			}
 		}
@@ -201,7 +221,12 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return null;
 	}
-
+	/**
+	 * Authenticates a login attempt.
+	 * @param username the typed username
+	 * @param attemptedPW the typed password
+	 * @return True if authentication was successful. False otherwise.
+	 */
 	public boolean authenticateLogin(String username, String attemptedPW) {
 		User user = mInstance.getUser(username);
 		if (user == null)
@@ -217,7 +242,12 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Creates a new user in the database and encrypts the user's password
+	 * @param user
+	 * @param password
+	 */
 	public void createNewUser(User user, String password) {
 		try {
 			byte[] salt = PasswordEncryption.generateSalt();
@@ -232,6 +262,13 @@ public class Controller extends Application implements AutoCloseable {
 
 	}
 
+	/**
+	 * Updates the specified user in the database
+	 * @param user the user to be updated
+	 * @param fields an array of fields that will be updated
+	 * @param values the values associate with the fields
+	 * @return True if successful, false otherwise.
+	 */
 	public boolean updateUser(User user, String[] fields, String[] values) {
 		if (user != null && fields.length == values.length) {
 			try {
@@ -247,6 +284,13 @@ public class Controller extends Application implements AutoCloseable {
 		return false;
 	}
 
+	/**
+	 * Updates the user's password with a new password.
+	 * The new password is encrypted.
+	 * @param user
+	 * @param newPassword
+	 * @return True if update was successful, false otherwise.
+	 */
 	public boolean updateUserPassword(User user, String newPassword) {
 		// can't use previous password as new password
 		if (authenticateLogin(user.getUserName(), newPassword))
@@ -289,7 +333,13 @@ public class Controller extends Application implements AutoCloseable {
 		return mCurrentUser;
 	}
 
-
+	/**
+	 * Adds a meal to the database
+	 * @param meal
+	 * @return The index in the database that the meal is at,
+	 * 			or -1 if unsuccessful.
+	 * 		
+	 */
 	public int addMeal(Meal meal) {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length);
 		String[] values = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
@@ -310,6 +360,12 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Gets a meal from the database thats associated with the passed id
+	 * @param id the index of the meal in the database.
+	 * @return the meal belonging to the id. 
+	 * 			returns null if meal does not exist.
+	 */
 	public Meal getMeal(int id) {
 		String key = Integer.toString(id);
 		try {
@@ -325,6 +381,11 @@ public class Controller extends Application implements AutoCloseable {
 		return null;
 	}
 
+	/**
+	 * Adds a FoodDiaryEntry into the database.
+	 * @param entry 
+	 * @return the id where the FoodDiaryEntry is stored, or -1 if unsuccessful.
+	 */
 	public int addFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
 			return -1;
@@ -352,6 +413,11 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Deletes the specified FoodDiaryEntry from the database.
+	 * @param entry
+	 * @return True if deletion was completed, false otherwise.
+	 */
 	public boolean deleteFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
 			return false;
@@ -365,7 +431,10 @@ public class Controller extends Application implements AutoCloseable {
 	}
 
 
-
+	/**
+	 * Gets all FoodDiaryEntries in the database that are associated with the current user.
+	 * @return
+	 */
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<FoodDiaryEntry> entries = FXCollections.observableArrayList();
@@ -590,7 +659,7 @@ public class Controller extends Application implements AutoCloseable {
                 String[] data = fileScanner.nextLine().split(",");
 
                 String[] values = new String[FIELD_NAMES[5].length - 1];
-                //"name", "group", "serving_size", "calories", "fat", "carbs", "protein"
+                
                 values[0] = data[0];
                 values[1] = data[1];
                 values[2] = "1";
@@ -683,7 +752,11 @@ public class Controller extends Application implements AutoCloseable {
 		HostServices host = getHostServices();
         host.showDocument(url);
 	}
-
+	
+	/**
+	 * Gets all Workouts from the database.
+	 * @return an Observable list of Workouts.
+	 */
 	public ObservableList<Workout> getallWorkouts() {
 		ObservableList<Workout> workouts = FXCollections.observableArrayList();
 		try {
@@ -699,7 +772,6 @@ public class Controller extends Application implements AutoCloseable {
 				exerciseIDs.add(rs.getInt(3));
 			}
 
-
 			int size = exerciseIDs.size();
 			Exercise exercise = null;
 			for (int i = 0; i < size; ++i) {
@@ -712,6 +784,11 @@ public class Controller extends Application implements AutoCloseable {
 		return workouts;
 	}
 
+	/**
+	 * Gets the exercise at the specified index of the database.
+	 * @param id the index of the exercise.
+	 * @return The Exercise, or null if not found.
+	 */
 	public Exercise getExercise(int id) {
 		String key = Integer.toString(id);
 		try {
@@ -725,6 +802,11 @@ public class Controller extends Application implements AutoCloseable {
 		return null;
 	}
 
+	/**
+	 * Adds the specified Exercise to the database.
+	 * @param exercise
+	 * @return the index where the Exercise is located, or -1 if something went wrong.
+	 */
 	public int addExercise (Exercise exercise) {
 		if (exercise == null)
 			return -1;
@@ -739,6 +821,11 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Adds a Workout to the Database.
+	 * @param w the workout.
+	 * @return The index where the Workout is located, or -1 if something went wrong.
+	 */
 	public int addWorkout(Workout w) {
 		if (w == null)
 			return -1;
@@ -754,6 +841,10 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Gets all Exercises from the database.
+	 * @return an Observable list of Exercises.
+	 */
 	public ObservableList<Exercise> getAllExercises() {
 		ObservableList<Exercise> results = FXCollections.observableArrayList();
 		try {
@@ -770,11 +861,20 @@ public class Controller extends Application implements AutoCloseable {
 		return results;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.AutoCloseable#close()
+	 */
 	@Override
 	public void close() throws Exception {
 		mDB.close();
 	}
 
+	/**
+	 * Adds the exercise to the saved_workouts table of the database.
+	 * @param exercise
+	 * @return the index where the exercise is located, or -1 if something went wrong.
+	 */
 	public int addSavedExercise(Exercise exercise) {
 		if (exercise == null)
 			return -1;
@@ -790,6 +890,10 @@ public class Controller extends Application implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Gets all saved Exercises from the database.
+	 * @return an Observable list of Exercises.
+	 */
 	public ObservableList<Exercise> getAllSavedExercises() {
 
 		ObservableList<Exercise> results = FXCollections.observableArrayList();

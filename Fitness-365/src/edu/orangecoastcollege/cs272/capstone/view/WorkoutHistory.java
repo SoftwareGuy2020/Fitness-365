@@ -12,6 +12,11 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.TableView;
 import jfxtras.scene.control.LocalDatePicker;
 
+/**
+ * Represents a ledger of past workouts performed by the user.
+ * @author Travis
+ *
+ */
 public class WorkoutHistory {
 
 	@FXML
@@ -23,6 +28,10 @@ public class WorkoutHistory {
 	private LocalDate mSelectedDate;
 	private ObservableList<Workout> mAllWorkouts;
 
+	
+	/**
+	 * Instantiates an instance of WorkoutHistory
+	 */
 	public WorkoutHistory() {
 	}
 

@@ -1,12 +1,18 @@
 package edu.orangecoastcollege.cs272.capstone.model;
 
 /**
+ * Enum for storing user's unit preference
  * @author Travis
  *
  */
 public enum Units {
 	POUNDS, KILOGRAMS, INCHES, CENTIMETERS, MILES, KILOMETERS;
 
+	/**
+	 * Parses an array of bytes into an array of Units
+	 * @param selection
+	 * @return
+	 */
 	public static Units[] parse(byte[] selection) {
 		if (selection.length == 3) {
 			Units[] units = new Units[3];
