@@ -9,6 +9,7 @@ import edu.orangecoastcollege.cs272.capstone.model.Workout;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
@@ -18,7 +19,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import jfxtras.scene.control.ListView;
 
 public class WorkoutLog {
 	@FXML
@@ -105,14 +109,32 @@ public class WorkoutLog {
 	}
 	
 	@FXML
-	private void newExercise() {
-		
+	private void addSavedExercise() {
+		Exercise exercise = exercisesTableView.getSelectionModel().getSelectedItem();
+		if (exercise != null) {
+			double weight = weightSpinner.getValue();
+			int reps = repSpinner.getValue();
+
+			if (reps != 0 && weight != 0) {				
+				int id = mController.addSavedExercise(exercise);				
+			}
+		}
+	}
+	
+	@FXML
+	private void showSavedExercises() {
+		Stage stage = new Stage();
+		ListView<Exercise> lv = new ListView<>(mController.getAllSavedExercises());
+		VBox root = new VBox();
+		root.getChildren().add(lv);
+		stage.setScene(new Scene(root, 400, 400));
+		stage.showAndWait();
 	}
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
-	private void AddEntry() {
+	private void addEntry() {
 		Exercise exercise = exercisesTableView.getSelectionModel().getSelectedItem();
 		if (exercise != null) {
 			double weight = weightSpinner.getValue();

@@ -145,7 +145,7 @@ public class DBModel implements AutoCloseable {
 			insertSQL.append(fields[i]).append((i < fields.length - 1) ? "," : ") VALUES(");
 		for (int i = 0; i < values.length; i++)
 			insertSQL.append(convertToSQLText(tableIdx, fields[i], values[i])).append((i < values.length - 1) ? "," : ")");
-
+		
 		mStmt.executeUpdate(insertSQL.toString());
 		// Return the newly generated primary key (as an int)
 		return mStmt.getGeneratedKeys().getInt(1);

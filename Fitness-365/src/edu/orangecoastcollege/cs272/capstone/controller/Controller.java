@@ -746,4 +746,44 @@ public class Controller extends Application implements AutoCloseable {
 	public void close() throws Exception {
 		mDB.close();		
 	}
+
+	public int addSavedExercise(Exercise exercise) {
+		if (exercise == null)
+			return -1;
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[4], 1, FIELD_NAMES[4].length),
+				 values = {exercise.getName(),Integer.toString(mCurrentUser.getId()),
+						 Integer.toString(exercise.getId())};
+		
+		try {
+			return mDB.createRecord(TABLE_NAMES[4],fields, values);		
+		} catch (SQLException e) {			
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public ObservableList<Exercise> getAllSavedExercises() {
+		
+		ObservableList<Exercise> results = FXCollections.observableArrayList();		
+		String[] values = {Integer.toString(mCurrentUser.getId())};
+		
+		try {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[4],
+						new String[] {FIELD_NAMES[4][2]},values);
+			
+			ArrayList<Integer> keys = new ArrayList<>(rs.getFetchSize());
+			while (rs.next()) 
+				keys.add(rs.getInt(4));
+			
+			Exercise exercise = null;
+			for (int k : keys) {
+				exercise = getExercise(k);
+				results.add(exercise);
+			}
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return results;
+	}
 }
