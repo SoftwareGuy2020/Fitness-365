@@ -132,7 +132,7 @@ public class Controller extends Application implements AutoCloseable {
         try
         {
             rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
-            
+
             //mInstance.populatingMealTable();
             //populateExerciseTable();
 
@@ -326,10 +326,10 @@ public class Controller extends Application implements AutoCloseable {
 
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
 						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
-			
+
 			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
 			entry.getMeal().setId(key);
-			
+
 			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
 						entry.getCategory().toString(), entry.getDate().toString(),
 						Integer.toString(mCurrentUser.getId())};
@@ -341,20 +341,20 @@ public class Controller extends Application implements AutoCloseable {
 			return -1;
 		}
 	}
-	
+
 	public boolean deleteFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
 			return false;
 		String key = Integer.toString(entry.getId());
 		try {
-			return mDB.deleteRecord(TABLE_NAMES[3], key);			
+			return mDB.deleteRecord(TABLE_NAMES[3], key);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	
+
+
 
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
 		String key = Integer.toString(mCurrentUser.getId());
@@ -410,8 +410,8 @@ public class Controller extends Application implements AutoCloseable {
 			return -1;
 		}
 	}
-	
-	
+
+
 	public void deleteSleepLogEntry(SleepLogEntry entry)
 	{
 		String key = String.valueOf(entry.getID());
@@ -422,7 +422,7 @@ public class Controller extends Application implements AutoCloseable {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
 	{
@@ -452,30 +452,30 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return entries;
 	}
-	
-	
+
+
 	public ObservableList<Meal> getFavoriteMeals()
 	{
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<Meal> favorites = FXCollections.observableArrayList();
-		
+
 		try
         {
 			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[6], new String[] {FIELD_NAMES[6][2]}, new String[] {key});
-            
+
             int mealId = 0;
-            
+
             while(rs.next())
             {
                 mealId = rs.getInt(2);
-                
+
                 for(Meal m : mInstance.mAllMealsList)
                 {
                     if(mealId == m.getId())
                     {
                         favorites.add(m);
                         break;
-                    } 
+                    }
                 }
             }
         }
@@ -486,21 +486,21 @@ public class Controller extends Application implements AutoCloseable {
         }
 		return favorites;
 	}
-	
+
 	public int addMealToFavorites(Meal selectedMeal)
 	{
 		if(selectedMeal == null)
 			return -1;
-		
+
 		ObservableList<Meal> meals = getFavoriteMeals();
-		
+
 		 if(meals.contains(selectedMeal))
 		 {
 		       return -1;
          }
 
 		String [] values = {Integer.toString(selectedMeal.getId()), Integer.toString(mCurrentUser.getId())};
-		
+
 		try
 		{
 			return mDB.createRecord(TABLE_NAMES[6], Arrays.copyOfRange(FIELD_NAMES[6], 1, FIELD_NAMES[6].length), values);
@@ -509,9 +509,9 @@ public class Controller extends Application implements AutoCloseable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
-		}	
+		}
 	}
-	
+
 	public void deleteFavoriteMeal(Meal meal)
 	{
 		String key = String.valueOf(meal.getId());
@@ -522,7 +522,7 @@ public class Controller extends Application implements AutoCloseable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private int populateExerciseTable() {
 		int recordsCreated = 0;
 
@@ -543,7 +543,7 @@ public class Controller extends Application implements AutoCloseable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				recordsCreated++;
 			}
 			fileScanner.close();
@@ -596,10 +596,10 @@ public class Controller extends Application implements AutoCloseable {
         }
         return recordsCreated;
 	}
-	
+
 	/**
      * Filters on a criteria
-     * 
+     *
      * @param crit
      * @return
      */
@@ -616,28 +616,28 @@ public class Controller extends Application implements AutoCloseable {
         }
         return filtered;
     }
-	 
+
 	/**
 	 * Returns all meals
-	 * 
+	 *
 	 * @return
 	 */
 	public ObservableList<Meal> getAllMeals()
 	{
 	    return mInstance.mAllMealsList;
 	}
-	
-	
+
+
 	/**
      * Returns food group of meal
-     * 
+     *
      * @return
      */
     public ObservableList<String> getFoodGroups()
     {
         ObservableList<String> c = FXCollections.observableArrayList();
         c.add(" ");
-        
+
         for(Meal m : mAllMealsList)
         {
             if(!c.contains(m.getGroup()))
@@ -645,7 +645,7 @@ public class Controller extends Application implements AutoCloseable {
                 c.add(m.getGroup());
             }
         }
-                
+
         FXCollections.sort(c);
         return c;
     }
@@ -661,7 +661,7 @@ public class Controller extends Application implements AutoCloseable {
 		try {
 			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[2], new String[] {FIELD_NAMES[2][1]},
 									new String[] {Integer.toString(mCurrentUser.getId())});
-			
+
 			Workout w = null;
 			ArrayList<Integer> exerciseIDs = new ArrayList<>(rs.getFetchSize());
 			while (rs.next()) {
@@ -670,15 +670,15 @@ public class Controller extends Application implements AutoCloseable {
 				workouts.add(w);
 				exerciseIDs.add(rs.getInt(3));
 			}
-		
-			
+
+
 			int size = exerciseIDs.size();
 			Exercise exercise = null;
 			for (int i = 0; i < size; ++i) {
 				exercise = getExercise(exerciseIDs.get(i));
 				workouts.get(i).setExercise(exercise);
-			}			
-		} catch (SQLException e) {			
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return workouts;
@@ -691,21 +691,21 @@ public class Controller extends Application implements AutoCloseable {
 			if (rs.next()) {
 				return new Exercise(rs.getInt(1), rs.getString(2), rs.getString(3));
 			}
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public int addExercise (Exercise exercise) {
 		if (exercise == null)
 			return -1;
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
 				 values = {exercise.getName(), exercise.getMuscleGroup()};
-		
+
 		try {
-			return mDB.createRecord(TABLE_NAMES[2],fields, values);			
-		} catch (SQLException e) {			
+			return mDB.createRecord(TABLE_NAMES[2],fields, values);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}
@@ -717,26 +717,26 @@ public class Controller extends Application implements AutoCloseable {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[2], 1, FIELD_NAMES[2].length),
 				 values = {Integer.toString(w.getUserId()), Integer.toString(w.getExercise().getId()),
 						 Double.toString(w.getWeight()), Integer.toString(w.getReps()), w.getDate().toString()};
-		
+
 		try {
-			return mDB.createRecord(TABLE_NAMES[2],fields, values);			
-		} catch (SQLException e) {			
+			return mDB.createRecord(TABLE_NAMES[2],fields, values);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}
 	}
 
 	public ObservableList<Exercise> getAllExercises() {
-		ObservableList<Exercise> results = FXCollections.observableArrayList();		
+		ObservableList<Exercise> results = FXCollections.observableArrayList();
 		try {
 			ResultSet rs = mDB.getAllRecords(TABLE_NAMES[1]);
 			Exercise exercise = null;
-			
+
 			while (rs.next()) {
 				exercise = new Exercise(rs.getInt(1), rs.getString(2), rs.getString(3));
 				results.add(exercise);
 			}
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return results;
@@ -744,7 +744,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	@Override
 	public void close() throws Exception {
-		mDB.close();		
+		mDB.close();
 	}
 
 	public int addSavedExercise(Exercise exercise) {
@@ -753,35 +753,35 @@ public class Controller extends Application implements AutoCloseable {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[4], 1, FIELD_NAMES[4].length),
 				 values = {exercise.getName(),Integer.toString(mCurrentUser.getId()),
 						 Integer.toString(exercise.getId())};
-		
+
 		try {
-			return mDB.createRecord(TABLE_NAMES[4],fields, values);		
-		} catch (SQLException e) {			
+			return mDB.createRecord(TABLE_NAMES[4],fields, values);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}
 	}
 
 	public ObservableList<Exercise> getAllSavedExercises() {
-		
-		ObservableList<Exercise> results = FXCollections.observableArrayList();		
+
+		ObservableList<Exercise> results = FXCollections.observableArrayList();
 		String[] values = {Integer.toString(mCurrentUser.getId())};
-		
+
 		try {
 			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[4],
 						new String[] {FIELD_NAMES[4][2]},values);
-			
+
 			ArrayList<Integer> keys = new ArrayList<>(rs.getFetchSize());
-			while (rs.next()) 
+			while (rs.next())
 				keys.add(rs.getInt(4));
-			
+
 			Exercise exercise = null;
 			for (int k : keys) {
 				exercise = getExercise(k);
 				results.add(exercise);
 			}
-			
-		} catch (SQLException e) {			
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return results;

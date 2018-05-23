@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -16,14 +14,11 @@ import java.text.NumberFormat;
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class BMICalc implements SceneNavigation{
 
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "BMICalc.fxml";
-	private static String image = "\resources\bmi.jpg";
 
 	@FXML
 	private TextField weightTF;
@@ -35,9 +30,9 @@ public class BMICalc implements SceneNavigation{
 	private TextField inchesTF;
 	@FXML
 	private Label errorLabel;
-	@FXML 
+	@FXML
 	private Button updateButton;
-	
+
 
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
@@ -57,7 +52,7 @@ public class BMICalc implements SceneNavigation{
 		errorLabel.setVisible(false);
 		updateButton.setVisible(false);
 
-		CalcHomePage home = new CalcHomePage();
+		HomePage home = new HomePage();
         mController.changeScene(home.getView(), false);
 	}
 
@@ -66,7 +61,7 @@ public class BMICalc implements SceneNavigation{
 	public void calculate()
 	{
 		errorLabel.setVisible(false);
-		
+
 		if(!feetTF.getText().isEmpty() && !inchesTF.getText().isEmpty()
 		        && !weightTF.getText().isEmpty())
 		{
@@ -83,23 +78,6 @@ public class BMICalc implements SceneNavigation{
 			errorLabel.setVisible(true);
 	}
 
-	// Event Listener on Label.onMouseClicked
-	@FXML
-	public void openBMICharts()
-	{
-		Stage newStage = new Stage();
-
-		VBox box = new VBox();
-		ImageView view = new ImageView();
-		Image mig = new Image(image);
-
-		view.setImage(mig);
-		box.getChildren().add(view);
-		Scene scene = new Scene(box, 700, 502);
-		newStage.setScene(scene);
-		newStage.show();
-	}
-	
 	public void initialize()
 	{
 		feetTF.requestFocus();

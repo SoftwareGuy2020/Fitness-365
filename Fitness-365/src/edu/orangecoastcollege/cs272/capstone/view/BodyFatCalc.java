@@ -21,10 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 
 public class BodyFatCalc implements SceneNavigation{
-	
+
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "bodyFatCalc.fxml";
-	
+
 	@FXML
 	private RadioButton male;
 	@FXML
@@ -53,10 +53,10 @@ public class BodyFatCalc implements SceneNavigation{
 	private Button updateButton;
 	@FXML
 	private Label errorLabel;
-	
+
 
 	@FXML
-	public void setMale() 
+	public void setMale()
 	{
 		wristLabel.setVisible(false);
 		wristTF.setVisible(false);
@@ -70,7 +70,7 @@ public class BodyFatCalc implements SceneNavigation{
 	}
 	// Event Listener on RadioButton.onAction
 	@FXML
-	public void setFemale() 
+	public void setFemale()
 	{
 		wristLabel.setVisible(true);
 		wristTF.setVisible(true);
@@ -84,13 +84,13 @@ public class BodyFatCalc implements SceneNavigation{
 	}
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	public void updateProfile(ActionEvent event) 
+	public void updateProfile(ActionEvent event)
 	{
 		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
 	}
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	public void cancel(ActionEvent event) 
+	public void cancel()
 	{
 		setMale();
 		wristTF.clear();
@@ -99,20 +99,20 @@ public class BodyFatCalc implements SceneNavigation{
 		forearmTF.clear();
 		weightTF.clear();
 		bfTF.clear();
-		
+
 		errorLabel.setVisible(false);
 		updateButton.setVisible(false);
-		
-		CalcHomePage home = new CalcHomePage();
-        mController.changeScene(home.getView(), false);	
+
+		HomePage home = new HomePage();
+        mController.changeScene(home.getView(), false);
     }
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	public void calculate() 
+	public void calculate()
 	{
 		errorLabel.setVisible(false);
 		updateButton.setVisible(false);
-		
+
         NumberFormat num = new DecimalFormat("#0.0");
 
 		if(male.isSelected())
@@ -121,10 +121,10 @@ public class BodyFatCalc implements SceneNavigation{
 			{
 				Double lean = ((1.082 * Double.parseDouble(weightTF.getText())) -
 						(4.15 * Double.parseDouble(waistTF.getText())) + 94.42);
-				
-				bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean) 
+
+				bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean)
 						/ ( Double.parseDouble(weightTF.getText())) * 100)).toString() + " % ");
-				
+
 				updateButton.setVisible(true);
 			}
 			else
@@ -136,13 +136,13 @@ public class BodyFatCalc implements SceneNavigation{
 					&& !waistTF.getText().isEmpty() && !forearmTF.getText().isEmpty())
 			{
 				Double lean = (.732 * Double.parseDouble(weightTF.getText())) -
-						(.157 * Double.parseDouble(waistTF.getText())) 
+						(.157 * Double.parseDouble(waistTF.getText()))
 								- (.249 * Double.parseDouble(hipTF.getText()))
 										+ (.434 * Double.parseDouble(forearmTF.getText()))
 												+ ((Double.parseDouble(wristTF.getText()) / 3.14) + 8.987);
-				bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean) 
+				bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean)
 						/ ( Double.parseDouble(weightTF.getText())) * 100)).toString() + " %");
-				
+
 				updateButton.setVisible(true);
 			}
 			else
@@ -151,12 +151,12 @@ public class BodyFatCalc implements SceneNavigation{
 		else
 			errorLabel.setVisible(true);
 	}
-	
+
 	public void initialize()
 	{
 		weightTF.requestFocus();
 	}
-	
+
 	@Override
 	public Scene getView()
 	{

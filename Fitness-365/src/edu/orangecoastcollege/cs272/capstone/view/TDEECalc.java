@@ -36,24 +36,24 @@ public class TDEECalc implements SceneNavigation{
 
 	@FXML
 	private Button updateButton;
-	
+
 	@FXML
 	private TextField weightTF;
 	@FXML
 	private TextField ageTF;
 	@FXML
 	private Label errorLabel;
-	
-	
+
+
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	public void updateProfile() 
+	public void updateProfile()
 	{
 		if(!tdeeTF.getText().isEmpty())
 			mController.getCurrentUser().setTDEE(Integer.parseInt(tdeeTF.getText()));
-		
+
 		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
-		
+
 	}
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
@@ -68,7 +68,7 @@ public class TDEECalc implements SceneNavigation{
 		errorLabel.setVisible(false);
 		updateButton.setVisible(false);
 
-		CalcHomePage home = new CalcHomePage();
+		HomePage home = new HomePage();
 		mController.changeScene(home.getView(), false);
 	}
 	// Event Listener on Button[#calcButton].onAction
@@ -76,7 +76,7 @@ public class TDEECalc implements SceneNavigation{
 	public void calculate()
 	{
 		errorLabel.setVisible(false);
-		
+
 		if(!feetTF.getText().isEmpty() && !inchesTF.getText().isEmpty() && !weightTF.getText().isEmpty()
 		        && !ageTF.getText().isEmpty()
 				&& (maleCB.isSelected() || femaleCB.isSelected()))
@@ -133,13 +133,13 @@ public class TDEECalc implements SceneNavigation{
 	    	updateButton.setVisible(true);
 		}
     	else
-    		errorLabel.setVisible(true);		
+    		errorLabel.setVisible(true);
 	}
-	
+
 	@Override
 	public Scene getView()
 	{
-		try 
+		try
 		{
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
