@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 
 import edu.orangecoastcollege.cs272.capstone.model.Category;
 import edu.orangecoastcollege.cs272.capstone.model.DBModel;
+import edu.orangecoastcollege.cs272.capstone.model.Exercise;
 import edu.orangecoastcollege.cs272.capstone.model.FoodDiaryEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Meal;
 import edu.orangecoastcollege.cs272.capstone.model.PasswordEncryption;
@@ -23,18 +24,23 @@ import edu.orangecoastcollege.cs272.capstone.model.Sex;
 import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.Units;
 import edu.orangecoastcollege.cs272.capstone.model.User;
+import edu.orangecoastcollege.cs272.capstone.model.Workout;
 import edu.orangecoastcollege.cs272.capstone.view.Login;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
+ * The controller for Fitness 365 as per the MVC architecture.
+ * Handles all communications between models and views.
+ * Operates on a singleton design.
  * @author Travis
  *
  */
-public class Controller extends Application {
+public class Controller extends Application implements AutoCloseable {
 
 	private static final String DB_NAME = "fitness_365.db";
 	private static final String[] TABLE_NAMES = {"users", "exercises", "workout_diary", "food_diary", "saved_workouts", "meals",
@@ -48,7 +54,7 @@ public class Controller extends Application {
 												{"_id", "name", "user_id", "exercise_id"},
 												{"_id", "name", "food_group", "serving_size", "calories", "fat", "carbs", "protein"},
 												{"_id", "meal_id", "user_id"},
-								/*7*/			{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
+												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
 												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
 												{"_id", "user_id", "pic"},
 												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"},
@@ -92,9 +98,19 @@ public class Controller extends Application {
 	private ObservableList<Meal> mAllMealsList;
 
 	private static final String MEALS_DATA_FILE = "nutrients.csv";
+	private static final String EXERCISE_DATA_FILE = "Exercises.csv";
 
+	/**
+	 * Instantiates the Controller. Do not manually call this.
+	 * JavaFx calls this automatically.
+	 */
 	public Controller() {}
 
+	/**
+	 * The correct method to use in order to get an instance of the Controller.
+	 * 
+	 * @return
+	 */
 	public static Controller getInstance() {
 		if (mInstance == null)
 		{
@@ -104,7 +120,10 @@ public class Controller extends Application {
 		return mInstance;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see javafx.application.Application#init()
+	 */
 	@Override
 	public void init() throws Exception {
 		mInstance = this;
@@ -122,15 +141,12 @@ public class Controller extends Application {
 		}
 
 		mInstance.mAllMealsList = FXCollections.observableArrayList();
-
         ResultSet rs;
 
         try
         {
             rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
-
-            //mInstance.populatingMealTable();
-
+            
             while (rs.next())
             {
                 int id = rs.getInt(1);
@@ -147,13 +163,15 @@ public class Controller extends Application {
         }
         catch (SQLException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 		super.init();
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Login login = new Login();
@@ -162,11 +180,19 @@ public class Controller extends Application {
 		mInstance.changeScene(login.getView(), false);
 		primaryStage.show();
 	}
-
+	/**
+	 * Das ist mein Main!
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Gets the user from the database based on their username
+	 * @param username the user's unique username
+	 * @return The user who's associated with the username
+	 */
 	public User getUser(String username) {
 		if (username != null) {
 			try {
@@ -180,8 +206,7 @@ public class Controller extends Application {
 							rs.getDouble(15), rs.getInt(16));
 					return user;
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+			} catch (SQLException e) {				
 				e.printStackTrace();
 			}
 		}
@@ -196,7 +221,12 @@ public class Controller extends Application {
 		}
 		return null;
 	}
-
+	/**
+	 * Authenticates a login attempt.
+	 * @param username the typed username
+	 * @param attemptedPW the typed password
+	 * @return True if authentication was successful. False otherwise.
+	 */
 	public boolean authenticateLogin(String username, String attemptedPW) {
 		User user = mInstance.getUser(username);
 		if (user == null)
@@ -212,7 +242,12 @@ public class Controller extends Application {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Creates a new user in the database and encrypts the user's password
+	 * @param user
+	 * @param password
+	 */
 	public void createNewUser(User user, String password) {
 		try {
 			byte[] salt = PasswordEncryption.generateSalt();
@@ -227,10 +262,20 @@ public class Controller extends Application {
 
 	}
 
+	/**
+	 * Updates the specified user in the database
+	 * @param user the user to be updated
+	 * @param fields an array of fields that will be updated
+	 * @param values the values associate with the fields
+	 * @return True if successful, false otherwise.
+	 */
 	public boolean updateUser(User user, String[] fields, String[] values) {
 		if (user != null && fields.length == values.length) {
 			try {
-				return mDB.updateRecord(TABLE_NAMES[0], Integer.toString(user.getId()), fields, values);
+				boolean success = mDB.updateRecord(TABLE_NAMES[0], Integer.toString(user.getId()), fields, values);
+				if (success)
+					setCurrentUser(user.getUserName()); // Need to update the Current User object so it has the saved changes
+				return success;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -239,6 +284,13 @@ public class Controller extends Application {
 		return false;
 	}
 
+	/**
+	 * Updates the user's password with a new password.
+	 * The new password is encrypted.
+	 * @param user
+	 * @param newPassword
+	 * @return True if update was successful, false otherwise.
+	 */
 	public boolean updateUserPassword(User user, String newPassword) {
 		// can't use previous password as new password
 		if (authenticateLogin(user.getUserName(), newPassword))
@@ -254,24 +306,40 @@ public class Controller extends Application {
 		}
 		return false;
 	}
-
+	/**
+	 * Changes the scene set on the Main Stage
+	 * @param scene
+	 * @param resizable, whether scene should be resizable or not
+	 */
 	public void changeScene(Scene scene, boolean resizable) {
 		mMainStage.setScene(scene);
 		mMainStage.setResizable(resizable);
 		mMainStage.setTitle("Fitness 365");
 	}
-
+	/**
+	 * Changes current user of program to the one specified by the username
+	 * @param username
+	 */
 	public void setCurrentUser(String username)
 	{
 		mCurrentUser = getUser(username);
 	}
-
+	/**
+	 * 
+	 * @return The current user object
+	 */
 	public User getCurrentUser()
 	{
 		return mCurrentUser;
 	}
 
-
+	/**
+	 * Adds a meal to the database
+	 * @param meal
+	 * @return The index in the database that the meal is at,
+	 * 			or -1 if unsuccessful.
+	 * 		
+	 */
 	public int addMeal(Meal meal) {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length);
 		String[] values = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
@@ -292,6 +360,12 @@ public class Controller extends Application {
 		}
 	}
 
+	/**
+	 * Gets a meal from the database thats associated with the passed id
+	 * @param id the index of the meal in the database.
+	 * @return the meal belonging to the id. 
+	 * 			returns null if meal does not exist.
+	 */
 	public Meal getMeal(int id) {
 		String key = Integer.toString(id);
 		try {
@@ -307,6 +381,11 @@ public class Controller extends Application {
 		return null;
 	}
 
+	/**
+	 * Adds a FoodDiaryEntry into the database.
+	 * @param entry 
+	 * @return the id where the FoodDiaryEntry is stored, or -1 if unsuccessful.
+	 */
 	public int addFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
 			return -1;
@@ -318,10 +397,10 @@ public class Controller extends Application {
 
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
 						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
-			
+
 			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
 			entry.getMeal().setId(key);
-			
+
 			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
 						entry.getCategory().toString(), entry.getDate().toString(),
 						Integer.toString(mCurrentUser.getId())};
@@ -333,19 +412,29 @@ public class Controller extends Application {
 			return -1;
 		}
 	}
-	
+
+	/**
+	 * Deletes the specified FoodDiaryEntry from the database.
+	 * @param entry
+	 * @return True if deletion was completed, false otherwise.
+	 */
 	public boolean deleteFoodDiaryEntry(FoodDiaryEntry entry) {
 		if (entry == null)
 			return false;
 		String key = Integer.toString(entry.getId());
 		try {
-			return mDB.deleteRecord(TABLE_NAMES[3], key);			
+			return mDB.deleteRecord(TABLE_NAMES[3], key);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
+
+	/**
+	 * Gets all FoodDiaryEntries in the database that are associated with the current user.
+	 * @return
+	 */
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<FoodDiaryEntry> entries = FXCollections.observableArrayList();
@@ -383,7 +472,12 @@ public class Controller extends Application {
 		}
 		return entries;
 	}
-
+	
+	/**
+	 * Add's an entry to the sleep log database
+	 * @param SleepLogEntry entry
+	 * @return the ID of the entry, -1 if the entry is null
+	 */
 	public int addSleepLogEntry(SleepLogEntry entry)
 	{
 		if (entry == null)
@@ -400,6 +494,11 @@ public class Controller extends Application {
 			return -1;
 		}
 	}
+
+	/**
+	 * Deletes a SleepLogEntry from the sleep log database
+	 * @param entry to be deleted
+	 */
 	public void deleteSleepLogEntry(SleepLogEntry entry)
 	{
 		String key = String.valueOf(entry.getID());
@@ -411,6 +510,12 @@ public class Controller extends Application {
 		}
 	}
 
+
+	/**
+	 * This function returns a list of sleep log entries from he sleep log database matching the user ID
+	 * @return An ObservableList<SleepLogEntry> containing all the sleep log entries
+	 * for the user.
+	 */
 	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
 	{
 		String key = Integer.toString(mCurrentUser.getId());
@@ -437,12 +542,128 @@ public class Controller extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 		return entries;
 	}
-	
 
+
+	/**
+	 * This function returns a list of favorite meals
+	 * @return An ObservableList<SleepLogEntry> favorite meals
+	 * for the user.
+	 */
+	public ObservableList<Meal> getFavoriteMeals()
+	{
+		String key = Integer.toString(mCurrentUser.getId());
+		ObservableList<Meal> favorites = FXCollections.observableArrayList();
+
+		try
+        {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[6], new String[] {FIELD_NAMES[6][2]}, new String[] {key});
+
+            int mealId = 0;
+
+            while(rs.next())
+            {
+                mealId = rs.getInt(2);
+
+                for(Meal m : mInstance.mAllMealsList)
+                {
+                    if(mealId == m.getId())
+                    {
+                        favorites.add(m);
+                        break;
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+		return favorites;
+	}
+
+	/**
+	 * Adds meal to favorites database
+	 * 
+	 * @param selectedMeal
+	 * @return
+	 */
+	public int addMealToFavorites(Meal selectedMeal)
+	{
+		if(selectedMeal == null)
+			return -1;
+
+		ObservableList<Meal> meals = getFavoriteMeals();
+
+		 if(meals.contains(selectedMeal))
+		 {
+		       return -1;
+         }
+
+		String [] values = {Integer.toString(selectedMeal.getId()), Integer.toString(mCurrentUser.getId())};
+
+		try
+		{
+			return mDB.createRecord(TABLE_NAMES[6], Arrays.copyOfRange(FIELD_NAMES[6], 1, FIELD_NAMES[6].length), values);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	/**
+	 * Deletes meal from favorites database
+	 * 
+	 * @param selectedMeal
+	 * @return
+	 */
+	public void deleteFavoriteMeal(Meal meal)
+	{
+		String key = String.valueOf(meal.getId());
+		try {
+			mDB.deleteRecord(TABLE_NAMES[6], key);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private int populateExerciseTable() {
+		int recordsCreated = 0;
+
+		try {
+			Scanner fileScanner = new Scanner(new File(EXERCISE_DATA_FILE));
+			String[] data = null, values = null;
+			while (fileScanner.hasNextLine()) {
+				data = fileScanner.nextLine().split(",");
+				values = new String[FIELD_NAMES[1].length - 1];
+
+				// "name", "muscle group",
+				values[0] = data[0];
+				values[1] = data[1];
+				try {
+					mDB.createRecord(TABLE_NAMES[1], Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
+							values);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				recordsCreated++;
+			}
+			fileScanner.close();
+		} catch (FileNotFoundException e) {
+			return 0;
+		}
+		return recordsCreated;
+	}
+
+	@SuppressWarnings("unused")
 	private int populatingMealTable()
 	{
 	    int recordsCreated = 0;
@@ -456,7 +677,7 @@ public class Controller extends Application {
                 String[] data = fileScanner.nextLine().split(",");
 
                 String[] values = new String[FIELD_NAMES[5].length - 1];
-                //"name", "group", "serving_size", "calories", "fat", "carbs", "protein"
+                
                 values[0] = data[0];
                 values[1] = data[1];
                 values[2] = "1";
@@ -485,10 +706,10 @@ public class Controller extends Application {
         }
         return recordsCreated;
 	}
-	
+
 	/**
      * Filters on a criteria
-     * 
+     *
      * @param crit
      * @return
      */
@@ -505,28 +726,28 @@ public class Controller extends Application {
         }
         return filtered;
     }
-	 
+
 	/**
 	 * Returns all meals
-	 * 
+	 *
 	 * @return
 	 */
 	public ObservableList<Meal> getAllMeals()
 	{
 	    return mInstance.mAllMealsList;
 	}
-	
-	
+
+
 	/**
      * Returns food group of meal
-     * 
+     *
      * @return
      */
     public ObservableList<String> getFoodGroups()
     {
         ObservableList<String> c = FXCollections.observableArrayList();
         c.add(" ");
-        
+
         for(Meal m : mAllMealsList)
         {
             if(!c.contains(m.getGroup()))
@@ -534,8 +755,185 @@ public class Controller extends Application {
                 c.add(m.getGroup());
             }
         }
-                
+
         FXCollections.sort(c);
         return c;
     }
+
+    /**
+     * Open's a URL in either a new window if none are present, or a new tab
+     * of the system's default web browser.
+     * @param url (string) of desired web page to be opened
+     */
+	public void openWebpage(String url)
+	{
+		HostServices host = getHostServices();
+        host.showDocument(url);
+	}
+	
+	/**
+	 * Gets all Workouts from the database.
+	 * @return an Observable list of Workouts.
+	 */
+	public ObservableList<Workout> getallWorkouts() {
+		ObservableList<Workout> workouts = FXCollections.observableArrayList();
+		try {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[2], new String[] {FIELD_NAMES[2][1]},
+									new String[] {Integer.toString(mCurrentUser.getId())});
+
+			Workout w = null;
+			ArrayList<Integer> exerciseIDs = new ArrayList<>(rs.getFetchSize());
+			while (rs.next()) {
+				w = new Workout(rs.getInt(1), rs.getInt(2), null,
+							rs.getDouble(4), rs.getInt(5), LocalDate.parse(rs.getString(6)));
+				workouts.add(w);
+				exerciseIDs.add(rs.getInt(3));
+			}
+
+			int size = exerciseIDs.size();
+			Exercise exercise = null;
+			for (int i = 0; i < size; ++i) {
+				exercise = getExercise(exerciseIDs.get(i));
+				workouts.get(i).setExercise(exercise);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return workouts;
+	}
+
+	/**
+	 * Gets the exercise at the specified index of the database.
+	 * @param id the index of the exercise.
+	 * @return The Exercise, or null if not found.
+	 */
+	public Exercise getExercise(int id) {
+		String key = Integer.toString(id);
+		try {
+			ResultSet rs = mDB.getRecord(TABLE_NAMES[1], key);
+			if (rs.next()) {
+				return new Exercise(rs.getInt(1), rs.getString(2), rs.getString(3));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Adds the specified Exercise to the database.
+	 * @param exercise
+	 * @return the index where the Exercise is located, or -1 if something went wrong.
+	 */
+	public int addExercise (Exercise exercise) {
+		if (exercise == null)
+			return -1;
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
+				 values = {exercise.getName(), exercise.getMuscleGroup()};
+
+		try {
+			return mDB.createRecord(TABLE_NAMES[2],fields, values);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	/**
+	 * Adds a Workout to the Database.
+	 * @param w the workout.
+	 * @return The index where the Workout is located, or -1 if something went wrong.
+	 */
+	public int addWorkout(Workout w) {
+		if (w == null)
+			return -1;
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[2], 1, FIELD_NAMES[2].length),
+				 values = {Integer.toString(w.getUserId()), Integer.toString(w.getExercise().getId()),
+						 Double.toString(w.getWeight()), Integer.toString(w.getReps()), w.getDate().toString()};
+
+		try {
+			return mDB.createRecord(TABLE_NAMES[2],fields, values);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	/**
+	 * Gets all Exercises from the database.
+	 * @return an Observable list of Exercises.
+	 */
+	public ObservableList<Exercise> getAllExercises() {
+		ObservableList<Exercise> results = FXCollections.observableArrayList();
+		try {
+			ResultSet rs = mDB.getAllRecords(TABLE_NAMES[1]);
+			Exercise exercise = null;
+
+			while (rs.next()) {
+				exercise = new Exercise(rs.getInt(1), rs.getString(2), rs.getString(3));
+				results.add(exercise);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.AutoCloseable#close()
+	 */
+	@Override
+	public void close() throws Exception {
+		mDB.close();
+	}
+
+	/**
+	 * Adds the exercise to the saved_workouts table of the database.
+	 * @param exercise
+	 * @return the index where the exercise is located, or -1 if something went wrong.
+	 */
+	public int addSavedExercise(Exercise exercise) {
+		if (exercise == null)
+			return -1;
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[4], 1, FIELD_NAMES[4].length),
+				 values = {exercise.getName(),Integer.toString(mCurrentUser.getId()),
+						 Integer.toString(exercise.getId())};
+
+		try {
+			return mDB.createRecord(TABLE_NAMES[4],fields, values);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	/**
+	 * Gets all saved Exercises from the database.
+	 * @return an Observable list of Exercises.
+	 */
+	public ObservableList<Exercise> getAllSavedExercises() {
+
+		ObservableList<Exercise> results = FXCollections.observableArrayList();
+		String[] values = {Integer.toString(mCurrentUser.getId())};
+
+		try {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[4],
+						new String[] {FIELD_NAMES[4][2]},values);
+
+			ArrayList<Integer> keys = new ArrayList<>(rs.getFetchSize());
+			while (rs.next())
+				keys.add(rs.getInt(4));
+
+			Exercise exercise = null;
+			for (int k : keys) {
+				exercise = getExercise(k);
+				results.add(exercise);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
 }

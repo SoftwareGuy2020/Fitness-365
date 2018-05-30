@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="829.0" style="-fx-background-color: GAINSBORO;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.AccountPage">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="551.0" minWidth="10.0" prefWidth="383.0" />
+      <ColumnConstraints maxWidth="421.0" minWidth="253.0" prefWidth="416.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="322.0" minHeight="10.0" prefHeight="264.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="410.0" minHeight="10.0" prefHeight="204.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="244.0" minHeight="10.0" prefHeight="138.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <children>
+            <Button fx:id="changePasswordButton" mnemonicParsing="false" onAction="#goToChangePasswordPopUp" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #161a77;" text="Change Password" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="25.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="backToHomeButton" mnemonicParsing="false" onAction="#backToHome" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #3cc433;" text="Back to Home Page" textFill="WHITE" />
+         </children>
+      </HBox>
+      <Text fx:id="greetingText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #161a77;" text="TIME BASED GREETING, NAME" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+         <font>
+            <Font name="ACaslonPro-Bold" size="42.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="100.0" />
+         </GridPane.margin>
+      </Text>
+      <VBox alignment="CENTER" prefHeight="221.0" prefWidth="529.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets left="150.0" right="150.0" />
+         </GridPane.margin>
+         <children>
+            <Label fx:id="errorLabel" text="Invalid weight! Try again." textFill="RED" visible="false">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="ACaslonPro-Bold" size="14.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="397.0">
+               <VBox.margin>
+                  <Insets left="125.0" right="125.0" top="15.0" />
+               </VBox.margin>
+               <children>
+                  <Label prefHeight="17.0" prefWidth="115.0" text="Current Weight (lbs): " />
+                  <TextField fx:id="currentWeightTF" alignment="CENTER" promptText="Enter current weight">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="125.0" right="125.0" top="20.0" />
+               </VBox.margin>
+               <children>
+                  <Label prefHeight="17.0" prefWidth="115.0" text="Goal Weight (lbs): " />
+                  <TextField fx:id="goalWeightTF" alignment="CENTER" promptText="Enter goal weight">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <ComboBox fx:id="weeklyGoalCB" prefWidth="150.0" promptText="Select a weely goal">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ComboBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="lbs per week">
+                     <font>
+                        <Font name="Calibri" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <children>
+                  <Label fx:id="changesAppliedLabel" text="Changes Saved!" textFill="#368a29" visible="false">
+                     <HBox.margin>
+                        <Insets right="45.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="ACaslonPro-Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="applyChangesButton" mnemonicParsing="false" onAction="#applyChanges" prefHeight="29.0" prefWidth="137.0" style="-fx-background-color: #3cc433;" text="Apply Changes" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</GridPane>

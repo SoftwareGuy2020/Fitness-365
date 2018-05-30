@@ -59,44 +59,46 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	private TextField servingSizeTF;
 	@FXML
 	private Label mealtimeLabel;
-	
-	
+	@FXML
+	private Label errorLabel;
+	@FXML
+	private Button favoritesButton;
+
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "FoodSearch.fxml";
-	
+
 	private ObservableList<Meal> mealsList;
-	
-	// Event Listener on ComboBox[#filterCB].onAction
+
 	@FXML
-	public void filter()
+	private void filter()
 	{
 		String comboBox = filterCB.getSelectionModel().getSelectedItem();
 		String search = searchTF.getText();
 		int calories = (int) calorieSlider.getValue();
 		int macros = (int) macrosSlider.getValue();
-		
+
 		if(proteinRB.isSelected())
 		{
-			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
+			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) &&
 		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getProtein() >= macros);
 		}
 		else if (fatRB.isSelected())
 		{
-			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
+			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) &&
 		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getFat() <= macros);
 		}
 		else
 		{
-			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) && 
+			mealsList = mController.filter(b -> ((comboBox == null || comboBox.equals(" ") || b.getGroup().equalsIgnoreCase(comboBox)) &&
 		    		(search.isEmpty() || b.getName().contains(search)) && b.getCalories() <= calories) && b.getCarbs() <= macros);
 		}
-	    
+
 	    foodLV.setItems(mealsList);
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
 	}
-	
+
 	@FXML
-	public void reset()
+	private void reset()
 	{
 		foodLV.getSelectionModel().select(-1);
 		filterCB.getSelectionModel().select(-1);
@@ -107,7 +109,7 @@ public class FoodSearch implements SceneNavigation, Initializable{
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
 	    macrosSlider.setValue(0);
 	    proteinRB.setSelected(true);
-	    
+
 	    servingSizeTF.clear();
 	    breakfastRB.setSelected(true);
 	    addButton.setVisible(false);
@@ -117,39 +119,58 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		lunchRB.setVisible(false);
 		dinnerRB.setVisible(false);
 		snackRB.setVisible(false);
-		
+		errorLabel.setVisible(false);
+		favoritesButton.setVisible(false);
+		searchTF.requestFocus();
 	}
-	// Event Listener on Button.onAction
+
 	@FXML
-	public void addItemtoFD()
+	private void addNOpenFavorites()
 	{
+
+		Meal meal = foodLV.getSelectionModel().getSelectedItem();
+		int id = mController.addMealToFavorites(meal);
+		meal.setId(id);
+
+		FavoriteMeals home = new FavoriteMeals();
+	    mController.changeScene(home.getView(), true);
+
+	}
+
+	@FXML
+	private void addItemtoFD()
+	{
+		errorLabel.setVisible(false);
 		Category category = Category.Breakfast;
-		
+
 		if(snackRB.isSelected())
 			category = Category.Snack;
 		else if(lunchRB.isSelected())
 			category = Category.Lunch;
 		else if(dinnerRB.isSelected())
 			category = Category.Dinner;
-		
+
 		double servingSize = 0;
-		
+
 		if(!servingSizeTF.getText().isEmpty())
 		{
 			servingSize = Double.parseDouble(servingSizeTF.getText());
 			Meal meal = foodLV.getSelectionModel().getSelectedItem();
-			
+
 			FoodDiaryEntry entry = new FoodDiaryEntry(meal, servingSize, category, LocalDate.now(), mController.getCurrentUser().getId());
-			
+
 			int key = mController.addFoodDiaryEntry(entry);
 			entry.setId(key);
+
+			HomePage home = new HomePage();
+	        mController.changeScene(home.getView(), true);
 		}
 		else
-			servingSizeTF.setText("INCOMPLETE");	
+			errorLabel.setVisible(true);
 	}
-	
+
 	@FXML
-	public void selectMealTime()
+	private void selectMealTime()
 	{
 		addButton.setVisible(true);
 		mealtimeLabel.setVisible(true);
@@ -158,28 +179,31 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		lunchRB.setVisible(true);
 		dinnerRB.setVisible(true);
 		snackRB.setVisible(true);
+		errorLabel.setVisible(false);
+		favoritesButton.setVisible(true);
 	}
-	// Event Listener on Button.onAction
-	@FXML
-	public void goToHomeScreen()
-	{
-		HomePage page = new HomePage();
-		mController.changeScene(page.getView(), true);
-	}
+
+	/**
+	 * Scene navigator
+	 */
 	@Override
 	public Scene getView()
 	{
-		try 
+		try
 		{
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
 
-		} catch (IOException e) 
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 			return null;
 		}
 	}
+
+	/**
+	 * Initializes the listview and combo box
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
@@ -187,6 +211,6 @@ public class FoodSearch implements SceneNavigation, Initializable{
 		foodLV.setItems(mController.getAllMeals());
 		filterCB.setItems(mController.getFoodGroups());
 	    itemCountLabel.setText(mealsList.size() + " item(s) displayed");
-
+	    searchTF.requestFocus();
 	}
 }

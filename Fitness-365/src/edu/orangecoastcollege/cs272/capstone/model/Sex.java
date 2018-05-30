@@ -1,6 +1,7 @@
 package edu.orangecoastcollege.cs272.capstone.model;
 
 /**
+ * Enum for the two genders of the human species.
  * @author Travis
  *
  */
@@ -20,6 +21,11 @@ public enum Sex {
 		return this.mDescription;
 	}
 	
+	/**
+	 * Parses an int and returns an enum.
+	 * @param selection
+	 * @return
+	 */
 	public static Sex parseInt(int selection) {
 		switch (selection) {		
 		case 1:

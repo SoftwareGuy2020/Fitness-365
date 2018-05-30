@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 
+/**
+ * Represents a SQLite 3 database.
+ * @author Travis
+ *
+ */
 public class DBModel implements AutoCloseable {
 
 	private String mDBName;
@@ -17,7 +22,15 @@ public class DBModel implements AutoCloseable {
 	private Connection mConnection;
 	private Statement mStmt;
 
-
+	/**
+	 * Instantiates an instance of DBModel
+	 * @param dbName The name of the database
+	 * @param tableNames the names of the tables to be created
+	 * @param fieldNames the field names of the tables being created
+	 * @param fieldTypes the types that the field names are that belong to the tables that are being created.
+	 * @param foreignKeys field names for any foreign keys
+	 * @throws SQLException
+	 */
 	public DBModel(String dbName, String[] tableNames, String[][] fieldNames, String[][] fieldTypes, String[][] foreignKeys) throws SQLException {
 		mDBName = dbName;
 		mTableNames = Arrays.copyOf(tableNames, tableNames.length);
@@ -57,7 +70,12 @@ public class DBModel implements AutoCloseable {
 			mStmt.executeUpdate(createSQL.toString());
 		}
 	}
-
+	/**
+	 *  Search's the user database
+	 * @param username (string)
+	 * @return the ID of the user, -1 if username is null OR user is not found
+	 * @throws SQLException
+	 */
 	public int searchUsers(String username) throws SQLException {
 		if (username != null) {
 			ResultSet rs = mStmt.executeQuery("SELECT " + mFieldNames[0][0] + " FROM " + mTableNames[0] + " WHERE "
@@ -68,7 +86,12 @@ public class DBModel implements AutoCloseable {
 		}
 		return -1;
 	}
-
+	/**
+	 * Gets all records from the specified table.
+	 * @param table
+	 * @return ResultSet of all the records
+	 * @throws SQLException
+	 */
 	public ResultSet getAllRecords(String table) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
@@ -78,6 +101,14 @@ public class DBModel implements AutoCloseable {
 		return mStmt.executeQuery(selectSQL);
 	}
 
+	/**
+	 * Gets all records from the specified table that match the field, value combos.
+	 * @param table
+	 * @param fields
+	 * @param values
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet getAllRecordsMatch(String table, String[] fields, String[] values) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1 || fields.length != values.length)
@@ -94,6 +125,13 @@ public class DBModel implements AutoCloseable {
 		return mStmt.executeQuery(selectSQL.toString());
 	}
 
+	/**
+	 * Gets a record from the specified table at the index, key.
+	 * @param table
+	 * @param key the index of the record.
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet getRecord(String table, String key) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
@@ -103,6 +141,14 @@ public class DBModel implements AutoCloseable {
 		return mStmt.executeQuery(singleRecord);
 	}
 
+	/**
+	 * Gets the first record from the specified table that matches the field, value combos.
+	 * @param table
+	 * @param fields
+	 * @param values
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSet getRecordMatch(String table, String[] fields, String[] values) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1 || fields.length != values.length)
@@ -120,6 +166,12 @@ public class DBModel implements AutoCloseable {
 		return mStmt.executeQuery(selectSQL.toString());
 	}
 
+	/**
+	 * Gets the number of records in the specified table.
+	 * @param table
+	 * @return the number of records
+	 * @throws SQLException
+	 */
 	public int getRecordCount(String table) throws SQLException {
 		int count = 0;
 		try (ResultSet rs = getAllRecords(table)) {
@@ -131,6 +183,14 @@ public class DBModel implements AutoCloseable {
 		return count;
 	}
 
+	/**
+	 * Creates a record int the specified table.
+	 * @param table
+	 * @param fields
+	 * @param values
+	 * @return
+	 * @throws SQLException
+	 */
 	public int createRecord(String table, String[] fields, String[] values) throws SQLException {
 		if (fields == null || values == null || fields.length == 0 || fields.length != values.length)
 			return -1;
@@ -145,13 +205,23 @@ public class DBModel implements AutoCloseable {
 			insertSQL.append(fields[i]).append((i < fields.length - 1) ? "," : ") VALUES(");
 		for (int i = 0; i < values.length; i++)
 			insertSQL.append(convertToSQLText(tableIdx, fields[i], values[i])).append((i < values.length - 1) ? "," : ")");
-
+		
 		mStmt.executeUpdate(insertSQL.toString());
 		// Return the newly generated primary key (as an int)
 		return mStmt.getGeneratedKeys().getInt(1);
 	}
 
 
+	/**
+	 * Creates a user record in the userTable of the database.
+	 * @param userTable the userTable of the database.
+	 * @param fields
+	 * @param user
+	 * @param hash the hashed password
+	 * @param salt the salt used in hashing the password
+	 * @return
+	 * @throws SQLException
+	 */
 	public int createUser(String userTable, String[] fields, User user, byte[] hash, byte[] salt) throws SQLException {
 		int id = -1;
 		StringBuilder sqlString = new StringBuilder("INSERT INTO ");
@@ -178,7 +248,7 @@ public class DBModel implements AutoCloseable {
 		pStmt.setDouble(13, user.getCurrentWeight());
 		pStmt.setDouble(14, user.getWeeklyGoal());
 		pStmt.setInt(15, user.getTDEE());
-		System.out.println(pStmt.toString());
+		
 		id = pStmt.executeUpdate();
 		pStmt.close();
 		return id;
@@ -202,7 +272,15 @@ public class DBModel implements AutoCloseable {
 		return -1;
 	}
 
-
+	/**
+	 * Updates a specific record in the database table.
+	 * @param table the table where the record is located.
+	 * @param key the index of the record.
+	 * @param fields
+	 * @param values
+	 * @return True if update completed, false if not.
+	 * @throws SQLException
+	 */
 	public boolean updateRecord(String table, String key, String[] fields, String[] values) throws SQLException {
 		if (fields == null || values == null || fields.length == 0 || values.length == 0
 				|| fields.length != values.length)
@@ -225,6 +303,14 @@ public class DBModel implements AutoCloseable {
 		return true;
 	}
 
+	/**
+	 * Updates the user's password in the database table.
+	 * @param table the table where the record is located.
+	 * @param key the index of the record.
+	 * @param newPassword the new hashed password.	 
+	 * @return True if update completed, false if not.
+	 * @throws SQLException
+	 */
 	public boolean updateUserPassword(String table, String key, byte[] newPassword) throws SQLException {
 		if (key.isEmpty() || newPassword == null)
 			return false;
@@ -240,6 +326,11 @@ public class DBModel implements AutoCloseable {
 		return true;
 	}
 
+	/**
+	 * Deletes all records in the specified table.
+	 * @param table
+	 * @throws SQLException
+	 */
 	public void deleteAllRecords(String table) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
@@ -249,6 +340,13 @@ public class DBModel implements AutoCloseable {
 		mStmt.executeUpdate(deleteSQL);
 	}
 
+	/**
+	 * Deletes the record in the specified table.
+	 * @param table
+	 * @param key
+	 * @return True if completed, false if not.
+	 * @throws SQLException
+	 */
 	public boolean deleteRecord(String table, String key) throws SQLException {
 		int tableIdx = getTableIndex(table);
 		if (tableIdx == -1)
@@ -284,6 +382,10 @@ public class DBModel implements AutoCloseable {
 		return DriverManager.getConnection("jdbc:sqlite:" + mDBName);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.AutoCloseable#close()
+	 */
 	@Override
 	public void close() throws SQLException {
 		mStmt.close();

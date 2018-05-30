@@ -7,7 +7,6 @@ import java.util.Arrays;
 /**
  * 
  * Represents a user of the Fitness 365 application
- * @author Travis Morrissey
  *
  */
 public class User {
@@ -429,5 +428,4 @@ public class User {
 			return false;
 		return true;
 	}
-
 }

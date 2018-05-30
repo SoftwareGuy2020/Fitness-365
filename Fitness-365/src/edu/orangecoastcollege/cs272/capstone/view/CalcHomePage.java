@@ -1,3 +1,12 @@
+/**
+ * Class which serves as a home page for the calculators
+ * 
+<<<<<<< HEAD
+ * @author Travis
+=======
+ * 
+>>>>>>> branch 'devel' of https://github.com/BigTravis/Fitness-365.git
+ */
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
@@ -18,7 +27,7 @@ public class CalcHomePage implements SceneNavigation{
 
 	// Event Listener on Button.onAction
 	@FXML
-	public void goToBMIScene()
+	private void goToBMIScene()
 	{
 		BMICalc obj = new BMICalc();
 
@@ -26,7 +35,7 @@ public class CalcHomePage implements SceneNavigation{
 	}
 	// Event Listener on Button.onAction
 	@FXML
-	public void goToBMRScene()
+	private void goToBMRScene()
 	{
 		TDEECalc calc = new TDEECalc();
 		mController.changeScene(calc.getView(), false);
@@ -34,7 +43,7 @@ public class CalcHomePage implements SceneNavigation{
 	// Event Listener on Button.onAction
 
 	@FXML
-	public void goToHomeScene()
+	private void goToHomeScene()
 	{
 		HomePage page = new HomePage();
 		mController.changeScene(page.getView(), true);
@@ -42,12 +51,15 @@ public class CalcHomePage implements SceneNavigation{
 	
 
 	@FXML
-	public void goToBodyFatScene()
+	private void goToBodyFatScene()
 	{
 		BodyFatCalc page = new BodyFatCalc();
 		mController.changeScene(page.getView(), false);
 	}
 	
+	/**
+	 * Scene navigator
+	 */
 	@Override
 	public Scene getView()
 	{

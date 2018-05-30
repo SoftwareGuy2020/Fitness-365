@@ -6,23 +6,16 @@ import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import edu.orangecoastcollege.cs272.capstone.model.SleepLogEntry;
 import edu.orangecoastcollege.cs272.capstone.model.User;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -50,8 +43,9 @@ public class SleepLog implements SceneNavigation {
 	private int mRecommendedHours;
 
 	ObservableList<SleepLogEntry> entries;
-
-	public void initialize()
+	
+	@FXML
+	private void initialize()
 	{
 		mUser = mController.getCurrentUser();
 		entries = mController.getAllSleepLogEntries();
@@ -127,6 +121,9 @@ public class SleepLog implements SceneNavigation {
 
 
 	}
+	/**
+	 * Creates new SleepLog
+	 */
 	public SleepLog()
 	{
 		mController = Controller.getInstance();
@@ -144,7 +141,7 @@ public class SleepLog implements SceneNavigation {
 			return null;
 		}
 	}
-	// TODO Button methods for creating and deleting entries
+	
 	@FXML
 	private void addNewEntry()
 	{

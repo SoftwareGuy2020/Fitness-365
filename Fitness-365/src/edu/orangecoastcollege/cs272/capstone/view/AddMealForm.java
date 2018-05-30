@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 /**
+ * A form for gathering input from the user to store a Meal in the FoodDiary
  * @author Travis
  *
  */
@@ -66,10 +67,15 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 	private FoodDiaryEntry mEntry;
 	private Meal mMeal;
 
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		mController = Controller.getInstance();
 	}
 
+	/**
+	 * Gets the entry that the user entered.
+	 * @return 
+	 */
 	public FoodDiaryEntry getEntry() {
 		return mEntry;
 	}
@@ -150,6 +156,10 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 		((Button) e.getSource()).getScene().getWindow().hide();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
 	@Override
 	public Scene getView() {
 		try {

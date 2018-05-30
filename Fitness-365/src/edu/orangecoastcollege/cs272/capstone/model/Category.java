@@ -1,6 +1,8 @@
 package edu.orangecoastcollege.cs272.capstone.model;
 
 /**
+ * The different categories of meals that a user
+ *  would partake in throughout the day
  * @author Travis
  *
  */

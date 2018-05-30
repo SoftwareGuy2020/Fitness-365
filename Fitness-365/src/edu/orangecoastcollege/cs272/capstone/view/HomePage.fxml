@@ -14,7 +14,9 @@
           <Menu mnemonicParsing="false" text="User">
             <items>
               <MenuItem fx:id="myAccountMenuItem" mnemonicParsing="false" onAction="#goToMyAccount" text="My Account" />
+              	  <MenuItem fx:id="favoriteMealsMenuItem" mnemonicParsing="false" onAction="#goToFavoriteMeals" text="Favorite Meals" />
                   <MenuItem fx:id="signOutMenuItem" mnemonicParsing="false" onAction="#signOut" text="Sign Out" />
+                  
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -28,6 +30,9 @@
         <tabs>
           <Tab fx:id="foodDiaryTab" text="Food Diary">
           	<fx:include fx:id="foodDiary" source="food_diary.fxml" />
+          </Tab>
+          <Tab fx:id="workoutLogTab" text="Workout Log">
+          	<fx:include fx:id="workoutLog" source="workout_log.fxml" />
           </Tab>
           <Tab fx:id="workoutHistoryTab" text="Workout History">
             <fx:include fx:id="workoutHistory" source="workout_history.fxml" />

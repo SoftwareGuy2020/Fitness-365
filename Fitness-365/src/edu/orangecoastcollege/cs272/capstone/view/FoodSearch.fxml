@@ -9,22 +9,20 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodSearch">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.orangecoastcollege.cs272.capstone.view.FoodSearch">
    <top>
-      <VBox alignment="TOP_CENTER" maxHeight="50.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: silver;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="50.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
             <Text fill="#3fb94d" stroke="BLACK" strokeType="OUTSIDE" text="Food Search">
                <font>
-                  <Font size="39.0" />
+                  <Font name="System Bold" size="39.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="25.0" />
@@ -34,7 +32,7 @@
                <children>
                   <Label text="&gt; greater than filter  **  &lt; less than filter">
                      <HBox.margin>
-                        <Insets left="100.0" />
+                        <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
                </children>
@@ -50,14 +48,7 @@
                   <Insets left="5.0" right="5.0" />
                </BorderPane.margin>
                <effect>
-                  <Lighting>
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant />
-                     </light>
-                  </Lighting>
+                  <InnerShadow />
                </effect>
             </ListView>
          </center>
@@ -115,8 +106,9 @@
             </HBox>
          </top>
          <bottom>
-            <HBox alignment="CENTER" maxHeight="35.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER" maxHeight="35.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
+                  <Button fx:id="favoritesButton" maxWidth="200.0" mnemonicParsing="false" onAction="#addNOpenFavorites" style="-fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: green;" text="Add to Favorites" visible="false" />
                   <Label fx:id="mealtimeLabel" text="Select meal time: " visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -130,12 +122,17 @@
                   <RadioButton fx:id="lunchRB" mnemonicParsing="false" text="Lunch" toggleGroup="$mealtime" visible="false" />
                   <RadioButton fx:id="dinnerRB" mnemonicParsing="false" text="Dinner" toggleGroup="$mealtime" visible="false" />
                   <RadioButton fx:id="snackRB" mnemonicParsing="false" text="Snack" toggleGroup="$mealtime" visible="false" />
-                  <TextField fx:id="servingSizeTF" maxWidth="75.0" promptText="Serving size" visible="false" />
+                  <TextField fx:id="servingSizeTF" maxWidth="75.0" promptText="# of servings" visible="false" />
                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#addItemtoFD" style="-fx-background-radius: 5; -fx-border-color: #17e31e; -fx-border-radius: 5;" text="Add Item to Food Diary" visible="false">
                      <HBox.margin>
-                        <Insets right="1.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
+                  <Label fx:id="errorLabel" text="*Please enter # of servings" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
                <BorderPane.margin>
                   <Insets />

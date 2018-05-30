@@ -1,22 +1,24 @@
+/**
+ * Class which calculates tdee and bmr and updates profile if selected
+ * 
+ * @author Jason
+ */
+
 package edu.orangecoastcollege.cs272.capstone.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 
 public class TDEECalc implements SceneNavigation{
@@ -38,68 +40,70 @@ public class TDEECalc implements SceneNavigation{
 	private static final String FXML_FILE_NAME = "TDEECalc.fxml";
 	private Controller mController = Controller.getInstance();
 
+	@FXML
+	private Button updateButton;
 
 	@FXML
 	private TextField weightTF;
 	@FXML
 	private TextField ageTF;
-
-
-
-
-	// Event Listener on ComboBox[#activityCB].onAction
 	@FXML
-	public void calculateCB()
-	{
-		calculate();
-	}
+	private Label errorLabel;
+
+
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	public void updateProfile() 
+	private void updateProfile()
 	{
-	    
-		//mController.getCurrentUser().setTDEE(Integer.parseInt(tdeeTF.getText()));
-		//mController.updateUser(mController.getCurrentUser(), , values)
+		if(!tdeeTF.getText().isEmpty())
+			mController.getCurrentUser().setTDEE(Integer.parseInt(tdeeTF.getText()));
+
+		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
+
 	}
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	public void cancel()
+	private void cancel()
 	{
+		maleCB.setSelected(true);
 		feetTF.clear();
 		inchesTF.clear();
 		weightTF.clear();
 		bmrTF.clear();
 		tdeeTF.clear();
+		errorLabel.setVisible(false);
+		updateButton.setVisible(false);
 
-		CalcHomePage home = new CalcHomePage();
+		HomePage home = new HomePage();
 		mController.changeScene(home.getView(), false);
 	}
+	
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	public void calculate()
+	private void calculate()
 	{
+		errorLabel.setVisible(false);
+
 		if(!feetTF.getText().isEmpty() && !inchesTF.getText().isEmpty() && !weightTF.getText().isEmpty()
 		        && !ageTF.getText().isEmpty()
 				&& (maleCB.isSelected() || femaleCB.isSelected()))
 		{
-    		NumberFormat num = new DecimalFormat("#0.0");
-
 
 	    	if(maleCB.isSelected())
 	    	{
 	    		double w = Double.parseDouble(weightTF.getText()) * 6.23;
 	    		double h = ((Double.parseDouble(feetTF.getText()) * 12) +
 	    				Double.parseDouble(inchesTF.getText())) * 12.7;
-	    		double calc = 66 + w + h - (Double.parseDouble(ageTF.getText()) * 6.8);
-	    		bmrTF.setText(num.format(calc).toString());
+	    		Integer calc = (int) (66 + w + h - (Double.parseDouble(ageTF.getText()) * 6.8));
+	    		bmrTF.setText(calc.toString());
 	    	}
 	    	else if(femaleCB.isSelected())
 	    	{
 	    		double w = Double.parseDouble(weightTF.getText()) * 4.35;
 	    		double h = ((Double.parseDouble(feetTF.getText()) * 12) +
 	    				Double.parseDouble(inchesTF.getText())) * 4.7;
-	    		double calc = 655 + w + h - (Double.parseDouble(ageTF.getText()) * 4.7);
-	    		bmrTF.setText(num.format(calc).toString());
+	    		Integer calc = (int) (655 + w + h - (Double.parseDouble(ageTF.getText()) * 4.7));
+	    		bmrTF.setText(calc.toString());
 	    	}
 
 	    	if(!activityCB.getSelectionModel().isEmpty())
@@ -109,54 +113,57 @@ public class TDEECalc implements SceneNavigation{
 	    		switch(index)
 	    		{
 	    		case 1:
-	    			Double tdee1 = Double.parseDouble(bmrTF.getText()) * 1.2;
-	    			tdeeTF.setText((num.format(tdee1).toString()));
+	    			Integer tdee1 = (int) (Double.parseDouble(bmrTF.getText()) * 1.2);
+	    			tdeeTF.setText((tdee1.toString()));
 	    			break;
 	    		case 2:
-	    			double tdee2 = Double.parseDouble(bmrTF.getText()) * 1.375;
-	    			tdeeTF.setText(num.format(tdee2).toString());
+	    			Integer tdee2 = (int) (Double.parseDouble(bmrTF.getText()) * 1.375);
+	    			tdeeTF.setText(tdee2.toString());
 	    			break;
 	    		case 3:
-	    			double tdee3 = Double.parseDouble(bmrTF.getText()) * 1.55;
-	    			tdeeTF.setText(num.format(tdee3).toString());
+	    			Integer tdee3 = (int) (Double.parseDouble(bmrTF.getText()) * 1.55);
+	    			tdeeTF.setText(tdee3.toString());
 	    			break;
 	    		case 4:
-	    			double tdee4 = Double.parseDouble(bmrTF.getText()) * 1.725;
-	    			tdeeTF.setText(num.format(tdee4).toString());
+	    			Integer tdee4 = (int) (Double.parseDouble(bmrTF.getText()) * 1.725);
+	    			tdeeTF.setText(tdee4.toString());
 	    			break;
 	    		case 5:
-	    			double tdee = Double.parseDouble(bmrTF.getText()) * 1.9;
-	    			tdeeTF.setText(num.format(tdee).toString());
+	    			Integer tdee = (int) (Double.parseDouble(bmrTF.getText()) * 1.9);
+	    			tdeeTF.setText(tdee.toString());
 	    			break;
 	    		default:
 	    			break;
 
 	    		}
 	    	}
+	    	updateButton.setVisible(true);
 		}
     	else
-    	{
-    		bmrTF.setText("*Incorrect. Try again.");
-    	}
-
+    		errorLabel.setVisible(true);
 	}
+	
+	/**
+	 * Scene navigator
+	 */
 	@Override
 	public Scene getView()
 	{
-		try {
+		try
+		{
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
+	/**
+	 * Initializes combobox
+	 */
     public void initialize()
     {
-
         ObservableList<String> activities = FXCollections.observableArrayList();
 
         activities.add("");
@@ -167,8 +174,7 @@ public class TDEECalc implements SceneNavigation{
         activities.add("Extremely Active (Exercise/training 2x/day)");
 
         activityCB.setItems(activities);
-
-
-
+		maleCB.setSelected(true);
+		feetTF.requestFocus();
     }
 }

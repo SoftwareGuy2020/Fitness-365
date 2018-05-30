@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import edu.orangecoastcollege.cs272.capstone.controller.Controller;
 import edu.orangecoastcollege.cs272.capstone.model.SceneNavigation;
-import edu.orangecoastcollege.cs272.capstone.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -48,13 +47,14 @@ public class Login extends AnchorPane implements SceneNavigation {
 
 	private Controller mController;
 	private static String savedUser = "";
-	
+
 
 	public Login() {
 		mController = Controller.getInstance();
 	}
 
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		if (!savedUser.isEmpty()) {
 			rememberUsernameCB.setSelected(true);
 			usernameTF.setText(savedUser);
@@ -66,7 +66,11 @@ public class Login extends AnchorPane implements SceneNavigation {
 		if (e.getCode() == KeyCode.ENTER)
 			authenticateLogin();
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
+	@Override
 	public Scene getView() {
 		try {
 			Scanner input = new Scanner(new File("resources/init.txt"));
@@ -107,7 +111,7 @@ public class Login extends AnchorPane implements SceneNavigation {
 
 			return;
 		}
-		
+
 		if (mController.authenticateLogin(username, typedPW)) {
 			try (PrintWriter output = new PrintWriter(new File("resources/init.txt"))) {
 				if (rememberUsernameCB.isSelected())
@@ -131,15 +135,5 @@ public class Login extends AnchorPane implements SceneNavigation {
 			if (!errorLabel.isVisible())
 				errorLabel.setVisible(true);
 		}
-	}
-	
-	/*
-	 * TODO remove this function after development
-	 */
-	@FXML	
-	private void test_bypassLogin() {
-		HomePage homePage = new HomePage();
-		mController.setCurrentUser("player1");
-		mController.changeScene(homePage.getView(), true);
 	}
 }

@@ -3,6 +3,7 @@ package edu.orangecoastcollege.cs272.capstone.model;
 import java.time.LocalDate;
 
 /**
+ * Represents an entry in the FoodDiary of the user.
  * @author Travis
  *
  */
@@ -16,6 +17,7 @@ public class FoodDiaryEntry {
 	
 	
 	/**
+	 * Instantiates an instance of FoodDiaryEntry
 	 * @param id
 	 * @param meal
 	 * @param category
@@ -33,6 +35,7 @@ public class FoodDiaryEntry {
 
 
 	/**
+	 * Instantiates an instance of FoodDiaryEntry
 	 * @param meal
 	 * @param category
 	 * @param date
@@ -153,27 +156,50 @@ public class FoodDiaryEntry {
 	public void setUserId(int userId) {
 		this.mUserId = userId;
 	}
-	
+	/**
+	 * Gets the name of the Meal
+	 * @return 
+	 */
 	public String getMealName() {
 		return this.mMeal.getName();		
 	}
 	
+	/**
+	 * Gets the serving size of the Meal
+	 * @return 
+	 */
 	public double getMealServingSize() {
 		return this.mMeal.getServingSize();
 	}
 
+	/**
+	 * Gets the calories * the number of servings of the Meal
+	 * @return 
+	 */
 	public int getMealCalories() {
 		return (int) (this.mMeal.getCalories() * this.mNumServings);
 	}
 
+	/**
+	 * Gets the amount of fat in the Meal
+	 * @return 
+	 */
 	public double getMealFat() {
 		return (int) (this.mMeal.getFat() * this.mNumServings);
 	}
 	
+	/**
+	 * Gets the amount of carbs in the Meal
+	 * @return 
+	 */
 	public double getMealCarbs() {
 		return (int) (this.mMeal.getCarbs() * this.mNumServings);
 	}
 	
+	/**
+	 * Gets the amount of protein in the Meal
+	 * @return 
+	 */
 	public double getMealProtein() {
 		return (int) (this.mMeal.getProtein() * this.mNumServings);
 	}

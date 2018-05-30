@@ -32,7 +32,8 @@ public class ForgotPassword extends AnchorPane implements SceneNavigation {
 		mUser = null;
 	}
 	
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		usernameTF.setFocusTraversable(false);
 	}
 	@FXML
@@ -104,7 +105,10 @@ public class ForgotPassword extends AnchorPane implements SceneNavigation {
 	}
 	
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see edu.orangecoastcollege.cs272.capstone.model.SceneNavigation#getView()
+	 */
 	@Override
 	public Scene getView() {
 		try {
