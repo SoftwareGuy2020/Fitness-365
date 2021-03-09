@@ -48,7 +48,6 @@ public class Login extends AnchorPane implements SceneNavigation {
 	private Controller mController;
 	private static String savedUser = "";
 
-
 	public Login() {
 		mController = Controller.getInstance();
 	}
@@ -66,8 +65,10 @@ public class Login extends AnchorPane implements SceneNavigation {
 		if (e.getCode() == KeyCode.ENTER)
 			authenticateLogin();
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.SceneNavigation#getView()
 	 */
 	@Override
@@ -93,6 +94,7 @@ public class Login extends AnchorPane implements SceneNavigation {
 		SignUp signUpScene = new SignUp();
 		mController.changeScene(signUpScene.getView(), false);
 	}
+
 	@FXML
 	private void transitionToForgotPasswordScene() {
 		mController.changeScene(new ForgotPassword().getView(), false);
@@ -127,8 +129,8 @@ public class Login extends AnchorPane implements SceneNavigation {
 			HomePage homePage = new HomePage();
 			mController.changeScene(homePage.getView(), true);
 
-			//CalcHomePage calcPage = new CalcHomePage();
-            //mController.changeScene(calcPage.getView(), true);
+			// CalcHomePage calcPage = new CalcHomePage();
+			// mController.changeScene(calcPage.getView(), true);
 
 		} else {
 			errorLabel.setText(FAILED_LOGIN_MESSAGE);

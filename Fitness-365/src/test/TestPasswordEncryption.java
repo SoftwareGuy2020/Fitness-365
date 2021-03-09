@@ -21,24 +21,28 @@ public class TestPasswordEncryption {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
+
 	/**
 	 * @throws Exception
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
+
 	/**
 	 * @throws Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 	}
+
 	/**
 	 * @throws Exception
 	 */
 	@After
 	public void tearDown() throws Exception {
 	}
+
 	/**
 	 * @throws Exception
 	 */
@@ -51,8 +55,9 @@ public class TestPasswordEncryption {
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
+
 	/**
 	 * @throws Exception
 	 */
@@ -65,15 +70,16 @@ public class TestPasswordEncryption {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}	
+	}
+
 	/**
 	 * @throws Exception
 	 */
 	@Test
-	public void testAuthenticate() {		
+	public void testAuthenticate() {
 		try {
 			byte[] salt = PasswordEncryption.generateSalt();
-			assertTrue(PasswordEncryption.authenticate("password", 
+			assertTrue(PasswordEncryption.authenticate("password",
 					PasswordEncryption.getEncryptedPassword("password", salt), salt));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			fail("failed to authenticate");

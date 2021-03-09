@@ -20,7 +20,7 @@ import jfxtras.scene.control.LocalDatePicker.Mode;
 import model.SceneNavigation;
 import model.SleepLogEntry;
 
-public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
+public class AddSleepLogEntryForm extends GridPane implements SceneNavigation {
 
 	@FXML
 	private LocalTimePicker bedTimePicker, wakeTimePicker;
@@ -32,70 +32,64 @@ public class AddSleepLogEntryForm extends GridPane implements SceneNavigation{
 	private TextField numInterruptionsTF;
 	@FXML
 	private Label invalidNumberErrorLabel;
-	
+
 	private Controller mController;
-	
+
 	private SleepLogEntry mEntry;
-	
+
 	@FXML
 	private void initialize() {
 		mController = Controller.getInstance();
 		datePicker.setMode(Mode.SINGLE);
 		datePicker.setLocalDate(LocalDate.now());
 	}
-	
-	public SleepLogEntry getEntry()
-	{
+
+	public SleepLogEntry getEntry() {
 		return mEntry;
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.SceneNavigation#getView()
 	 */
 	@Override
 	public Scene getView() {
-		try {			
-			
+		try {
+
 			Pane pane = FXMLLoader.load(getClass().getResource("addSleepLogEntryForm.fxml"));
 			return new Scene(pane);
-		} catch (IOException e) {			
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	@FXML
-	private void addSleepLogEntry(ActionEvent e)
-	{
+	private void addSleepLogEntry(ActionEvent e) {
 		LocalTime sleepTime, wakeTime;
 		LocalDate date;
 		int numOfInterruptions;
-		
-		try
-		{
+
+		try {
 			numOfInterruptions = Integer.valueOf(numInterruptionsTF.getText());
-			if (numOfInterruptions < 0) 
+			if (numOfInterruptions < 0)
 				throw new NumberFormatException();
-		} catch (NumberFormatException e1)
-		{
+		} catch (NumberFormatException e1) {
 			invalidNumberErrorLabel.setVisible(true);
 			return;
 		}
 		invalidNumberErrorLabel.setVisible(false);
-		
+
 		sleepTime = bedTimePicker.getLocalTime();
 		wakeTime = wakeTimePicker.getLocalTime();
 		date = datePicker.getLocalDate();
-		
+
 		mEntry = new SleepLogEntry(date, sleepTime, wakeTime, numOfInterruptions);
-		
+
 		mEntry.setID(mController.addSleepLogEntry(mEntry));
 		((Button) e.getSource()).getScene().getWindow().hide();
-		
-		
-	}
-	
-	
 
-	
+	}
+
 }

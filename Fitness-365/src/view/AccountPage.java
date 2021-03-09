@@ -1,4 +1,5 @@
 package view;
+
 import java.io.IOException;
 import java.time.LocalTime;
 
@@ -21,7 +22,8 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.SceneNavigation;
 import model.User;
-public class AccountPage extends GridPane implements SceneNavigation{
+
+public class AccountPage extends GridPane implements SceneNavigation {
 	private static final String ACCOUNTPAGE_FXML_FILENAME = "account_page.fxml";
 
 	public Button changePasswordButton, backToHomeButton, applyChangesButton;
@@ -31,16 +33,14 @@ public class AccountPage extends GridPane implements SceneNavigation{
 	public Label changesAppliedLabel, errorLabel;
 	private Controller mController;
 
-	public AccountPage()
-	{
+	public AccountPage() {
 		mController = Controller.getInstance();
 	}
 
 	@FXML
 	private void initialize() {
 		weeklyGoalCB.setItems(FXCollections.observableArrayList(-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0));
-		if (mController.getCurrentUser() != null)
-		{
+		if (mController.getCurrentUser() != null) {
 			User current = mController.getCurrentUser();
 			StringBuilder timeGreeting = new StringBuilder();
 			LocalTime currentTime = LocalTime.now();
@@ -52,17 +52,18 @@ public class AccountPage extends GridPane implements SceneNavigation{
 			else
 				timeGreeting.append("Good Evening, ");
 
-
 			timeGreeting.append(current.getName().trim().split(" ")[0]);
 			greetingText.setText(timeGreeting.toString());
 			currentWeightTF.setText(Double.toString(current.getCurrentWeight()));
 			goalWeightTF.setText(Double.toString(current.getGoalWeight()));
-			weeklyGoalCB.setValue(current.getWeeklyGoal());;
+			weeklyGoalCB.setValue(current.getWeeklyGoal());
+			;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.SceneNavigation#getView()
 	 */
 	@Override
@@ -76,67 +77,55 @@ public class AccountPage extends GridPane implements SceneNavigation{
 			return null;
 		}
 	}
-	
+
 	@FXML
-	private void backToHome()
-	{
+	private void backToHome() {
 		mController.changeScene(new HomePage().getView(), false);
 	}
 
 	@FXML
-	private void applyChanges()
-	{
+	private void applyChanges() {
 		errorLabel.setVisible(false);
 		User currentUser = mController.getCurrentUser();
 		double currentBefore = currentUser.getCurrentWeight();
 		double goalBefore = currentUser.getGoalWeight();
 		double weeklyBefore = currentUser.getWeeklyGoal();
-		try
-		{
-			if (currentBefore != Double.parseDouble(currentWeightTF.getText()) || weeklyBefore != weeklyGoalCB.getValue()
-					|| goalBefore != Double.parseDouble(goalWeightTF.getText()))
-			{
-				String[] values = {goalWeightTF.getText(), currentWeightTF.getText(), Double.toString(weeklyGoalCB.getValue())};
-				String[] fields = {"goal_weight", "current_weight", "weekly_goals"};
-				if (mController.updateUser(currentUser, fields, values))
-				{
-				    	changesAppliedLabel.setVisible(true);
-				    	PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
-				    	visiblePause.setOnFinished(event -> changesAppliedLabel.setVisible(false));
-				    	visiblePause.play();
-				}
-				else
-				{
+		try {
+			if (currentBefore != Double.parseDouble(currentWeightTF.getText())
+					|| weeklyBefore != weeklyGoalCB.getValue()
+					|| goalBefore != Double.parseDouble(goalWeightTF.getText())) {
+				String[] values = { goalWeightTF.getText(), currentWeightTF.getText(),
+						Double.toString(weeklyGoalCB.getValue()) };
+				String[] fields = { "goal_weight", "current_weight", "weekly_goals" };
+				if (mController.updateUser(currentUser, fields, values)) {
+					changesAppliedLabel.setVisible(true);
+					PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
+					visiblePause.setOnFinished(event -> changesAppliedLabel.setVisible(false));
+					visiblePause.play();
+				} else {
 					System.err.println("SQL ERROR");
 					changesAppliedLabel.setVisible(false);
 				}
 			}
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			errorLabel.setVisible(true);
 		}
 	}
 
 	@FXML
-	private void goToChangePasswordPopUp()
-	{
-		try
-		{
+	private void goToChangePasswordPopUp() {
+		try {
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("reset_password.fxml"));
 			Pane pane = loader.load();
-
 
 			stage.setScene(new Scene(pane));
 			stage.initStyle(StageStyle.UTILITY);
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setResizable(false);
 			stage.showAndWait();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

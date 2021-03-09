@@ -2,6 +2,7 @@ package model;
 
 /**
  * Enum for storing user's unit preference
+ * 
  * @author Travis
  *
  */
@@ -10,6 +11,7 @@ public enum Units {
 
 	/**
 	 * Parses an array of bytes into an array of Units
+	 * 
 	 * @param selection
 	 * @return
 	 */

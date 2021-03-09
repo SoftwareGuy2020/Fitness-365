@@ -38,10 +38,10 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 	public Hyperlink signInLink;
 	public Hyperlink forgotPasswordHL;
 	public Label usernameTakenLabel;
-	
+
 	public TextField currentWeightTF, goalWeightTF;
 	public ComboBox<Double> weeklyGoalCB;
-	
+
 	private Controller mController;
 
 	public SignUp() {
@@ -55,16 +55,17 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 		weeklyGoalCB.setItems(FXCollections.observableArrayList(-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0));
 		weeklyGoalCB.setValue(0.0);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.SceneNavigation#getView()
 	 */
 	@Override
 	public Scene getView() {
 		try {
 			AnchorPane ap = FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
-			 return new Scene(ap);
+			return new Scene(ap);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -84,41 +85,38 @@ public class SignUp extends AnchorPane implements SceneNavigation {
 		String sa = securityAnswerTF.getText();
 		LocalDate birthDate = birthDatePicker.getValue();
 		String fullName = nameTF.getText();
-		
+
 		if (username.isEmpty() || !typedPW.equals(confirmPasswordF.getText()) || fullName.isEmpty() || sa.isEmpty()) {
 			errorLabel.setVisible(true);
 			return;
 		}
-		
+
 		Sex sex = sexCB.getValue();
 		double weeklyGoal = weeklyGoalCB.getValue();
-		
-		try
-		{
+
+		try {
 			double currentWeight = Double.parseDouble(currentWeightTF.getText());
 			double goalWeight = Double.parseDouble(goalWeightTF.getText());
-			
-			User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, currentWeight, goalWeight, currentWeight, weeklyGoal, 0);
+
+			User newUser = new User(-1, username, sq, sa, fullName, birthDate, sex, null, 0, currentWeight, goalWeight,
+					currentWeight, weeklyGoal, 0);
 			mController.createNewUser(newUser, typedPW);
 			mController.setCurrentUser(username);
 			HomePage home = new HomePage();
-			mController.changeScene(home.getView(), true); 
-		}
-		catch (NumberFormatException e)
-		{
+			mController.changeScene(home.getView(), true);
+		} catch (NumberFormatException e) {
 			weightErrorLabel.setVisible(true);
 		}
 
 	}
-	
+
 	@FXML
 	private void loadSignInScene() {
 		mController.changeScene(new Login().getView(), false);
 	}
-	
+
 	@FXML
-	private void loadForgotPasswordScene()
-	{
+	private void loadForgotPasswordScene() {
 		mController.changeScene(new ForgotPassword().getView(), false);
 	}
 }

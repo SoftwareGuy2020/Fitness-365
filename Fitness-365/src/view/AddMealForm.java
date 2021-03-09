@@ -22,6 +22,7 @@ import model.SceneNavigation;
 
 /**
  * A form for gathering input from the user to store a Meal in the FoodDiary
+ * 
  * @author Travis
  *
  */
@@ -74,7 +75,8 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 
 	/**
 	 * Gets the entry that the user entered.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public FoodDiaryEntry getEntry() {
 		return mEntry;
@@ -102,9 +104,9 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 
 			mMeal = new Meal(name, servingSize, calories, fat, carbs, protein, "");
 			mEntry = new FoodDiaryEntry(mMeal, numServings, category, LocalDate.now(),
-									mController.getCurrentUser().getId());
-		
-		((Button) e.getSource()).getScene().getWindow().hide();
+					mController.getCurrentUser().getId());
+
+			((Button) e.getSource()).getScene().getWindow().hide();
 		}
 	}
 
@@ -158,6 +160,7 @@ public class AddMealForm extends GridPane implements SceneNavigation {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.SceneNavigation#getView()
 	 */
 	@Override

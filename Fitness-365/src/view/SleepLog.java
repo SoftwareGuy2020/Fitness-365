@@ -43,24 +43,22 @@ public class SleepLog implements SceneNavigation {
 	private int mRecommendedHours;
 
 	ObservableList<SleepLogEntry> entries;
-	
+
 	@FXML
-	private void initialize()
-	{
+	private void initialize() {
 		mUser = mController.getCurrentUser();
 		entries = mController.getAllSleepLogEntries();
 		sleepLogTV.setItems(entries);
 
 		lastEntryPI = new RingProgressIndicator();
-        averagePI = new RingProgressIndicator();
-        lastEntryPI.setPrefHeight(200.0);
-        lastEntryPI.setPrefWidth(200.0);
-        averagePI.setPrefHeight(200.0);
-        averagePI.setPrefWidth(200.0);
-        topPane.getChildren().add(lastEntryPI);
-        bottomPane.getChildren().add(averagePI);
-		if (mUser != null)
-		{
+		averagePI = new RingProgressIndicator();
+		lastEntryPI.setPrefHeight(200.0);
+		lastEntryPI.setPrefWidth(200.0);
+		averagePI.setPrefHeight(200.0);
+		averagePI.setPrefWidth(200.0);
+		topPane.getChildren().add(lastEntryPI);
+		bottomPane.getChildren().add(averagePI);
+		if (mUser != null) {
 			int userAge = mUser.getAge();
 
 			if (userAge <= 2)
@@ -74,42 +72,30 @@ public class SleepLog implements SceneNavigation {
 			else
 				mRecommendedHours = 7;
 
-
 			sleepHoursByAgeText.setText(mRecommendedHours + " hrs");
-		}
-		else
-		{
+		} else {
 			System.err.println("=========> USER UNINITIALIZED. IGNORE IF USING TESTING BYPASS <=========");
 		}
-		if (entries.size() > 0)
-		{
-			SleepLogEntry latestEntry = entries.get(entries.size()-1);
+		if (entries.size() > 0) {
+			SleepLogEntry latestEntry = entries.get(entries.size() - 1);
 			updateSleepGraphs(latestEntry);
-		}
-		else
-		{
-		    deleteEntryButton.setDisable(true);
+		} else {
+			deleteEntryButton.setDisable(true);
 		}
 		entries.addListener(new ListChangeListener<SleepLogEntry>() {
 
 			@Override
 			public void onChanged(Change<? extends SleepLogEntry> c) {
 				c.next();
-				if (c.wasAdded())
-				{
+				if (c.wasAdded()) {
 					SleepLogEntry latestEntry = c.getAddedSubList().get(0);
 					updateSleepGraphs(latestEntry);
 					deleteEntryButton.setDisable(false);
-				}
-				else if (c.wasRemoved())
-				{
-					if (entries.size() > 0)
-					{
-						SleepLogEntry latestEntry = entries.get(entries.size()-1);
+				} else if (c.wasRemoved()) {
+					if (entries.size() > 0) {
+						SleepLogEntry latestEntry = entries.get(entries.size() - 1);
 						updateSleepGraphs(latestEntry);
-					}
-					else
-					{
+					} else {
 						lastEntryPI.setProgress(0);
 						averagePI.setProgress(0);
 						deleteEntryButton.setDisable(true);
@@ -118,20 +104,17 @@ public class SleepLog implements SceneNavigation {
 			}
 		});
 
-
-
 	}
+
 	/**
 	 * Creates new SleepLog
 	 */
-	public SleepLog()
-	{
+	public SleepLog() {
 		mController = Controller.getInstance();
 	}
 
 	@Override
-	public Scene getView()
-	{
+	public Scene getView() {
 		try {
 			BorderPane bp = FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(bp);
@@ -141,12 +124,10 @@ public class SleepLog implements SceneNavigation {
 			return null;
 		}
 	}
-	
+
 	@FXML
-	private void addNewEntry()
-	{
-		try
-		{
+	private void addNewEntry() {
+		try {
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("addSleepLogEntryForm.fxml"));
@@ -161,43 +142,38 @@ public class SleepLog implements SceneNavigation {
 
 			SleepLogEntry entry = form.getEntry();
 			if (entry != null)
-			    entries.add(entry);
+				entries.add(entry);
 
 			if (noSelectedEntryLabel.isVisible())
-			    noSelectedEntryLabel.setVisible(false);
+				noSelectedEntryLabel.setVisible(false);
 
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-
 	}
+
 	@FXML
-	private void deleteSelectedEntry()
-	{
+	private void deleteSelectedEntry() {
 		SleepLogEntry selectedEntry = sleepLogTV.getSelectionModel().getSelectedItem();
 		if (selectedEntry == null)
-		    noSelectedEntryLabel.setVisible(true);
-		else
-		{
-		    noSelectedEntryLabel.setVisible(false);
-		    entries.remove(selectedEntry);
-		    mController.deleteSleepLogEntry(selectedEntry);
+			noSelectedEntryLabel.setVisible(true);
+		else {
+			noSelectedEntryLabel.setVisible(false);
+			entries.remove(selectedEntry);
+			mController.deleteSleepLogEntry(selectedEntry);
 		}
 	}
 
-	private void updateSleepGraphs(SleepLogEntry latestEntry)
-	{
-	    double lastEntryPercent = (latestEntry.getHoursAsleep())/mRecommendedHours;
-		lastEntryPI.setProgress((int)(lastEntryPercent * 100));
+	private void updateSleepGraphs(SleepLogEntry latestEntry) {
+		double lastEntryPercent = (latestEntry.getHoursAsleep()) / mRecommendedHours;
+		lastEntryPI.setProgress((int) (lastEntryPercent * 100));
 
 		double totalSleepHours = 0;
 		for (SleepLogEntry e : entries)
 			totalSleepHours += e.getHoursAsleep();
-		double averagePercent = (totalSleepHours/entries.size())/mRecommendedHours;
-		averagePI.setProgress((int)(averagePercent * 100));
+		double averagePercent = (totalSleepHours / entries.size()) / mRecommendedHours;
+		averagePI.setProgress((int) (averagePercent * 100));
 	}
-
 
 }

@@ -33,6 +33,7 @@ import model.SceneNavigation;
 /**
  * Represents a Food Diary for the user to record their daily intake of food,
  * and track their nutritional data.
+ * 
  * @author Travis
  *
  */
@@ -73,7 +74,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 	public FoodDiary() {
 		mController = Controller.getInstance();
 	}
-	
+
 	@FXML
 	private void initialize() {
 		calorieGoalTF.setText(Integer.toString(mController.getCurrentUser().getTDEE()));
@@ -95,14 +96,13 @@ public class FoodDiary extends VBox implements SceneNavigation {
 			public void onChanged(Change<? extends FoodDiaryEntry> c) {
 				c.next();
 				if (c.wasAdded()) {
-					FoodDiaryEntry entry = c.getAddedSubList().get(0);					
+					FoodDiaryEntry entry = c.getAddedSubList().get(0);
 					updateMacros(entry);
-				}
-				else if (c.wasRemoved()) {
+				} else if (c.wasRemoved()) {
 					updateFilters();
 				}
 			}
-		});		
+		});
 	}
 
 	private void updateFilters() {
@@ -145,7 +145,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				value.set(value.get() + entry.getMealCarbs());
 			}
 		});
-		updateCalorieCounters(entry.getMealCalories());		
+		updateCalorieCounters(entry.getMealCalories());
 	}
 
 	private void updateCalorieCounters(int mealCalories) {
@@ -157,6 +157,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.SceneNavigation#getView()
 	 */
 	@Override
@@ -171,7 +172,8 @@ public class FoodDiary extends VBox implements SceneNavigation {
 		}
 	}
 
-	@FXML @SuppressWarnings({ "unchecked", "rawtypes" })
+	@FXML
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addMeal() {
 		try {
 			Stage stage = new Stage();
@@ -190,7 +192,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 			if (entry != null) {
 				int key = mController.addFoodDiaryEntry(entry);
 				entry.setId(key);
-				
+
 				switch (entry.getCategory()) {
 				case Breakfast:
 					((FilteredList) breakfastTableView.getItems()).getSource().add(entry);
@@ -207,7 +209,7 @@ public class FoodDiary extends VBox implements SceneNavigation {
 				}
 			}
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
