@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 /**
  * Represents an entry in the FoodDiary of the user.
+ * 
  * @author Travis
  *
  */
@@ -14,10 +15,10 @@ public class FoodDiaryEntry {
 	private Category mCategory;
 	private LocalDate mDate;
 	private int mUserId;
-	
-	
+
 	/**
 	 * Instantiates an instance of FoodDiaryEntry
+	 * 
 	 * @param id
 	 * @param meal
 	 * @param category
@@ -33,9 +34,9 @@ public class FoodDiaryEntry {
 		this.mUserId = userId;
 	}
 
-
 	/**
 	 * Instantiates an instance of FoodDiaryEntry
+	 * 
 	 * @param meal
 	 * @param category
 	 * @param date
@@ -49,124 +50,127 @@ public class FoodDiaryEntry {
 		this.mUserId = userId;
 	}
 
-
 	/**
 	 * Gets the id of FoodDiaryEntry
+	 * 
 	 * @return the id
 	 */
 	public int getId() {
 		return this.mId;
 	}
 
-
 	/**
 	 * Sets the id of FoodDiaryEntry
+	 * 
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.mId = id;
 	}
 
-
 	/**
 	 * Gets the meal of FoodDiaryEntry
+	 * 
 	 * @return the meal
 	 */
 	public Meal getMeal() {
 		return this.mMeal;
 	}
 
-
 	/**
 	 * Sets the meal of FoodDiaryEntry
+	 * 
 	 * @param meal the meal to set
 	 */
 	public void setMeal(Meal meal) {
 		this.mMeal = meal;
 	}
-	
 
 	/**
 	 * Gets the numServings of FoodDiaryEntry
+	 * 
 	 * @return the numServings
 	 */
 	public double getNumServings() {
 		return this.mNumServings;
 	}
 
-
 	/**
 	 * Sets the numServings of FoodDiaryEntry
+	 * 
 	 * @param numServings the numServings to set
 	 */
 	public void setNumServings(double numServings) {
 		this.mNumServings = numServings;
 	}
 
-
 	/**
 	 * Gets the category of FoodDiaryEntry
+	 * 
 	 * @return the category
 	 */
 	public Category getCategory() {
 		return this.mCategory;
 	}
 
-
 	/**
 	 * Sets the category of FoodDiaryEntry
+	 * 
 	 * @param category the category to set
 	 */
 	public void setCategory(Category category) {
 		this.mCategory = category;
 	}
 
-
 	/**
 	 * Gets the date of FoodDiaryEntry
+	 * 
 	 * @return the date
 	 */
 	public LocalDate getDate() {
 		return this.mDate;
 	}
 
-
 	/**
 	 * Sets the date of FoodDiaryEntry
+	 * 
 	 * @param date the date to set
 	 */
 	public void setDate(LocalDate date) {
 		this.mDate = date;
 	}
 
-
 	/**
 	 * Gets the userId of FoodDiaryEntry
+	 * 
 	 * @return the userId
 	 */
 	public int getUserId() {
 		return this.mUserId;
 	}
 
-
 	/**
 	 * Sets the userId of FoodDiaryEntry
+	 * 
 	 * @param userId the userId to set
 	 */
 	public void setUserId(int userId) {
 		this.mUserId = userId;
 	}
+
 	/**
 	 * Gets the name of the Meal
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public String getMealName() {
-		return this.mMeal.getName();		
+		return this.mMeal.getName();
 	}
-	
+
 	/**
 	 * Gets the serving size of the Meal
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public double getMealServingSize() {
 		return this.mMeal.getServingSize();
@@ -174,7 +178,8 @@ public class FoodDiaryEntry {
 
 	/**
 	 * Gets the calories * the number of servings of the Meal
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public int getMealCalories() {
 		return (int) (this.mMeal.getCalories() * this.mNumServings);
@@ -182,29 +187,34 @@ public class FoodDiaryEntry {
 
 	/**
 	 * Gets the amount of fat in the Meal
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public double getMealFat() {
 		return (int) (this.mMeal.getFat() * this.mNumServings);
 	}
-	
+
 	/**
 	 * Gets the amount of carbs in the Meal
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public double getMealCarbs() {
 		return (int) (this.mMeal.getCarbs() * this.mNumServings);
 	}
-	
+
 	/**
 	 * Gets the amount of protein in the Meal
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public double getMealProtein() {
 		return (int) (this.mMeal.getProtein() * this.mNumServings);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -219,8 +229,9 @@ public class FoodDiaryEntry {
 		return result;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -250,5 +261,5 @@ public class FoodDiaryEntry {
 			return false;
 		return true;
 	}
-	
+
 }

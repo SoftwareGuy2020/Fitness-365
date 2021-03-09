@@ -5,6 +5,7 @@ import java.time.LocalDate;
 /**
  * 
  * Represents a completed workout of one exercise.
+ * 
  * @author Travis
  *
  */
@@ -18,12 +19,13 @@ public class Workout {
 
 	/**
 	 * Instantiates a workout.
-	 * @param id the database index
-	 * @param userId the user's database index
+	 * 
+	 * @param id       the database index
+	 * @param userId   the user's database index
 	 * @param exercise the exercise performed in the workout
-	 * @param weight the weight lifted
-	 * @param reps the number of times the weight was lifted
-	 * @param date the date that the workout occured on
+	 * @param weight   the weight lifted
+	 * @param reps     the number of times the weight was lifted
+	 * @param date     the date that the workout occured on
 	 */
 	public Workout(int id, int userId, Exercise exercise, double weight, int reps, LocalDate date) {
 		this.mId = id;
@@ -46,8 +48,7 @@ public class Workout {
 	/**
 	 * Sets the id of Workout
 	 * 
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.mId = id;
@@ -65,8 +66,7 @@ public class Workout {
 	/**
 	 * Sets the userId of Workout
 	 * 
-	 * @param userId
-	 *            the userId to set
+	 * @param userId the userId to set
 	 */
 	public void setUserId(int userId) {
 		this.mUserId = userId;
@@ -80,11 +80,11 @@ public class Workout {
 	public Exercise getExercise() {
 		return this.mExercise;
 	}
-	
+
 	public String getExerciseName() {
 		return this.mExercise.getName();
 	}
-	
+
 	public String getExerciseMuscleGroup() {
 		return this.mExercise.getMuscleGroup();
 	}
@@ -92,8 +92,7 @@ public class Workout {
 	/**
 	 * Sets the exercise of Workout
 	 * 
-	 * @param exercise
-	 *            the exerciseId to set
+	 * @param exercise the exerciseId to set
 	 */
 	public void setExercise(Exercise exercise) {
 		this.mExercise = exercise;
@@ -111,8 +110,7 @@ public class Workout {
 	/**
 	 * Sets the weight of Workout
 	 * 
-	 * @param weight
-	 *            the weight to set
+	 * @param weight the weight to set
 	 */
 	public void setWeight(double weight) {
 		this.mWeight = weight;
@@ -130,8 +128,7 @@ public class Workout {
 	/**
 	 * Sets the reps of Workout
 	 * 
-	 * @param reps
-	 *            the reps to set
+	 * @param reps the reps to set
 	 */
 	public void setReps(int reps) {
 		this.mReps = reps;
@@ -149,14 +146,15 @@ public class Workout {
 	/**
 	 * Sets the date of Workout
 	 * 
-	 * @param date
-	 *            the date to set
+	 * @param date the date to set
 	 */
 	public void setDate(LocalDate date) {
 		this.mDate = date;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -174,7 +172,9 @@ public class Workout {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -207,7 +207,9 @@ public class Workout {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

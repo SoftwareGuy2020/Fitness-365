@@ -1,8 +1,9 @@
 package model;
 
 /**
- * The different categories of meals that a user
- *  would partake in throughout the day
+ * The different categories of meals that a user would partake in throughout the
+ * day
+ * 
  * @author Travis
  *
  */

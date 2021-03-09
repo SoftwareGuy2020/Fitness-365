@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import controller.Controller;
 
-public class CalcHomePage implements SceneNavigation{
+public class CalcHomePage implements SceneNavigation {
 
 	private static final String FXML_FILE_NAME = "CalcHomePage.fxml";
 
@@ -27,49 +27,44 @@ public class CalcHomePage implements SceneNavigation{
 
 	// Event Listener on Button.onAction
 	@FXML
-	private void goToBMIScene()
-	{
+	private void goToBMIScene() {
 		BMICalc obj = new BMICalc();
 
 		mController.changeScene(obj.getView(), false);
 	}
+
 	// Event Listener on Button.onAction
 	@FXML
-	private void goToBMRScene()
-	{
+	private void goToBMRScene() {
 		TDEECalc calc = new TDEECalc();
 		mController.changeScene(calc.getView(), false);
 	}
 	// Event Listener on Button.onAction
 
 	@FXML
-	private void goToHomeScene()
-	{
+	private void goToHomeScene() {
 		HomePage page = new HomePage();
 		mController.changeScene(page.getView(), true);
 	}
-	
 
 	@FXML
-	private void goToBodyFatScene()
-	{
+	private void goToBodyFatScene() {
 		BodyFatCalc page = new BodyFatCalc();
 		mController.changeScene(page.getView(), false);
 	}
-	
+
 	/**
 	 * Scene navigator
 	 */
 	@Override
-	public Scene getView()
-	{
-	    try {
-            BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
-            return new Scene(ap);
+	public Scene getView() {
+		try {
+			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
+			return new Scene(ap);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

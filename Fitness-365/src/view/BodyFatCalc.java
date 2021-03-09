@@ -25,7 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 
-public class BodyFatCalc implements SceneNavigation{
+public class BodyFatCalc implements SceneNavigation {
 
 	private Controller mController = Controller.getInstance();
 	private static final String FXML_FILE_NAME = "bodyFatCalc.fxml";
@@ -59,10 +59,8 @@ public class BodyFatCalc implements SceneNavigation{
 	@FXML
 	private Label errorLabel;
 
-
 	@FXML
-	private void setMale()
-	{
+	private void setMale() {
 		wristLabel.setVisible(false);
 		wristTF.setVisible(false);
 		forearmTF.setVisible(false);
@@ -73,10 +71,10 @@ public class BodyFatCalc implements SceneNavigation{
 		updateButton.setVisible(false);
 		weightTF.requestFocus();
 	}
+
 	// Event Listener on RadioButton.onAction
 	@FXML
-	private void setFemale()
-	{
+	private void setFemale() {
 		wristLabel.setVisible(true);
 		wristTF.setVisible(true);
 		forearmTF.setVisible(true);
@@ -87,16 +85,16 @@ public class BodyFatCalc implements SceneNavigation{
 		updateButton.setVisible(false);
 		weightTF.requestFocus();
 	}
+
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	private void updateProfile(ActionEvent event)
-	{
+	private void updateProfile(ActionEvent event) {
 		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
 	}
+
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	private void cancel()
-	{
+	private void cancel() {
 		setMale();
 		wristTF.clear();
 		waistTF.clear();
@@ -109,51 +107,42 @@ public class BodyFatCalc implements SceneNavigation{
 		updateButton.setVisible(false);
 
 		HomePage home = new HomePage();
-        mController.changeScene(home.getView(), false);
-    }
+		mController.changeScene(home.getView(), false);
+	}
+
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	private void calculate()
-	{
+	private void calculate() {
 		errorLabel.setVisible(false);
 		updateButton.setVisible(false);
 
-        NumberFormat num = new DecimalFormat("#0.0");
+		NumberFormat num = new DecimalFormat("#0.0");
 
-		if(male.isSelected())
-		{
-			if(!weightTF.getText().isEmpty() && !waistTF.getText().isEmpty())
-			{
-				Double lean = ((1.082 * Double.parseDouble(weightTF.getText())) -
-						(4.15 * Double.parseDouble(waistTF.getText())) + 94.42);
+		if (male.isSelected()) {
+			if (!weightTF.getText().isEmpty() && !waistTF.getText().isEmpty()) {
+				Double lean = ((1.082 * Double.parseDouble(weightTF.getText()))
+						- (4.15 * Double.parseDouble(waistTF.getText())) + 94.42);
 
 				bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean)
-						/ ( Double.parseDouble(weightTF.getText())) * 100)).toString() + " % ");
+						/ (Double.parseDouble(weightTF.getText())) * 100)).toString() + " % ");
 
 				updateButton.setVisible(true);
-			}
-			else
+			} else
 				errorLabel.setVisible(true);
-		}
-		else if(female.isSelected())
-		{
-			if(!weightTF.getText().isEmpty() && !wristTF.getText().isEmpty() && !hipTF.getText().isEmpty()
-					&& !waistTF.getText().isEmpty() && !forearmTF.getText().isEmpty())
-			{
-				Double lean = (.732 * Double.parseDouble(weightTF.getText())) -
-						(.157 * Double.parseDouble(waistTF.getText()))
-								- (.249 * Double.parseDouble(hipTF.getText()))
-										+ (.434 * Double.parseDouble(forearmTF.getText()))
-												+ ((Double.parseDouble(wristTF.getText()) / 3.14) + 8.987);
+		} else if (female.isSelected()) {
+			if (!weightTF.getText().isEmpty() && !wristTF.getText().isEmpty() && !hipTF.getText().isEmpty()
+					&& !waistTF.getText().isEmpty() && !forearmTF.getText().isEmpty()) {
+				Double lean = (.732 * Double.parseDouble(weightTF.getText()))
+						- (.157 * Double.parseDouble(waistTF.getText())) - (.249 * Double.parseDouble(hipTF.getText()))
+						+ (.434 * Double.parseDouble(forearmTF.getText()))
+						+ ((Double.parseDouble(wristTF.getText()) / 3.14) + 8.987);
 				bfTF.setText(num.format(Double.valueOf((Double.parseDouble(weightTF.getText()) - lean)
-						/ ( Double.parseDouble(weightTF.getText())) * 100)).toString() + " %");
+						/ (Double.parseDouble(weightTF.getText())) * 100)).toString() + " %");
 
 				updateButton.setVisible(true);
-			}
-			else
+			} else
 				errorLabel.setVisible(true);
-		}
-		else
+		} else
 			errorLabel.setVisible(true);
 	}
 
@@ -161,8 +150,7 @@ public class BodyFatCalc implements SceneNavigation{
 	 * Scene Navigator
 	 */
 	@Override
-	public Scene getView()
-	{
+	public Scene getView() {
 		try {
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);

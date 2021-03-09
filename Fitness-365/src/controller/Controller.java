@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
@@ -34,61 +33,63 @@ import model.Workout;
 import view.Login;
 
 /**
- * The controller for Fitness 365 as per the MVC architecture.
- * Handles all communications between models and views.
- * Operates on a singleton design.
+ * The controller for Fitness 365 as per the MVC architecture. Handles all
+ * communications between models and views. Operates on a singleton design.
+ * 
  * @author Travis
  *
  */
 public class Controller extends Application implements AutoCloseable {
 
 	private static final String DB_NAME = "fitness_365.db";
-	private static final String[] TABLE_NAMES = {"users", "exercises", "workout_diary", "food_diary", "saved_workouts", "meals",
-												"favorite_meals", "sleep_log", "personal_bests", "pictures", "weight_progress"};
-	private static final String[][] FIELD_NAMES = {{"_id", "username", "password", "salt", "security_question",
-													"security_answer", "full_name", "birth_date", "sex", "units", "height",
-													"starting_weight", "goal_weight", "current_weight", "weekly_goals", "tdee"},
-												{"_id", "name", "muscle_group"},
-												{"_id", "user_id", "exercise_id", "weight", "reps", "date"},
-												{"_id", "meal_id", "num_servings", "category", "date", "user_id"},
-												{"_id", "name", "user_id", "exercise_id"},
-												{"_id", "name", "food_group", "serving_size", "calories", "fat", "carbs", "protein"},
-												{"_id", "meal_id", "user_id"},
-												{"_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups"},
-												{"_id", "user_id", "mile_time", "bench_press", "deadlift", "squat"},
-												{"_id", "user_id", "pic"},
-												{"_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi"},
-												};
+	private static final String[] TABLE_NAMES = { "users", "exercises", "workout_diary", "food_diary", "saved_workouts",
+			"meals", "favorite_meals", "sleep_log", "personal_bests", "pictures", "weight_progress" };
+	private static final String[][] FIELD_NAMES = {
+			{ "_id", "username", "password", "salt", "security_question", "security_answer", "full_name", "birth_date",
+					"sex", "units", "height", "starting_weight", "goal_weight", "current_weight", "weekly_goals",
+					"tdee" },
+			{ "_id", "name", "muscle_group" }, { "_id", "user_id", "exercise_id", "weight", "reps", "date" },
+			{ "_id", "meal_id", "num_servings", "category", "date", "user_id" },
+			{ "_id", "name", "user_id", "exercise_id" },
+			{ "_id", "name", "food_group", "serving_size", "calories", "fat", "carbs", "protein" },
+			{ "_id", "meal_id", "user_id" }, { "_id", "user_id", "date", "bed_time", "wake_time", "num_wakeups" },
+			{ "_id", "user_id", "mile_time", "bench_press", "deadlift", "squat" }, { "_id", "user_id", "pic" },
+			{ "_id", "date", "weight", "pic_id", "user_id", "bmr", "tdee", "bf_percent", "bmi" }, };
 
-	private static final String[][] FIELD_TYPES = { {"INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT",
-														"INTEGER", "BLOB", "REAL", "REAL", "REAL", "REAL", "REAL", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "TEXT", "TEXT"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "INTEGER", "TEXT"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "REAL", "TEXT", "TEXT", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "TEXT", "INTEGER", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER", "REAL", "REAL", "REAL", "TEXT"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL"},
-													{"INTEGER PRIMARY KEY", "INTEGER", "BLOB"},
-													{"INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER"},
-													};
+	private static final String[][] FIELD_TYPES = {
+			{ "INTEGER PRIMARY KEY", "TEXT", "BLOB", "BLOB", "TEXT", "TEXT", "TEXT", "TEXT", "INTEGER", "BLOB", "REAL",
+					"REAL", "REAL", "REAL", "REAL", "INTEGER" },
+			{ "INTEGER PRIMARY KEY", "TEXT", "TEXT" },
+			{ "INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "INTEGER", "TEXT" },
+			{ "INTEGER PRIMARY KEY", "INTEGER", "REAL", "TEXT", "TEXT", "INTEGER" },
+			{ "INTEGER PRIMARY KEY", "TEXT", "INTEGER", "INTEGER" },
+			{ "INTEGER PRIMARY KEY", "TEXT", "TEXT", "REAL", "INTEGER", "REAL", "REAL", "REAL", "TEXT" },
+			{ "INTEGER PRIMARY KEY", "INTEGER", "INTEGER" },
+			{ "INTEGER PRIMARY KEY", "INTEGER", "TEXT", "TEXT", "TEXT", "INTEGER" },
+			{ "INTEGER PRIMARY KEY", "INTEGER", "INTEGER", "REAL", "REAL", "REAL" },
+			{ "INTEGER PRIMARY KEY", "INTEGER", "BLOB" },
+			{ "INTEGER PRIMARY KEY", "TEXT", "REAL", "INTEGER", "INTEGER", "REAL", "REAL", "REAL", "INTEGER" }, };
 
-	private static final String[][] FOREIGN_KEYS = {{}, {}, {"FOREIGN KEY(" + FIELD_NAMES[2][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
-															"FOREIGN KEY(" + FIELD_NAMES[2][2] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[3][1] + ") REFERENCES " + TABLE_NAMES[6] + "(" + FIELD_NAMES[6][0] + ")",
-													"FOREIGN KEY(" + FIELD_NAMES[3][4] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[4][2] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
-														"FOREIGN KEY(" + FIELD_NAMES[4][3] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")"},
-													{},
-													{"FOREIGN KEY(" + FIELD_NAMES[6][1] + ") REFERENCES " + TABLE_NAMES[5] + "(" + FIELD_NAMES[5][0] + ")",
-														"FOREIGN KEY(" + FIELD_NAMES[6][2] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[7][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[8][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[9][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													{"FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",
-														"FOREIGN KEY(" +  FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")"},
-													};
+	private static final String[][] FOREIGN_KEYS = { {}, {},
+			{ "FOREIGN KEY(" + FIELD_NAMES[2][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
+					"FOREIGN KEY(" + FIELD_NAMES[2][2] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0]
+							+ ")" },
+			{ "FOREIGN KEY(" + FIELD_NAMES[3][1] + ") REFERENCES " + TABLE_NAMES[6] + "(" + FIELD_NAMES[6][0] + ")",
+					"FOREIGN KEY(" + FIELD_NAMES[3][4] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0]
+							+ ")" },
+			{ "FOREIGN KEY(" + FIELD_NAMES[4][2] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")",
+					"FOREIGN KEY("
+							+ FIELD_NAMES[4][3] + ") REFERENCES " + TABLE_NAMES[1] + "(" + FIELD_NAMES[1][0] + ")" },
+			{},
+			{ "FOREIGN KEY(" + FIELD_NAMES[6][1] + ") REFERENCES " + TABLE_NAMES[5] + "(" + FIELD_NAMES[5][0] + ")",
+					"FOREIGN KEY(" + FIELD_NAMES[6][2] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0]
+							+ ")" },
+			{ "FOREIGN KEY(" + FIELD_NAMES[7][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")" },
+			{ "FOREIGN KEY(" + FIELD_NAMES[8][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")" },
+			{ "FOREIGN KEY(" + FIELD_NAMES[9][1] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0] + ")" },
+			{ "FOREIGN KEY(" + FIELD_NAMES[10][2] + ") REFERENCES " + TABLE_NAMES[9] + "(" + FIELD_NAMES[9][0] + ")",
+					"FOREIGN KEY(" + FIELD_NAMES[10][3] + ") REFERENCES " + TABLE_NAMES[0] + "(" + FIELD_NAMES[0][0]
+							+ ")" }, };
 
 	private static Controller mInstance;
 	private DBModel mDB;
@@ -101,10 +102,11 @@ public class Controller extends Application implements AutoCloseable {
 	private static final String EXERCISE_DATA_FILE = "Exercises.csv";
 
 	/**
-	 * Instantiates the Controller. Do not manually call this.
-	 * JavaFx calls this automatically.
+	 * Instantiates the Controller. Do not manually call this. JavaFx calls this
+	 * automatically.
 	 */
-	public Controller() {}
+	public Controller() {
+	}
 
 	/**
 	 * The correct method to use in order to get an instance of the Controller.
@@ -112,8 +114,7 @@ public class Controller extends Application implements AutoCloseable {
 	 * @return
 	 */
 	public static Controller getInstance() {
-		if (mInstance == null)
-		{
+		if (mInstance == null) {
 			mInstance = new Controller();
 		}
 
@@ -122,6 +123,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#init()
 	 */
 	@Override
@@ -129,35 +131,32 @@ public class Controller extends Application implements AutoCloseable {
 		mInstance = this;
 		mDB = new DBModel(DB_NAME, TABLE_NAMES, FIELD_NAMES, FIELD_TYPES, FOREIGN_KEYS);
 		mInstance.mAllMealsList = FXCollections.observableArrayList();
-        ResultSet rs;
+		ResultSet rs;
 
-        try
-        {
-            rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
-            
-            while (rs.next())
-            {
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                String group = rs.getString(3);
-                double size = rs.getDouble(4);
-                int calories = rs.getInt(5);
-                double fat = rs.getDouble(6);
-                double carbs = rs.getDouble(7);
-                double protein = rs.getDouble(8);
+		try {
+			rs = mInstance.mDB.getAllRecords(TABLE_NAMES[5]);
 
-                mInstance.mAllMealsList.add(new Meal(id, name, size, calories, fat, carbs, protein, group));
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+			while (rs.next()) {
+				int id = rs.getInt(1);
+				String name = rs.getString(2);
+				String group = rs.getString(3);
+				double size = rs.getDouble(4);
+				int calories = rs.getInt(5);
+				double fat = rs.getDouble(6);
+				double carbs = rs.getDouble(7);
+				double protein = rs.getDouble(8);
+
+				mInstance.mAllMealsList.add(new Meal(id, name, size, calories, fat, carbs, protein, group));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		super.init();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
 	@Override
@@ -168,8 +167,10 @@ public class Controller extends Application implements AutoCloseable {
 		mInstance.changeScene(login.getView(), false);
 		primaryStage.show();
 	}
+
 	/**
 	 * Das ist mein Main!
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -178,6 +179,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Gets the user from the database based on their username
+	 * 
 	 * @param username the user's unique username
 	 * @return The user who's associated with the username
 	 */
@@ -189,12 +191,11 @@ public class Controller extends Application implements AutoCloseable {
 				if (rs.next()) {
 					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(5), rs.getString(6),
 							rs.getString(7), LocalDate.parse(rs.getString(8)), Sex.parseInt(rs.getInt(9)),
-							Units.parse(rs.getBytes(10)),
-							rs.getInt(11), rs.getDouble(12), rs.getDouble(13), rs.getDouble(14),
-							rs.getDouble(15), rs.getInt(16));
+							Units.parse(rs.getBytes(10)), rs.getInt(11), rs.getDouble(12), rs.getDouble(13),
+							rs.getDouble(14), rs.getDouble(15), rs.getInt(16));
 					return user;
 				}
-			} catch (SQLException e) {				
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -204,14 +205,16 @@ public class Controller extends Application implements AutoCloseable {
 	private byte[][] getPasswordAndSalt(int userID) throws SQLException {
 		ResultSet rs = mDB.getRecord(TABLE_NAMES[0], Integer.toString(userID));
 		if (rs.next()) {
-			byte[][] set = new byte[][] {rs.getBytes(3), rs.getBytes(4)};
+			byte[][] set = new byte[][] { rs.getBytes(3), rs.getBytes(4) };
 			return set;
 		}
 		return null;
 	}
+
 	/**
 	 * Authenticates a login attempt.
-	 * @param username the typed username
+	 * 
+	 * @param username    the typed username
 	 * @param attemptedPW the typed password
 	 * @return True if authentication was successful. False otherwise.
 	 */
@@ -230,9 +233,10 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Creates a new user in the database and encrypts the user's password
+	 * 
 	 * @param user
 	 * @param password
 	 */
@@ -240,10 +244,9 @@ public class Controller extends Application implements AutoCloseable {
 		try {
 			byte[] salt = PasswordEncryption.generateSalt();
 			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(password, salt);
-			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length),
-					user, hashedPassword, salt);
-		}
-		catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+			mDB.createUser(TABLE_NAMES[0], Arrays.copyOfRange(FIELD_NAMES[0], 1, FIELD_NAMES[0].length), user,
+					hashedPassword, salt);
+		} catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
 
@@ -251,7 +254,8 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Updates the specified user in the database
-	 * @param user the user to be updated
+	 * 
+	 * @param user   the user to be updated
 	 * @param fields an array of fields that will be updated
 	 * @param values the values associate with the fields
 	 * @return True if successful, false otherwise.
@@ -261,7 +265,8 @@ public class Controller extends Application implements AutoCloseable {
 			try {
 				boolean success = mDB.updateRecord(TABLE_NAMES[0], Integer.toString(user.getId()), fields, values);
 				if (success)
-					setCurrentUser(user.getUserName()); // Need to update the Current User object so it has the saved changes
+					setCurrentUser(user.getUserName()); // Need to update the Current User object so it has the saved
+														// changes
 				return success;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -271,8 +276,9 @@ public class Controller extends Application implements AutoCloseable {
 	}
 
 	/**
-	 * Updates the user's password with a new password.
-	 * The new password is encrypted.
+	 * Updates the user's password with a new password. The new password is
+	 * encrypted.
+	 * 
 	 * @param user
 	 * @param newPassword
 	 * @return True if update was successful, false otherwise.
@@ -283,7 +289,8 @@ public class Controller extends Application implements AutoCloseable {
 			return false;
 
 		try {
-			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(newPassword, getPasswordAndSalt(user.getId())[1]);
+			byte[] hashedPassword = PasswordEncryption.getEncryptedPassword(newPassword,
+					getPasswordAndSalt(user.getId())[1]);
 			return mDB.updateUserPassword(TABLE_NAMES[0], Integer.toString(user.getId()), hashedPassword);
 		} catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			e.printStackTrace();
@@ -291,8 +298,10 @@ public class Controller extends Application implements AutoCloseable {
 		}
 		return false;
 	}
+
 	/**
 	 * Changes the scene set on the Main Stage
+	 * 
 	 * @param scene
 	 * @param resizable, whether scene should be resizable or not
 	 */
@@ -301,35 +310,36 @@ public class Controller extends Application implements AutoCloseable {
 		mMainStage.setResizable(resizable);
 		mMainStage.setTitle("Fitness 365");
 	}
+
 	/**
 	 * Changes current user of program to the one specified by the username
+	 * 
 	 * @param username
 	 */
-	public void setCurrentUser(String username)
-	{
+	public void setCurrentUser(String username) {
 		mCurrentUser = getUser(username);
 	}
+
 	/**
 	 * 
 	 * @return The current user object
 	 */
-	public User getCurrentUser()
-	{
+	public User getCurrentUser() {
 		return mCurrentUser;
 	}
 
 	/**
 	 * Adds a meal to the database
+	 * 
 	 * @param meal
-	 * @return The index in the database that the meal is at,
-	 * 			or -1 if unsuccessful.
-	 * 		
+	 * @return The index in the database that the meal is at, or -1 if unsuccessful.
+	 * 
 	 */
 	public int addMeal(Meal meal) {
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length);
-		String[] values = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
-							Double.toString(meal.getCalories()), Double.toString(meal.getFat()),
-							Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
+		String[] values = { meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
+				Double.toString(meal.getCalories()), Double.toString(meal.getFat()), Double.toString(meal.getCarbs()),
+				Double.toString(meal.getProtein()) };
 
 		try {
 			int key = mDB.createRecord(TABLE_NAMES[5], fields, values);
@@ -346,18 +356,17 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Gets a meal from the database thats associated with the passed id
+	 * 
 	 * @param id the index of the meal in the database.
-	 * @return the meal belonging to the id. 
-	 * 			returns null if meal does not exist.
+	 * @return the meal belonging to the id. returns null if meal does not exist.
 	 */
 	public Meal getMeal(int id) {
 		String key = Integer.toString(id);
 		try {
 			ResultSet rs = mDB.getRecord(TABLE_NAMES[5], key);
 			if (rs.next()) {
-				return new Meal(rs.getInt(1), rs.getString(2), rs.getDouble(4),
-								rs.getInt(5), rs.getDouble(6), rs.getDouble(7),
-								rs.getDouble(8), rs.getString(3));
+				return new Meal(rs.getInt(1), rs.getString(2), rs.getDouble(4), rs.getInt(5), rs.getDouble(6),
+						rs.getDouble(7), rs.getDouble(8), rs.getString(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -367,7 +376,8 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Adds a FoodDiaryEntry into the database.
-	 * @param entry 
+	 * 
+	 * @param entry
 	 * @return the id where the FoodDiaryEntry is stored, or -1 if unsuccessful.
 	 */
 	public int addFoodDiaryEntry(FoodDiaryEntry entry) {
@@ -376,20 +386,22 @@ public class Controller extends Application implements AutoCloseable {
 
 		try {
 			Meal meal = entry.getMeal();
-			String[] mealValues = {meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()), Integer.toString(meal.getCalories()),
-						Double.toString(meal.getFat()), Double.toString(meal.getCarbs()), Double.toString(meal.getProtein())};
+			String[] mealValues = { meal.getName(), meal.getGroup(), Double.toString(meal.getServingSize()),
+					Integer.toString(meal.getCalories()), Double.toString(meal.getFat()),
+					Double.toString(meal.getCarbs()), Double.toString(meal.getProtein()) };
 
 			ResultSet rs = mDB.getRecordMatch(TABLE_NAMES[5],
-						Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
+					Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), mealValues);
 
 			int key = (!rs.next()) ? addMeal(meal) : rs.getInt(1);
 			entry.getMeal().setId(key);
 
-			String[] entryValues = {Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
-						entry.getCategory().toString(), entry.getDate().toString(),
-						Integer.toString(mCurrentUser.getId())};
+			String[] entryValues = { Integer.toString(entry.getMeal().getId()), Double.toString(entry.getNumServings()),
+					entry.getCategory().toString(), entry.getDate().toString(),
+					Integer.toString(mCurrentUser.getId()) };
 
-			return mDB.createRecord(TABLE_NAMES[3], Arrays.copyOfRange(FIELD_NAMES[3], 1, FIELD_NAMES[3].length), entryValues);
+			return mDB.createRecord(TABLE_NAMES[3], Arrays.copyOfRange(FIELD_NAMES[3], 1, FIELD_NAMES[3].length),
+					entryValues);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
@@ -398,6 +410,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Deletes the specified FoodDiaryEntry from the database.
+	 * 
 	 * @param entry
 	 * @return True if deletion was completed, false otherwise.
 	 */
@@ -413,9 +426,10 @@ public class Controller extends Application implements AutoCloseable {
 		return false;
 	}
 
-
 	/**
-	 * Gets all FoodDiaryEntries in the database that are associated with the current user.
+	 * Gets all FoodDiaryEntries in the database that are associated with the
+	 * current user.
+	 * 
 	 * @return
 	 */
 	public ObservableList<FoodDiaryEntry> getAllFoodDiaryEntries() {
@@ -424,8 +438,8 @@ public class Controller extends Application implements AutoCloseable {
 
 		try {
 			ArrayList<Integer> mealIdNums = new ArrayList<Integer>();
-			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[3], new String[] {FIELD_NAMES[3][5]},
-							new String[]{key});
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[3], new String[] { FIELD_NAMES[3][5] },
+					new String[] { key });
 
 			Meal meal;
 			int entryId;
@@ -449,29 +463,30 @@ public class Controller extends Application implements AutoCloseable {
 				entries.get(i).setMeal(meal);
 			}
 
-		} catch (SQLException e) {			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return entries;
 	}
-	
+
 	/**
 	 * Add's an entry to the sleep log database
+	 * 
 	 * @param SleepLogEntry entry
 	 * @return the ID of the entry, -1 if the entry is null
 	 */
-	public int addSleepLogEntry(SleepLogEntry entry)
-	{
+	public int addSleepLogEntry(SleepLogEntry entry) {
 		if (entry == null)
 			return -1;
 
 		try {
-			String[] entryValues = {Integer.toString(mCurrentUser.getId()), entry.getDate().toString()
-					, entry.getSleepTime().toString(), entry.getWakeTime().toString(), Integer.toString(entry.getNumOfInterruptions())};
+			String[] entryValues = { Integer.toString(mCurrentUser.getId()), entry.getDate().toString(),
+					entry.getSleepTime().toString(), entry.getWakeTime().toString(),
+					Integer.toString(entry.getNumOfInterruptions()) };
 
-			return mDB.createRecord(TABLE_NAMES[7],Arrays.copyOfRange(FIELD_NAMES[7], 1, FIELD_NAMES[7].length), entryValues);
+			return mDB.createRecord(TABLE_NAMES[7], Arrays.copyOfRange(FIELD_NAMES[7], 1, FIELD_NAMES[7].length),
+					entryValues);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
 		}
@@ -479,39 +494,38 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Deletes a SleepLogEntry from the sleep log database
+	 * 
 	 * @param entry to be deleted
 	 */
-	public void deleteSleepLogEntry(SleepLogEntry entry)
-	{
+	public void deleteSleepLogEntry(SleepLogEntry entry) {
 		String key = String.valueOf(entry.getID());
 		try {
 			mDB.deleteRecord(TABLE_NAMES[7], key);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-
 	/**
-	 * This function returns a list of sleep log entries from he sleep log database matching the user ID
+	 * This function returns a list of sleep log entries from he sleep log database
+	 * matching the user ID
+	 * 
 	 * @return An ObservableList<SleepLogEntry> containing all the sleep log entries
-	 * for the user.
+	 *         for the user.
 	 */
-	public ObservableList<SleepLogEntry> getAllSleepLogEntries()
-	{
+	public ObservableList<SleepLogEntry> getAllSleepLogEntries() {
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<SleepLogEntry> entries = FXCollections.observableArrayList();
 
 		try {
-			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[7], new String[] {FIELD_NAMES[7][1]}, new String[] {key});
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[7], new String[] { FIELD_NAMES[7][1] },
+					new String[] { key });
 
 			LocalDate date;
 			LocalTime bedTime, wakeTime;
 			int entryId, numOfInterruptions;
 
-			while (rs.next())
-			{
+			while (rs.next()) {
 				entryId = rs.getInt(1);
 				date = LocalDate.parse(rs.getString(3));
 				bedTime = LocalTime.parse(rs.getString(4));
@@ -521,48 +535,39 @@ public class Controller extends Application implements AutoCloseable {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return entries;
 	}
 
-
 	/**
 	 * This function returns a list of favorite meals
-	 * @return An ObservableList<SleepLogEntry> favorite meals
-	 * for the user.
+	 * 
+	 * @return An ObservableList<SleepLogEntry> favorite meals for the user.
 	 */
-	public ObservableList<Meal> getFavoriteMeals()
-	{
+	public ObservableList<Meal> getFavoriteMeals() {
 		String key = Integer.toString(mCurrentUser.getId());
 		ObservableList<Meal> favorites = FXCollections.observableArrayList();
 
-		try
-        {
-			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[6], new String[] {FIELD_NAMES[6][2]}, new String[] {key});
+		try {
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[6], new String[] { FIELD_NAMES[6][2] },
+					new String[] { key });
 
-            int mealId = 0;
+			int mealId = 0;
 
-            while(rs.next())
-            {
-                mealId = rs.getInt(2);
+			while (rs.next()) {
+				mealId = rs.getInt(2);
 
-                for(Meal m : mInstance.mAllMealsList)
-                {
-                    if(mealId == m.getId())
-                    {
-                        favorites.add(m);
-                        break;
-                    }
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+				for (Meal m : mInstance.mAllMealsList) {
+					if (mealId == m.getId()) {
+						favorites.add(m);
+						break;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return favorites;
 	}
 
@@ -572,26 +577,22 @@ public class Controller extends Application implements AutoCloseable {
 	 * @param selectedMeal
 	 * @return
 	 */
-	public int addMealToFavorites(Meal selectedMeal)
-	{
-		if(selectedMeal == null)
+	public int addMealToFavorites(Meal selectedMeal) {
+		if (selectedMeal == null)
 			return -1;
 
 		ObservableList<Meal> meals = getFavoriteMeals();
 
-		 if(meals.contains(selectedMeal))
-		 {
-		       return -1;
-         }
+		if (meals.contains(selectedMeal)) {
+			return -1;
+		}
 
-		String [] values = {Integer.toString(selectedMeal.getId()), Integer.toString(mCurrentUser.getId())};
+		String[] values = { Integer.toString(selectedMeal.getId()), Integer.toString(mCurrentUser.getId()) };
 
-		try
-		{
-			return mDB.createRecord(TABLE_NAMES[6], Arrays.copyOfRange(FIELD_NAMES[6], 1, FIELD_NAMES[6].length), values);
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
+		try {
+			return mDB.createRecord(TABLE_NAMES[6], Arrays.copyOfRange(FIELD_NAMES[6], 1, FIELD_NAMES[6].length),
+					values);
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
 		}
@@ -603,8 +604,7 @@ public class Controller extends Application implements AutoCloseable {
 	 * @param selectedMeal
 	 * @return
 	 */
-	public void deleteFavoriteMeal(Meal meal)
-	{
+	public void deleteFavoriteMeal(Meal meal) {
 		String key = String.valueOf(meal.getId());
 		try {
 			mDB.deleteRecord(TABLE_NAMES[6], key);
@@ -632,7 +632,6 @@ public class Controller extends Application implements AutoCloseable {
 					mDB.createRecord(TABLE_NAMES[1], Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
 							values);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -646,128 +645,117 @@ public class Controller extends Application implements AutoCloseable {
 	}
 
 	@SuppressWarnings("unused")
-	private int populatingMealTable()
-	{
-	    int recordsCreated = 0;
+	private int populatingMealTable() {
+		int recordsCreated = 0;
 
-        try {
-            Scanner fileScanner = new Scanner(new File(MEALS_DATA_FILE));
-            // First read is for headings:
-            fileScanner.nextLine();
-            // All subsequent reads are for user data
-            while (fileScanner.hasNextLine()) {
-                String[] data = fileScanner.nextLine().split(",");
+		try {
+			Scanner fileScanner = new Scanner(new File(MEALS_DATA_FILE));
+			// First read is for headings:
+			fileScanner.nextLine();
+			// All subsequent reads are for user data
+			while (fileScanner.hasNextLine()) {
+				String[] data = fileScanner.nextLine().split(",");
 
-                String[] values = new String[FIELD_NAMES[5].length - 1];
-                
-                values[0] = data[0];
-                values[1] = data[1];
-                values[2] = "1";
-                values[3] = (!data[12].isEmpty()) ? data[12] : "0";
-                values[4] = (!data[10].isEmpty()) ? data[10] : "0";
-                values[5] = (!data[8].isEmpty()) ? data[8] : "0";
-                values[6] = (!data[2].isEmpty()) ? data[2] : "0";
+				String[] values = new String[FIELD_NAMES[5].length - 1];
 
-                try
-                {
-                    mInstance.mDB.createRecord(TABLE_NAMES[5], Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), values);
-                }
-                catch (SQLException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                //String table, String[] fields, String[] values
-                recordsCreated++;
-            }
+				values[0] = data[0];
+				values[1] = data[1];
+				values[2] = "1";
+				values[3] = (!data[12].isEmpty()) ? data[12] : "0";
+				values[4] = (!data[10].isEmpty()) ? data[10] : "0";
+				values[5] = (!data[8].isEmpty()) ? data[8] : "0";
+				values[6] = (!data[2].isEmpty()) ? data[2] : "0";
 
-            // All done with the CSV file, close the connection
-            fileScanner.close();
-        } catch (FileNotFoundException e) {
-            return 0;
-        }
-        return recordsCreated;
+				try {
+					mInstance.mDB.createRecord(TABLE_NAMES[5],
+							Arrays.copyOfRange(FIELD_NAMES[5], 1, FIELD_NAMES[5].length), values);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				// String table, String[] fields, String[] values
+				recordsCreated++;
+			}
+
+			// All done with the CSV file, close the connection
+			fileScanner.close();
+		} catch (FileNotFoundException e) {
+			return 0;
+		}
+		return recordsCreated;
 	}
 
 	/**
-     * Filters on a criteria
-     *
-     * @param crit
-     * @return
-     */
-	public ObservableList<Meal> filter(Predicate<Meal> crit)
-    {
+	 * Filters on a criteria
+	 *
+	 * @param crit
+	 * @return
+	 */
+	public ObservableList<Meal> filter(Predicate<Meal> crit) {
 		ObservableList<Meal> filtered = FXCollections.observableArrayList();
 
-        for(Meal m : mInstance.mAllMealsList)
-        {
-            if(crit.test(m))
-            {
-            	filtered.add(m);
-            }
-        }
-        return filtered;
-    }
+		for (Meal m : mInstance.mAllMealsList) {
+			if (crit.test(m)) {
+				filtered.add(m);
+			}
+		}
+		return filtered;
+	}
 
 	/**
 	 * Returns all meals
 	 *
 	 * @return
 	 */
-	public ObservableList<Meal> getAllMeals()
-	{
-	    return mInstance.mAllMealsList;
+	public ObservableList<Meal> getAllMeals() {
+		return mInstance.mAllMealsList;
 	}
-
 
 	/**
-     * Returns food group of meal
-     *
-     * @return
-     */
-    public ObservableList<String> getFoodGroups()
-    {
-        ObservableList<String> c = FXCollections.observableArrayList();
-        c.add(" ");
+	 * Returns food group of meal
+	 *
+	 * @return
+	 */
+	public ObservableList<String> getFoodGroups() {
+		ObservableList<String> c = FXCollections.observableArrayList();
+		c.add(" ");
 
-        for(Meal m : mAllMealsList)
-        {
-            if(!c.contains(m.getGroup()))
-            {
-                c.add(m.getGroup());
-            }
-        }
+		for (Meal m : mAllMealsList) {
+			if (!c.contains(m.getGroup())) {
+				c.add(m.getGroup());
+			}
+		}
 
-        FXCollections.sort(c);
-        return c;
-    }
-
-    /**
-     * Open's a URL in either a new window if none are present, or a new tab
-     * of the system's default web browser.
-     * @param url (string) of desired web page to be opened
-     */
-	public void openWebpage(String url)
-	{
-		HostServices host = getHostServices();
-        host.showDocument(url);
+		FXCollections.sort(c);
+		return c;
 	}
-	
+
+	/**
+	 * Open's a URL in either a new window if none are present, or a new tab of the
+	 * system's default web browser.
+	 * 
+	 * @param url (string) of desired web page to be opened
+	 */
+	public void openWebpage(String url) {
+		HostServices host = getHostServices();
+		host.showDocument(url);
+	}
+
 	/**
 	 * Gets all Workouts from the database.
+	 * 
 	 * @return an Observable list of Workouts.
 	 */
 	public ObservableList<Workout> getallWorkouts() {
 		ObservableList<Workout> workouts = FXCollections.observableArrayList();
 		try {
-			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[2], new String[] {FIELD_NAMES[2][1]},
-									new String[] {Integer.toString(mCurrentUser.getId())});
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[2], new String[] { FIELD_NAMES[2][1] },
+					new String[] { Integer.toString(mCurrentUser.getId()) });
 
 			Workout w = null;
 			ArrayList<Integer> exerciseIDs = new ArrayList<>(rs.getFetchSize());
 			while (rs.next()) {
-				w = new Workout(rs.getInt(1), rs.getInt(2), null,
-							rs.getDouble(4), rs.getInt(5), LocalDate.parse(rs.getString(6)));
+				w = new Workout(rs.getInt(1), rs.getInt(2), null, rs.getDouble(4), rs.getInt(5),
+						LocalDate.parse(rs.getString(6)));
 				workouts.add(w);
 				exerciseIDs.add(rs.getInt(3));
 			}
@@ -786,6 +774,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Gets the exercise at the specified index of the database.
+	 * 
 	 * @param id the index of the exercise.
 	 * @return The Exercise, or null if not found.
 	 */
@@ -804,17 +793,19 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Adds the specified Exercise to the database.
+	 * 
 	 * @param exercise
-	 * @return the index where the Exercise is located, or -1 if something went wrong.
+	 * @return the index where the Exercise is located, or -1 if something went
+	 *         wrong.
 	 */
-	public int addExercise (Exercise exercise) {
+	public int addExercise(Exercise exercise) {
 		if (exercise == null)
 			return -1;
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[1], 1, FIELD_NAMES[1].length),
-				 values = {exercise.getName(), exercise.getMuscleGroup()};
+				values = { exercise.getName(), exercise.getMuscleGroup() };
 
 		try {
-			return mDB.createRecord(TABLE_NAMES[2],fields, values);
+			return mDB.createRecord(TABLE_NAMES[2], fields, values);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
@@ -823,18 +814,20 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Adds a Workout to the Database.
+	 * 
 	 * @param w the workout.
-	 * @return The index where the Workout is located, or -1 if something went wrong.
+	 * @return The index where the Workout is located, or -1 if something went
+	 *         wrong.
 	 */
 	public int addWorkout(Workout w) {
 		if (w == null)
 			return -1;
 		String[] fields = Arrays.copyOfRange(FIELD_NAMES[2], 1, FIELD_NAMES[2].length),
-				 values = {Integer.toString(w.getUserId()), Integer.toString(w.getExercise().getId()),
-						 Double.toString(w.getWeight()), Integer.toString(w.getReps()), w.getDate().toString()};
+				values = { Integer.toString(w.getUserId()), Integer.toString(w.getExercise().getId()),
+						Double.toString(w.getWeight()), Integer.toString(w.getReps()), w.getDate().toString() };
 
 		try {
-			return mDB.createRecord(TABLE_NAMES[2],fields, values);
+			return mDB.createRecord(TABLE_NAMES[2], fields, values);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
@@ -843,6 +836,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Gets all Exercises from the database.
+	 * 
 	 * @return an Observable list of Exercises.
 	 */
 	public ObservableList<Exercise> getAllExercises() {
@@ -863,6 +857,7 @@ public class Controller extends Application implements AutoCloseable {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.AutoCloseable#close()
 	 */
 	@Override
@@ -872,18 +867,19 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Adds the exercise to the saved_workouts table of the database.
+	 * 
 	 * @param exercise
-	 * @return the index where the exercise is located, or -1 if something went wrong.
+	 * @return the index where the exercise is located, or -1 if something went
+	 *         wrong.
 	 */
 	public int addSavedExercise(Exercise exercise) {
 		if (exercise == null)
 			return -1;
-		String[] fields = Arrays.copyOfRange(FIELD_NAMES[4], 1, FIELD_NAMES[4].length),
-				 values = {exercise.getName(),Integer.toString(mCurrentUser.getId()),
-						 Integer.toString(exercise.getId())};
+		String[] fields = Arrays.copyOfRange(FIELD_NAMES[4], 1, FIELD_NAMES[4].length), values = { exercise.getName(),
+				Integer.toString(mCurrentUser.getId()), Integer.toString(exercise.getId()) };
 
 		try {
-			return mDB.createRecord(TABLE_NAMES[4],fields, values);
+			return mDB.createRecord(TABLE_NAMES[4], fields, values);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
@@ -892,16 +888,16 @@ public class Controller extends Application implements AutoCloseable {
 
 	/**
 	 * Gets all saved Exercises from the database.
+	 * 
 	 * @return an Observable list of Exercises.
 	 */
 	public ObservableList<Exercise> getAllSavedExercises() {
 
 		ObservableList<Exercise> results = FXCollections.observableArrayList();
-		String[] values = {Integer.toString(mCurrentUser.getId())};
+		String[] values = { Integer.toString(mCurrentUser.getId()) };
 
 		try {
-			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[4],
-						new String[] {FIELD_NAMES[4][2]},values);
+			ResultSet rs = mDB.getAllRecordsMatch(TABLE_NAMES[4], new String[] { FIELD_NAMES[4][2] }, values);
 
 			ArrayList<Integer> keys = new ArrayList<>(rs.getFetchSize());
 			while (rs.next())

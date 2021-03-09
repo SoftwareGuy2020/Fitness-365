@@ -34,55 +34,47 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	private static final String FXML_FILE_NAME = "FavoriteMeals.fxml";
 
 	@FXML
-	private void goToHomeScreen()
-	{
+	private void goToHomeScreen() {
 		HomePage home = new HomePage();
-        mController.changeScene(home.getView(), true);
+		mController.changeScene(home.getView(), true);
 	}
 
 	@FXML
-	private void selectMeal()
-	{
+	private void selectMeal() {
 		deleteButton.setVisible(true);
 	}
 
 	@FXML
-	private void deleteMeal()
-	{
+	private void deleteMeal() {
 		Meal meal = favoritesLV.getSelectionModel().getSelectedItem();
 
 		mController.deleteFavoriteMeal(meal);
 		favorites.remove(meal);
-		
+
 		reset();
 	}
 
-	private void reset()
-	{
+	private void reset() {
 		favoritesLV.setItems(favorites);
 		deleteButton.setVisible(false);
 	}
 
 	@FXML
-	private void goToFoodSearch()
-	{
+	private void goToFoodSearch() {
 		FoodSearch home = new FoodSearch();
-        mController.changeScene(home.getView(), true);
+		mController.changeScene(home.getView(), true);
 	}
 
 	/**
 	 * Scene navigator
 	 */
 	@Override
-	public Scene getView()
-	{
-		try
-		{
+	public Scene getView() {
+		try {
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
 
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -92,8 +84,7 @@ public class FavoriteMeals implements SceneNavigation, Initializable {
 	 * Initializes favorites List View
 	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1)
-	{
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		favorites = mController.getFavoriteMeals();
 		favoritesLV.setItems(favorites);
 

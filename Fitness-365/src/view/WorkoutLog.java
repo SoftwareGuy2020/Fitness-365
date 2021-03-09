@@ -25,7 +25,8 @@ import model.Exercise;
 import model.Workout;
 
 /**
- * Represents a log of the users's workouts for the current day. 
+ * Represents a log of the users's workouts for the current day.
+ * 
  * @author Travis
  *
  */
@@ -42,80 +43,83 @@ public class WorkoutLog {
 	private Controller mController;
 	private ObservableList<Exercise> mAllExercisesList;
 	private String mLastSearchTerm = "";
-	
+
 	/**
 	 * Instantiates an instance of WorkoutLog
 	 */
-	public WorkoutLog() {}
-	
+	public WorkoutLog() {
+	}
+
 	@FXML
 	private void initialize() {
 		mController = Controller.getInstance();
-		todaysWorkoutTableView.setItems(mController.getallWorkouts().filtered(w -> w.getDate().equals(LocalDate.now())));
-		
+		todaysWorkoutTableView
+				.setItems(mController.getallWorkouts().filtered(w -> w.getDate().equals(LocalDate.now())));
+
 		mAllExercisesList = mController.getAllExercises();
 		exercisesTableView.setItems(mAllExercisesList);
-		SpinnerValueFactory.DoubleSpinnerValueFactory weightFactory = new DoubleSpinnerValueFactory(0.0, Double.MAX_VALUE);
+		SpinnerValueFactory.DoubleSpinnerValueFactory weightFactory = new DoubleSpinnerValueFactory(0.0,
+				Double.MAX_VALUE);
 		weightFactory.setAmountToStepBy(2.5);
 		weightFactory.setConverter(new StringConverter<Double>() {
-			
+
 			@Override
 			public String toString(Double object) {
 				DecimalFormat df = new DecimalFormat("0.0");
 				return df.format(object.doubleValue());
 			}
-			
+
 			@Override
 			public Double fromString(String string) {
-				return Double.parseDouble(string);	
+				return Double.parseDouble(string);
 			}
 		});
 		weightSpinner.setValueFactory(weightFactory);
-		TextFormatter<Double> weightFormatter = new TextFormatter<Double>(weightFactory.getConverter(), weightFactory.getValue());
-		weightSpinner.getEditor().setTextFormatter(weightFormatter);		
+		TextFormatter<Double> weightFormatter = new TextFormatter<Double>(weightFactory.getConverter(),
+				weightFactory.getValue());
+		weightSpinner.getEditor().setTextFormatter(weightFormatter);
 		weightFactory.valueProperty().bindBidirectional(weightFormatter.valueProperty());
-		
-		SpinnerValueFactory.IntegerSpinnerValueFactory repFactory = new IntegerSpinnerValueFactory(0, Integer.MAX_VALUE);
+
+		SpinnerValueFactory.IntegerSpinnerValueFactory repFactory = new IntegerSpinnerValueFactory(0,
+				Integer.MAX_VALUE);
 		repFactory.setAmountToStepBy(1);
 		repFactory.setConverter(new StringConverter<Integer>() {
-			
+
 			@Override
 			public String toString(Integer object) {
 				return object.toString();
 			}
-			
+
 			@Override
 			public Integer fromString(String string) {
-				return Integer.parseInt(string);	
+				return Integer.parseInt(string);
 			}
 		});
 		repSpinner.setValueFactory(repFactory);
-		TextFormatter<Integer> repFormatter = new TextFormatter<Integer>(repFactory.getConverter(), repFactory.getValue());
-		repSpinner.getEditor().setTextFormatter(repFormatter);		
+		TextFormatter<Integer> repFormatter = new TextFormatter<Integer>(repFactory.getConverter(),
+				repFactory.getValue());
+		repSpinner.getEditor().setTextFormatter(repFormatter);
 		repFactory.valueProperty().bindBidirectional(repFormatter.valueProperty());
-		
-		
-		
+
 	}
-	
+
 	@FXML
 	private void search(KeyEvent event) {
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			TextField source = (TextField) event.getSource();
 			String currentSearchTerm = source.getText();
-			
+
 			if (!currentSearchTerm.isEmpty()) {
 				mLastSearchTerm = currentSearchTerm;
 				exercisesTableView.setItems(mAllExercisesList
 						.filtered(e -> e.getName().toLowerCase().contains(currentSearchTerm.toLowerCase())));
-			}
-			else if (currentSearchTerm.isEmpty() && !mLastSearchTerm.isEmpty()) {
+			} else if (currentSearchTerm.isEmpty() && !mLastSearchTerm.isEmpty()) {
 				exercisesTableView.setItems(mAllExercisesList);
 				mLastSearchTerm = "";
 			}
 		}
 	}
-	
+
 	@FXML
 	private void addSavedExercise() {
 		Exercise exercise = exercisesTableView.getSelectionModel().getSelectedItem();
@@ -123,12 +127,12 @@ public class WorkoutLog {
 			double weight = weightSpinner.getValue();
 			int reps = repSpinner.getValue();
 
-			if (reps != 0 && weight != 0) {				
-				mController.addSavedExercise(exercise);				
+			if (reps != 0 && weight != 0) {
+				mController.addSavedExercise(exercise);
 			}
 		}
 	}
-	
+
 	@FXML
 	private void showSavedExercises() {
 		Stage stage = new Stage();
@@ -138,8 +142,7 @@ public class WorkoutLog {
 		stage.setScene(new Scene(root, 400, 400));
 		stage.showAndWait();
 	}
-	
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
 	private void addEntry() {
@@ -149,11 +152,11 @@ public class WorkoutLog {
 			int reps = repSpinner.getValue();
 
 			if (reps != 0 && weight != 0) {
-				Workout w = new Workout(-1, mController.getCurrentUser().getId(),
-										exercise, weight, reps, LocalDate.now());
+				Workout w = new Workout(-1, mController.getCurrentUser().getId(), exercise, weight, reps,
+						LocalDate.now());
 				int id = mController.addWorkout(w);
-				if (id != -1) {					
-					((FilteredList)todaysWorkoutTableView.getItems()).getSource().add(w);
+				if (id != -1) {
+					((FilteredList) todaysWorkoutTableView.getItems()).getSource().add(w);
 				}
 			}
 		}

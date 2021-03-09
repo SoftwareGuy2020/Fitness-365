@@ -24,8 +24,8 @@ public class Meal {
 	 * @param carbs
 	 * @param protein
 	 */
-	public Meal(int id, String name, double servingSize, int calories, double fat, double carbs,
-			double protein, String group) {
+	public Meal(int id, String name, double servingSize, int calories, double fat, double carbs, double protein,
+			String group) {
 		this.mId = id;
 		this.mName = name;
 		this.mServingSize = servingSize;
@@ -43,8 +43,7 @@ public class Meal {
 	 * @param carbs
 	 * @param protein
 	 */
-	public Meal(String name, double servingSize, int calories, double fat, double carbs,
-			double protein, String group) {
+	public Meal(String name, double servingSize, int calories, double fat, double carbs, double protein, String group) {
 		this.mId = -1;
 		this.mName = name;
 		this.mServingSize = servingSize;
@@ -67,8 +66,7 @@ public class Meal {
 	/**
 	 * Sets the id of Meal
 	 *
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.mId = id;
@@ -86,8 +84,7 @@ public class Meal {
 	/**
 	 * Sets the name of Meal
 	 *
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.mName = name;
@@ -105,8 +102,7 @@ public class Meal {
 	/**
 	 * Sets the servingSize of Meal
 	 *
-	 * @param servingSize
-	 *            the servingSize to set
+	 * @param servingSize the servingSize to set
 	 */
 	public void setServingSize(double servingSize) {
 		this.mServingSize = servingSize;
@@ -124,8 +120,7 @@ public class Meal {
 	/**
 	 * Sets the calories of Meal
 	 *
-	 * @param calories
-	 *            the calories to set
+	 * @param calories the calories to set
 	 */
 	public void setCalories(int calories) {
 		this.calories = calories;
@@ -143,8 +138,7 @@ public class Meal {
 	/**
 	 * Sets the fat of Meal
 	 *
-	 * @param fat
-	 *            the fat to set
+	 * @param fat the fat to set
 	 */
 	public void setFat(double fat) {
 		this.fat = fat;
@@ -162,8 +156,7 @@ public class Meal {
 	/**
 	 * Sets the carbs of Meal
 	 *
-	 * @param carbs
-	 *            the carbs to set
+	 * @param carbs the carbs to set
 	 */
 	public void setCarbs(double carbs) {
 		this.carbs = carbs;
@@ -181,26 +174,24 @@ public class Meal {
 	/**
 	 * Sets the group of Meal
 	 *
-	 * @param group
-	 *            the group to set
+	 * @param group the group to set
 	 */
 	public void setGroup(String group) {
 		this.group = group;
 	}
 
 	public double getProtein() {
-        return this.protein;
-    }
+		return this.protein;
+	}
 
-    /**
-     * Sets the protein of Meal
-     *
-     * @param protein
-     *            the protein to set
-     */
-    public void setProtein(double protein) {
-        this.protein = protein;
-    }
+	/**
+	 * Sets the protein of Meal
+	 *
+	 * @param protein the protein to set
+	 */
+	public void setProtein(double protein) {
+		this.protein = protein;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -262,7 +253,7 @@ public class Meal {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		
+
 		builder.append("Name = ");
 		builder.append(this.mName);
 		builder.append(", Group = ");
@@ -275,7 +266,7 @@ public class Meal {
 		builder.append(this.carbs);
 		builder.append(", Protein = ");
 		builder.append(this.protein);
-		
+
 		return builder.toString();
 	}
 }

@@ -23,7 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 
-public class TDEECalc implements SceneNavigation{
+public class TDEECalc implements SceneNavigation {
 	@FXML
 	private RadioButton maleCB;
 	@FXML
@@ -52,21 +52,19 @@ public class TDEECalc implements SceneNavigation{
 	@FXML
 	private Label errorLabel;
 
-
 	// Event Listener on Button[#updateButton].onAction
 	@FXML
-	private void updateProfile()
-	{
-		if(!tdeeTF.getText().isEmpty())
+	private void updateProfile() {
+		if (!tdeeTF.getText().isEmpty())
 			mController.getCurrentUser().setTDEE(Integer.parseInt(tdeeTF.getText()));
 
 		mController.getCurrentUser().setCurrentWeight(Integer.parseInt(weightTF.getText()));
 
 	}
+
 	// Event Listener on Button[#cancelButton].onAction
 	@FXML
-	private void cancel()
-	{
+	private void cancel() {
 		maleCB.setSelected(true);
 		feetTF.clear();
 		inchesTF.clear();
@@ -79,80 +77,68 @@ public class TDEECalc implements SceneNavigation{
 		HomePage home = new HomePage();
 		mController.changeScene(home.getView(), false);
 	}
-	
+
 	// Event Listener on Button[#calcButton].onAction
 	@FXML
-	private void calculate()
-	{
+	private void calculate() {
 		errorLabel.setVisible(false);
 
-		if(!feetTF.getText().isEmpty() && !inchesTF.getText().isEmpty() && !weightTF.getText().isEmpty()
-		        && !ageTF.getText().isEmpty()
-				&& (maleCB.isSelected() || femaleCB.isSelected()))
-		{
+		if (!feetTF.getText().isEmpty() && !inchesTF.getText().isEmpty() && !weightTF.getText().isEmpty()
+				&& !ageTF.getText().isEmpty() && (maleCB.isSelected() || femaleCB.isSelected())) {
 
-	    	if(maleCB.isSelected())
-	    	{
-	    		double w = Double.parseDouble(weightTF.getText()) * 6.23;
-	    		double h = ((Double.parseDouble(feetTF.getText()) * 12) +
-	    				Double.parseDouble(inchesTF.getText())) * 12.7;
-	    		Integer calc = (int) (66 + w + h - (Double.parseDouble(ageTF.getText()) * 6.8));
-	    		bmrTF.setText(calc.toString());
-	    	}
-	    	else if(femaleCB.isSelected())
-	    	{
-	    		double w = Double.parseDouble(weightTF.getText()) * 4.35;
-	    		double h = ((Double.parseDouble(feetTF.getText()) * 12) +
-	    				Double.parseDouble(inchesTF.getText())) * 4.7;
-	    		Integer calc = (int) (655 + w + h - (Double.parseDouble(ageTF.getText()) * 4.7));
-	    		bmrTF.setText(calc.toString());
-	    	}
+			if (maleCB.isSelected()) {
+				double w = Double.parseDouble(weightTF.getText()) * 6.23;
+				double h = ((Double.parseDouble(feetTF.getText()) * 12) + Double.parseDouble(inchesTF.getText()))
+						* 12.7;
+				Integer calc = (int) (66 + w + h - (Double.parseDouble(ageTF.getText()) * 6.8));
+				bmrTF.setText(calc.toString());
+			} else if (femaleCB.isSelected()) {
+				double w = Double.parseDouble(weightTF.getText()) * 4.35;
+				double h = ((Double.parseDouble(feetTF.getText()) * 12) + Double.parseDouble(inchesTF.getText())) * 4.7;
+				Integer calc = (int) (655 + w + h - (Double.parseDouble(ageTF.getText()) * 4.7));
+				bmrTF.setText(calc.toString());
+			}
 
-	    	if(!activityCB.getSelectionModel().isEmpty())
-	    	{
-	    		Integer index = activityCB.getSelectionModel().getSelectedIndex();
+			if (!activityCB.getSelectionModel().isEmpty()) {
+				Integer index = activityCB.getSelectionModel().getSelectedIndex();
 
-	    		switch(index)
-	    		{
-	    		case 1:
-	    			Integer tdee1 = (int) (Double.parseDouble(bmrTF.getText()) * 1.2);
-	    			tdeeTF.setText((tdee1.toString()));
-	    			break;
-	    		case 2:
-	    			Integer tdee2 = (int) (Double.parseDouble(bmrTF.getText()) * 1.375);
-	    			tdeeTF.setText(tdee2.toString());
-	    			break;
-	    		case 3:
-	    			Integer tdee3 = (int) (Double.parseDouble(bmrTF.getText()) * 1.55);
-	    			tdeeTF.setText(tdee3.toString());
-	    			break;
-	    		case 4:
-	    			Integer tdee4 = (int) (Double.parseDouble(bmrTF.getText()) * 1.725);
-	    			tdeeTF.setText(tdee4.toString());
-	    			break;
-	    		case 5:
-	    			Integer tdee = (int) (Double.parseDouble(bmrTF.getText()) * 1.9);
-	    			tdeeTF.setText(tdee.toString());
-	    			break;
-	    		default:
-	    			break;
+				switch (index) {
+				case 1:
+					Integer tdee1 = (int) (Double.parseDouble(bmrTF.getText()) * 1.2);
+					tdeeTF.setText((tdee1.toString()));
+					break;
+				case 2:
+					Integer tdee2 = (int) (Double.parseDouble(bmrTF.getText()) * 1.375);
+					tdeeTF.setText(tdee2.toString());
+					break;
+				case 3:
+					Integer tdee3 = (int) (Double.parseDouble(bmrTF.getText()) * 1.55);
+					tdeeTF.setText(tdee3.toString());
+					break;
+				case 4:
+					Integer tdee4 = (int) (Double.parseDouble(bmrTF.getText()) * 1.725);
+					tdeeTF.setText(tdee4.toString());
+					break;
+				case 5:
+					Integer tdee = (int) (Double.parseDouble(bmrTF.getText()) * 1.9);
+					tdeeTF.setText(tdee.toString());
+					break;
+				default:
+					break;
 
-	    		}
-	    	}
-	    	updateButton.setVisible(true);
-		}
-    	else
-    		errorLabel.setVisible(true);
+				}
+			}
+			updateButton.setVisible(true);
+		} else
+			errorLabel.setVisible(true);
 	}
-	
+
 	/**
 	 * Scene navigator
 	 */
 	@Override
-	public Scene getView()
-	{
-		try
-		{
+	public Scene getView() {
+		try {
 			BorderPane ap = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_NAME));
 			return new Scene(ap);
 		} catch (IOException e) {
@@ -164,19 +150,18 @@ public class TDEECalc implements SceneNavigation{
 	/**
 	 * Initializes combobox
 	 */
-    public void initialize()
-    {
-        ObservableList<String> activities = FXCollections.observableArrayList();
+	public void initialize() {
+		ObservableList<String> activities = FXCollections.observableArrayList();
 
-        activities.add("");
-        activities.add("Sedentary (Little to no exercise)");
-        activities.add("Lightly Active (1-3 days/week)");
-        activities.add("Moderately Active (3-5 days/week)");
-        activities.add("Very Active (6-7 days/week)");
-        activities.add("Extremely Active (Exercise/training 2x/day)");
+		activities.add("");
+		activities.add("Sedentary (Little to no exercise)");
+		activities.add("Lightly Active (1-3 days/week)");
+		activities.add("Moderately Active (3-5 days/week)");
+		activities.add("Very Active (6-7 days/week)");
+		activities.add("Extremely Active (Exercise/training 2x/day)");
 
-        activityCB.setItems(activities);
+		activityCB.setItems(activities);
 		maleCB.setSelected(true);
 		feetTF.requestFocus();
-    }
+	}
 }

@@ -1,7 +1,8 @@
 package model;
 
 /**
- * Represents a physical exercise 
+ * Represents a physical exercise
+ * 
  * @author Travis
  *
  */
@@ -9,12 +10,12 @@ public class Exercise {
 	private int mId;
 	private String mName;
 	private String mMuscleGroup;
-	
-	
+
 	/**
 	 * Instantiates the Exercise
-	 * @param id the index for the exercise in the database
-	 * @param name the name of the exercise
+	 * 
+	 * @param id          the index for the exercise in the database
+	 * @param name        the name of the exercise
 	 * @param muscleGroup the major muscle group targeted by the exercise
 	 */
 	public Exercise(int id, String name, String muscleGroup) {
@@ -35,8 +36,7 @@ public class Exercise {
 	/**
 	 * Sets the id of Exercise
 	 * 
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
 	public void setId(int id) {
 		this.mId = id;
@@ -54,8 +54,7 @@ public class Exercise {
 	/**
 	 * Sets the name of Exercise
 	 * 
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.mName = name;
@@ -73,8 +72,7 @@ public class Exercise {
 	/**
 	 * Sets the muscleGroup of Exercise
 	 * 
-	 * @param muscleGroup
-	 *            the muscleGroup to set
+	 * @param muscleGroup the muscleGroup to set
 	 */
 	public void setMuscleGroup(String muscleGroup) {
 		this.mMuscleGroup = muscleGroup;
@@ -132,10 +130,10 @@ public class Exercise {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-				
+
 		builder.append(this.mName);
 		builder.append(" : ");
-		builder.append(this.mMuscleGroup);		
+		builder.append(this.mMuscleGroup);
 		return builder.toString();
 	}
 }
